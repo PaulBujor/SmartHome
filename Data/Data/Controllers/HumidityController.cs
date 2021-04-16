@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,34 +13,58 @@ namespace Data.Controllers
 	[ApiController]
 	public class HumidityController : ControllerBase
 	{
-		// GET: api/<HumidityController>
-		[HttpGet]
-		public IEnumerable<string> Get()
+		// gets humidity measurement by id
+		[HttpGet("api/humidity/{id}")]
+		public Measurement Get(int id)
 		{
-			return new string[] { "value1", "value2" };
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
 		}
 
-		// GET api/<HumidityController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		// gets all humidity measurement by device id
+		[HttpGet("api/device/{id}/humidity")]
+		public IEnumerable<Measurement> GetByDevice(int id)
 		{
-			return "value";
+			return new Measurement[] {
+				new Measurement
+				{
+					MeasurementID = 0,
+					Timestamp = DateTime.Now,
+					Value = 0
+				},
+				new Measurement
+				{
+					MeasurementID = 1,
+					Timestamp = DateTime.Now,
+					Value = 1
+				}
+			};
 		}
 
-		// POST api/<HumidityController>
-		[HttpPost]
-		public void Post([FromBody] string value)
+		// gets latest measurement by device id
+		[HttpGet("api/device/{id}/last_humidity")]
+		public Measurement GetLastByDevice(int id)
+		{
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
+		}
+
+		// Adds new humidity measurement to device
+		[HttpPost("api/devices/{id}/humidity")]
+		public void Post(int id, [FromBody] Measurement value)
 		{
 		}
 
-		// PUT api/<HumidityController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<HumidityController>/5
-		[HttpDelete("{id}")]
+		// deletes humidity measurement with ID
+		[HttpDelete("api/humidity/{id}")]
 		public void Delete(int id)
 		{
 		}

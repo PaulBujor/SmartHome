@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +9,61 @@ using System.Threading.Tasks;
 
 namespace Data.Controllers
 {
-	[Route("api/[controller]")]
 	[ApiController]
 	public class AlarmController : ControllerBase
 	{
-		// GET: api/<AlarmController>
-		[HttpGet]
-		public IEnumerable<string> Get()
+		// gets alarm trigger by id
+		[HttpGet("api/alarms/{id}")]
+		public Measurement Get(int id)
 		{
-			return new string[] { "value1", "value2" };
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
 		}
 
-		// GET api/<AlarmController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		// gets all alarm trigger by device id
+		[HttpGet("api/device/{id}/alarms")]
+		public IEnumerable<Measurement> GetByDevice(int id)
 		{
-			return "value";
+			return new Measurement[] {
+				new Measurement
+				{
+					MeasurementID = 0,
+					Timestamp = DateTime.Now,
+					Value = 0
+				},
+				new Measurement
+				{
+					MeasurementID = 1,
+					Timestamp = DateTime.Now,
+					Value = 1
+				}
+			};
 		}
 
-		// POST api/<AlarmController>
-		[HttpPost]
-		public void Post([FromBody] string value)
+		// gets latest measurement by device id
+		[HttpGet("api/device/{id}/last_alarm")]
+		public Measurement GetLastByDevice(int id)
+		{
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
+		}
+
+		// Adds new alarm trigger to device
+		[HttpPost("api/devices/{id}/alarms")]
+		public void Post(int id, [FromBody] Measurement value)
 		{
 		}
 
-		// PUT api/<AlarmController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<AlarmController>/5
-		[HttpDelete("{id}")]
+		// deletes alarm trigger with ID
+		[HttpDelete("api/alarms/{id}")]
 		public void Delete(int id)
 		{
 		}

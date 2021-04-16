@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/temperature",
+      "launchUrl": "api/device/0/temperature",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "Data": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/temperature",
+      "launchUrl": "api/device/0/temperature",
       "applicationUrl": "https://localhost:44365;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +9,61 @@ using System.Threading.Tasks;
 
 namespace Data.Controllers
 {
-	[Route("api/[controller]")]
 	[ApiController]
 	public class TemperatureController : ControllerBase
 	{
-		// GET: api/<TemperatureController>
-		[HttpGet]
-		public IEnumerable<string> Get()
+		// gets temperature measurement by id
+		[HttpGet("api/temperatures/{id}")]
+		public Measurement Get(int id)
 		{
-			return new string[] { "value1", "value2" };
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
 		}
 
-		// GET api/<TemperatureController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		// gets all temperature measurement by device id
+		[HttpGet("api/device/{id}/temperature")]
+		public IEnumerable<Measurement> GetByDevice(int id)
 		{
-			return "value";
+			return new Measurement[] {
+				new Measurement
+				{
+					MeasurementID = 0,
+					Timestamp = DateTime.Now,
+					Value = 0
+				},
+				new Measurement
+				{
+					MeasurementID = 1,
+					Timestamp = DateTime.Now,
+					Value = 1
+				}
+			};
 		}
 
-		// POST api/<TemperatureController>
-		[HttpPost]
-		public void Post([FromBody] string value)
+		// gets latest measurement by device id
+		[HttpGet("api/device/{id}/last_temperature")]
+		public Measurement GetLastByDevice(int id)
+		{
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
+		}
+
+		// Adds new temperature measurement to device
+		[HttpPost("api/devices/{id}/temperature")]
+		public void Post(int id, [FromBody] Measurement value)
 		{
 		}
 
-		// PUT api/<TemperatureController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<TemperatureController>/5
-		[HttpDelete("{id}")]
+		// deletes temperature measurement with ID
+		[HttpDelete("api/temperatures/{id}")]
 		public void Delete(int id)
 		{
 		}

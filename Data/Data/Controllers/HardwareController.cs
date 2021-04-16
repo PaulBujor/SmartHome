@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +9,33 @@ using System.Threading.Tasks;
 
 namespace Data.Controllers
 {
-	[Route("api/[controller]")]
 	[ApiController]
 	public class HardwareController : ControllerBase
 	{
-		// GET: api/<HardwareController>
-		[HttpGet]
-		public IEnumerable<string> Get()
+		// gets settings by device id
+		[HttpGet("api/device/{id}/settings")]
+		public Settings Get(int id)
 		{
-			return new string[] { "value1", "value2" };
+			return new Settings
+			{
+				SettingsID = 0,
+				DeviceConfiguration = new Configuration { Active = true, ConfigurationID = 2, Max = 0, MinOrDefault = 0},
+				AlarmConfiguration = new Configuration { Active = true, ConfigurationID = 0, Max = 0, MinOrDefault = 0.5},
+				CO2Configuration = new Configuration { Active = false, ConfigurationID = 1, Max = 700, MinOrDefault = 500},
+				HumidityConfiguration = new Configuration { Active = true, ConfigurationID = 3, Max = 90.3, MinOrDefault = 30 },
+				TemperatureConfiguration = new Configuration { Active = true, ConfigurationID = 4, Max = 24, MinOrDefault = 20 }
+			};
 		}
 
-		// GET api/<HardwareController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		//patches all settings
+		[HttpPatch("api/device/{id}/settings")]
+		public void Patch(int id)
 		{
-			return "value";
+			//patch all settings
 		}
 
-		// POST api/<HardwareController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
-
-		// PUT api/<HardwareController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<HardwareController>/5
-		[HttpDelete("{id}")]
+		// resets settings of device
+		[HttpDelete("api/device/{id}/settings")]
 		public void Delete(int id)
 		{
 		}

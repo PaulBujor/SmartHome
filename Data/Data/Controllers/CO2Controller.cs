@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +9,61 @@ using System.Threading.Tasks;
 
 namespace Data.Controllers
 {
-	[Route("api/[controller]")]
 	[ApiController]
 	public class CO2Controller : ControllerBase
 	{
-		// GET: api/<CO2Controller>
-		[HttpGet]
-		public IEnumerable<string> Get()
+		// gets co2 measurement by id
+		[HttpGet("api/co2/{id}")]
+		public Measurement Get(int id)
 		{
-			return new string[] { "value1", "value2" };
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
 		}
 
-		// GET api/<CO2Controller>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		// gets all co2 measurement by device id
+		[HttpGet("api/device/{id}/co2")]
+		public IEnumerable<Measurement> GetByDevice(int id)
 		{
-			return "value";
+			return new Measurement[] {
+				new Measurement
+				{
+					MeasurementID = 0,
+					Timestamp = DateTime.Now,
+					Value = 0
+				},
+				new Measurement
+				{
+					MeasurementID = 1,
+					Timestamp = DateTime.Now,
+					Value = 1
+				}
+			};
 		}
 
-		// POST api/<CO2Controller>
-		[HttpPost]
-		public void Post([FromBody] string value)
+		// gets latest measurement by device id
+		[HttpGet("api/device/{id}/last_co2")]
+		public Measurement GetLastByDevice(int id)
+		{
+			return new Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			};
+		}
+
+		// Adds new co2 measurement to device
+		[HttpPost("api/devices/{id}/co2")]
+		public void Post(int id, [FromBody] Measurement value)
 		{
 		}
 
-		// PUT api/<CO2Controller>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<CO2Controller>/5
-		[HttpDelete("{id}")]
+		// deletes co2 measurement with ID
+		[HttpDelete("api/co2/{id}")]
 		public void Delete(int id)
 		{
 		}
