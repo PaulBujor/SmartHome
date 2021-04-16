@@ -6,6 +6,8 @@ namespace Data.Properties.Persistence
 {
     public class PersistenceRouter : IConfiguration,IDevice,IMeasurement,ISettings
     {
+        
+        
         public Task AddConfiguration(Configuration configuration)
         {
             throw new System.NotImplementedException();
