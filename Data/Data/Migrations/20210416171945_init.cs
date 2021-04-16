@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class initcreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,8 @@ namespace Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false),
                     MinOrDefault = table.Column<double>(type: "REAL", nullable: false),
-                    Max = table.Column<double>(type: "REAL", nullable: false)
+                    Max = table.Column<double>(type: "REAL", nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,14 +97,27 @@ namespace Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Value = table.Column<double>(type: "REAL", nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
+                    CO2Measurement_DeviceID = table.Column<long>(type: "INTEGER", nullable: true),
+                    AlarmMeasurement_DeviceID = table.Column<long>(type: "INTEGER", nullable: true),
                     DeviceID = table.Column<long>(type: "INTEGER", nullable: true),
-                    DeviceID1 = table.Column<long>(type: "INTEGER", nullable: true),
-                    DeviceID2 = table.Column<long>(type: "INTEGER", nullable: true),
-                    DeviceID3 = table.Column<long>(type: "INTEGER", nullable: true)
+                    TemperatureMeasurement_DeviceID = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Measurements", x => x.MeasurementID);
+                    table.ForeignKey(
+                        name: "FK_Measurements_Devices_AlarmMeasurement_DeviceID",
+                        column: x => x.AlarmMeasurement_DeviceID,
+                        principalTable: "Devices",
+                        principalColumn: "DeviceID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Measurements_Devices_CO2Measurement_DeviceID",
+                        column: x => x.CO2Measurement_DeviceID,
+                        principalTable: "Devices",
+                        principalColumn: "DeviceID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Measurements_Devices_DeviceID",
                         column: x => x.DeviceID,
@@ -111,20 +125,8 @@ namespace Data.Migrations
                         principalColumn: "DeviceID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Measurements_Devices_DeviceID1",
-                        column: x => x.DeviceID1,
-                        principalTable: "Devices",
-                        principalColumn: "DeviceID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Measurements_Devices_DeviceID2",
-                        column: x => x.DeviceID2,
-                        principalTable: "Devices",
-                        principalColumn: "DeviceID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Measurements_Devices_DeviceID3",
-                        column: x => x.DeviceID3,
+                        name: "FK_Measurements_Devices_TemperatureMeasurement_DeviceID",
+                        column: x => x.TemperatureMeasurement_DeviceID,
                         principalTable: "Devices",
                         principalColumn: "DeviceID",
                         onDelete: ReferentialAction.Restrict);
@@ -136,24 +138,24 @@ namespace Data.Migrations
                 column: "DeviceConfigurationConfigurationID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Measurements_AlarmMeasurement_DeviceID",
+                table: "Measurements",
+                column: "AlarmMeasurement_DeviceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Measurements_CO2Measurement_DeviceID",
+                table: "Measurements",
+                column: "CO2Measurement_DeviceID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Measurements_DeviceID",
                 table: "Measurements",
                 column: "DeviceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Measurements_DeviceID1",
+                name: "IX_Measurements_TemperatureMeasurement_DeviceID",
                 table: "Measurements",
-                column: "DeviceID1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Measurements_DeviceID2",
-                table: "Measurements",
-                column: "DeviceID2");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Measurements_DeviceID3",
-                table: "Measurements",
-                column: "DeviceID3");
+                column: "TemperatureMeasurement_DeviceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_AlarmConfigurationConfigurationID",
