@@ -25,7 +25,7 @@ namespace Data.Controllers
 		}
 
 		// gets all alarm trigger by device id
-		[HttpGet("api/device/{id}/alarms")]
+		[HttpGet("api/devices/{id}/alarms")]
 		public IEnumerable<Measurement> GetByDevice(int id)
 		{
 			return new Measurement[] {
@@ -45,7 +45,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/device/{id}/last_alarm")]
+		[HttpGet("api/devices/{id}/last_alarm")]
 		public Measurement GetLastByDevice(int id)
 		{
 			return new Measurement

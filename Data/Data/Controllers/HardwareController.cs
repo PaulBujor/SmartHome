@@ -13,7 +13,7 @@ namespace Data.Controllers
 	public class HardwareController : ControllerBase
 	{
 		// gets settings by device id
-		[HttpGet("api/device/{id}/settings")]
+		[HttpGet("api/devices/{id}/settings")]
 		public Settings Get(int id)
 		{
 			return new Settings
@@ -28,14 +28,14 @@ namespace Data.Controllers
 		}
 
 		//patches all settings
-		[HttpPatch("api/device/{id}/settings")]
+		[HttpPatch("api/devices/{id}/settings")]
 		public void Patch(int id)
 		{
 			//patch all settings
 		}
 
 		// resets settings of device
-		[HttpDelete("api/device/{id}/settings")]
+		[HttpDelete("api/devices/{id}/settings")]
 		public void Delete(int id)
 		{
 		}

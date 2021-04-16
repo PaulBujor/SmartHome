@@ -26,7 +26,7 @@ namespace Data.Controllers
 		}
 
 		// gets all humidity measurement by device id
-		[HttpGet("api/device/{id}/humidity")]
+		[HttpGet("api/devices/{id}/humidity")]
 		public IEnumerable<Measurement> GetByDevice(int id)
 		{
 			return new Measurement[] {
@@ -46,7 +46,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/device/{id}/last_humidity")]
+		[HttpGet("api/devices/{id}/last_humidity")]
 		public Measurement GetLastByDevice(int id)
 		{
 			return new Measurement

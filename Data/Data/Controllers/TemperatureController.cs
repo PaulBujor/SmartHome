@@ -25,7 +25,7 @@ namespace Data.Controllers
 		}
 
 		// gets all temperature measurement by device id
-		[HttpGet("api/device/{id}/temperature")]
+		[HttpGet("api/devices/{id}/temperatures")]
 		public IEnumerable<Measurement> GetByDevice(int id)
 		{
 			return new Measurement[] {
@@ -45,7 +45,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/device/{id}/last_temperature")]
+		[HttpGet("api/devices/{id}/last_temperature")]
 		public Measurement GetLastByDevice(int id)
 		{
 			return new Measurement
@@ -57,7 +57,7 @@ namespace Data.Controllers
 		}
 
 		// Adds new temperature measurement to device
-		[HttpPost("api/devices/{id}/temperature")]
+		[HttpPost("api/devices/{id}/temperatures")]
 		public void Post(int id, [FromBody] Measurement value)
 		{
 		}
