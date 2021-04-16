@@ -9,9 +9,9 @@ namespace Data.Data
 	{
 		public long DeviceID { get; set; }
 		public Configuration DeviceConfiguration { get; set; }
-		public Measurement Alarm { get; set; }
-		public Measurement Temperature { get; set; }
-		public Measurement CO2 { get; set; }
-		public Measurement Humidity { get; set; }
+		public List<Measurement> Alarm { get; set; }
+		public List<Measurement> Temperature { get; set; }
+		public List<Measurement> CO2 { get; set; }
+		public List<Measurement> Humidity { get; set; }
 	}
 }
