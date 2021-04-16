@@ -1,4 +1,5 @@
 ﻿using Data.Data;
+using Data.Data.ConcreteMeasurements;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Data.Controllers
 		[HttpGet("api/alarms/{id}")]
 		public Measurement Get(int id)
 		{
-			return new Measurement
+			return new AlarmMeasurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,
@@ -29,13 +30,13 @@ namespace Data.Controllers
 		public IEnumerable<Measurement> GetByDevice(int id)
 		{
 			return new Measurement[] {
-				new Measurement
+				new AlarmMeasurement
 				{
 					MeasurementID = 0,
 					Timestamp = DateTime.Now,
 					Value = 0
 				},
-				new Measurement
+				new AlarmMeasurement
 				{
 					MeasurementID = 1,
 					Timestamp = DateTime.Now,
@@ -48,7 +49,7 @@ namespace Data.Controllers
 		[HttpGet("api/devices/{id}/last_alarm")]
 		public Measurement GetLastByDevice(int id)
 		{
-			return new Measurement
+			return new AlarmMeasurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,

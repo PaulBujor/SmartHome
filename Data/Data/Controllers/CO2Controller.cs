@@ -14,9 +14,9 @@ namespace Data.Controllers
 	{
 		// gets co2 measurement by id
 		[HttpGet("api/co2/{id}")]
-		public Measurement Get(int id)
+		public CO2Measurement Get(int id)
 		{
-			return new Measurement
+			return new CO2Measurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,
@@ -29,13 +29,13 @@ namespace Data.Controllers
 		public IEnumerable<Measurement> GetByDevice(int id)
 		{
 			return new Measurement[] {
-				new Measurement
+				new CO2Measurement
 				{
 					MeasurementID = 0,
 					Timestamp = DateTime.Now,
 					Value = 0
 				},
-				new Measurement
+				new CO2Measurement
 				{
 					MeasurementID = 1,
 					Timestamp = DateTime.Now,
@@ -48,7 +48,7 @@ namespace Data.Controllers
 		[HttpGet("api/devices/{id}/last_co2")]
 		public Measurement GetLastByDevice(int id)
 		{
-			return new Measurement
+			return new CO2Measurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,

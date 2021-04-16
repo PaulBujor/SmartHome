@@ -1,4 +1,5 @@
 ﻿using Data.Data;
+using Data.Data.ConcreteConfigurations;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,11 @@ namespace Data.Controllers
 			return new Settings
 			{
 				SettingsID = 0,
-				DeviceConfiguration = new Configuration { Active = true, ConfigurationID = 2, Max = 0, MinOrDefault = 0},
-				AlarmConfiguration = new Configuration { Active = true, ConfigurationID = 0, Max = 0, MinOrDefault = 0.5},
-				CO2Configuration = new Configuration { Active = false, ConfigurationID = 1, Max = 700, MinOrDefault = 500},
-				HumidityConfiguration = new Configuration { Active = true, ConfigurationID = 3, Max = 90.3, MinOrDefault = 30 },
-				TemperatureConfiguration = new Configuration { Active = true, ConfigurationID = 4, Max = 24, MinOrDefault = 20 }
+				DeviceConfiguration = new DeviceConfiguration { Active = true, ConfigurationID = 2, Max = 0, MinOrDefault = 0},
+				AlarmConfiguration = new AlarmConfiguration { Active = true, ConfigurationID = 0, Max = 0, MinOrDefault = 0.5},
+				CO2Configuration = new CO2Configuration { Active = false, ConfigurationID = 1, Max = 700, MinOrDefault = 500},
+				HumidityConfiguration = new HumidityConfiguration { Active = true, ConfigurationID = 3, Max = 90.3, MinOrDefault = 30 },
+				TemperatureConfiguration = new TemperatureConfiguration { Active = true, ConfigurationID = 4, Max = 24, MinOrDefault = 20 }
 			};
 		}
 

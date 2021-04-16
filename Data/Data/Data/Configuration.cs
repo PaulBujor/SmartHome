@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data.Data
 {
-	public class Configuration
+	public abstract class Configuration
 	{
 		[Key]
 		public long ConfigurationID { get; set; }

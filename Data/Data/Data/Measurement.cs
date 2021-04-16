@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data.Data
 {
-	public class Measurement
+	public abstract class Measurement
 	{
 		[Key]
 		public long MeasurementID { get; set; }
