@@ -7,6 +7,7 @@ namespace Data.Data
 {
 	public class Settings
 	{
+		public long SettingsID { get; set; }
 		public Configuration DeviceConfiguration { get; set; }
 		public Configuration AlarmConfiguration { get; set; }
 		public Configuration TemperatureConfiguration { get; set; }

@@ -7,6 +7,7 @@ namespace Data.Data
 {
 	public class Configuration
 	{
+		public long ConfigurationID { get; set; }
 		public bool Active { get; set; }
 		public double MinOrDefault { get; set; }
 		public double Max { get; set; }

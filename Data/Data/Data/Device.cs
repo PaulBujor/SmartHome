@@ -7,6 +7,7 @@ namespace Data.Data
 {
 	public class Device
 	{
+		public long DeviceID { get; set; }
 		public Configuration DeviceConfiguration { get; set; }
 		public Measurement Alarm { get; set; }
 		public Measurement Temperature { get; set; }
