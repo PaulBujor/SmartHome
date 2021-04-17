@@ -7,9 +7,9 @@ namespace Data.Services
     public interface ITemperatureService
     {
          //Temperature
-        Task<IList<Measurement>> GetAllTemperatures();
+        Task<IList<Measurement>> GetAllTemperatures(long deviceId);
         Task<Measurement> AddTemperature(Measurement temperature);
-        Task<Measurement> GetLastTemeperature();
+        Task<Measurement> GetLastTemperature(long deviceId);
         Task RemoveTemperature(int id);
     }
 }

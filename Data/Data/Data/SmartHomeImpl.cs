@@ -1,77 +1,90 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Data;
+using Data.Properties.Persistence;
 using Data.Services;
 
 namespace Data
 {
     public class SmartHomeImpl : ITemperatureService, IHumidityService, ICO2Service, IHardwareService, IAlarmService //ISmartHomeService
     {
+        PersistenceRouter persistenceRouter;
+
+        public SmartHomeImpl(){
+            persistenceRouter = new PersistenceRouter();
+        }
 
         // TEMPERATURE
-        public Task<Measurement> AddTemperature(Measurement temperature)
+        public async Task<Measurement> AddTemperature(Measurement temperature)
+        {
+            await persistenceRouter.AddMeasurement(temperature);
+            return temperature;
+        }
+
+        public async Task<IList<Measurement>> GetAllTemperatures(long deviceId)
+        {
+            List<Measurement> temperatures = await persistenceRouter.GetTemperatureMeasurements(deviceId);
+            return temperatures;
+        }
+
+        public Task<Measurement> GetLastTemperature(long deviceId)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IList<Measurement>> GetAllTemperatures()
+        public async Task RemoveTemperature(int id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Measurement> GetLastTemeperature()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task RemoveTemperature(int id)
-        {
-            throw new System.NotImplementedException();
+            await persistenceRouter.RemoveMeasurement(id);
         }
 
 
         // CO2
-        public Task<Measurement> AddCO2(Measurement co2)
+        public async Task<Measurement> AddCO2(Measurement co2)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.AddMeasurement(co2);
+            return co2;
         }
 
-        public Task RemoveCO2(int id)
+        public async Task RemoveCO2(int id)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.RemoveMeasurement(id);
         }
 
-        public Task<IList<Measurement>> GetAllCO2s()
+        public async Task<IList<Measurement>> GetAllCO2s(long deviceId)
         {
-            throw new System.NotImplementedException();
+            List<Measurement> co2s = await persistenceRouter.GetCO2Measurements(deviceId);
+            return co2s;
         }
 
-        public Task<Measurement> GetLastCO2()
+        public Task<Measurement> GetLastCO2(long deviceId)
         {
             throw new System.NotImplementedException();
         }
 
 
         // DEVICE
-        public Task<Device> AddDevice(Device device)
+        public async Task<Device> AddDevice(Device device)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.AddDevice(device);
+            return device;
         }
 
-        public Task RemoveDevice(long DeviceId)
+        public async Task RemoveDevice(long DeviceId)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.RemoveDevice(DeviceId);
         }
 
         //HUMIDITY
-        public Task<Measurement> AddHumidity(Measurement humidity)
+        public async Task<Measurement> AddHumidity(Measurement humidity)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.AddMeasurement(humidity);
+            return humidity;
         }
 
-        public Task<IList<Measurement>> GetAllHumidities()
+        public async Task<IList<Measurement>> GetAllHumidities(long deviceId)
         {
-            throw new System.NotImplementedException();
+            List<Measurement> humidities = await persistenceRouter.GetHumidityMeasurements(deviceId);
+            return humidities;
         }
 
         public Task<Measurement> GetLastHumidity()
@@ -79,50 +92,56 @@ namespace Data
             throw new System.NotImplementedException();
         }
 
-        public Task RemoveHumidity(int id)
+        public async Task RemoveHumidity(int id)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.RemoveMeasurement(id);
         }
 
         //SETTINGS
-        public Task<Settings> AddSetting(Settings settings)
+        public async Task<Settings> AddSetting(Settings settings)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.AddSetting(settings);
+            return settings;
         }
-        public Task<IList<Measurement>> GetAllSettings()
+        public async Task<IList<Measurement>> GetAllSettings(long deviceId)
         {
-            throw new System.NotImplementedException();
+            //missing deviceId in persistenceRouter???
+            List<Measurement> settings = await persistenceRouter.GetSettings(deviceId);
+            return settings;
         }
 
-        public Task RemoveSetting(int id)
+        public async Task RemoveSetting(int id)
         {
-            throw new System.NotImplementedException();
+            await persistenceRouter.RemoveSetting(id);
         }
 
         public Task<Settings> GetSettingsByID(long id)
         {
+            //not sure if this method is needed...
             throw new System.NotImplementedException();
         }
 
         //MOTION
-        public Task<Measurement> AddMotion(Measurement motion)
+        public async Task<Measurement> AddMotion(Measurement motion)
+        {
+            await persistenceRouter.AddMeasurement(motion);
+            return motion;
+        }
+
+        public async Task<IList<Measurement>> GetAllMotions(long deviceId)
+        {
+            List<Measurement> motions = await persistenceRouter.GetAlarmMeasurements(deviceId);
+            return motions;
+        }
+
+        public Task<Measurement> GetLastMotion(long deviceId)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IList<Measurement>> GetAllMotions()
+        public async Task RemoveMotion(int id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Measurement> GetLastMotion()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task RemoveMotion(int id)
-        {
-            throw new System.NotImplementedException();
+            await persistenceRouter.RemoveMeasurement(id);
         }
         
     }

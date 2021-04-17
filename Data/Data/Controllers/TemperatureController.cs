@@ -39,7 +39,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device ID
-				return Ok(await _service.GetAllTemperatures());
+				return Ok(await _service.GetAllTemperatures(id));
 			}
 			catch (Exception e)
 			{
@@ -55,7 +55,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device id
-				return Ok(await _service.GetLastTemeperature());
+				return Ok(await _service.GetLastTemperature(id));
 			}
 			catch (Exception e)
 			{

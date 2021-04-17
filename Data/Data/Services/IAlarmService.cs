@@ -7,9 +7,9 @@ namespace Data.Services
     public interface IAlarmService
     {
          //Motion
-        Task<IList<Measurement>> GetAllMotions();   //<Measurement> --> not sure, but for now is okay.
-        Task<Measurement> AddMotion(Measurement motion);   //<Measurement> --> not sure, but for now is okay.
-        Task<Measurement> GetLastMotion();
+        Task<IList<Measurement>> GetAllMotions(long deviceId);   
+        Task<Measurement> AddMotion(Measurement motion);
+        Task<Measurement> GetLastMotion(long deviceId);
         Task RemoveMotion(int id);
     }
 }
