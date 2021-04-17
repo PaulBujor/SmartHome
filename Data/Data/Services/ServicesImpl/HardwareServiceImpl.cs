@@ -5,7 +5,7 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class HardwareServiceImpl
+    public class HardwareServiceImpl : IHardwareService
     {
         PersistenceRouter persistenceRouter;
         public HardwareServiceImpl(PersistenceRouter persistenceRouter)

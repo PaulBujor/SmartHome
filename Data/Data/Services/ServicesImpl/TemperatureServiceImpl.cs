@@ -5,7 +5,7 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class TemperatureServiceImpl
+    public class TemperatureServiceImpl : ITemperatureService
     {
         PersistenceRouter persistenceRouter;
 

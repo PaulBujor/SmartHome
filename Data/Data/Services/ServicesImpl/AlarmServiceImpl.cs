@@ -5,7 +5,7 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class AlarmServiceImpl
+    public class AlarmServiceImpl : IAlarmService
     {
         PersistenceRouter persistenceRouter;
         public AlarmServiceImpl(PersistenceRouter persistenceRouter)

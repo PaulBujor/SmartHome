@@ -5,7 +5,7 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class HumidityServiceImpl
+    public class HumidityServiceImpl : IHumidityService
     {
         PersistenceRouter persistenceRouter;
         public HumidityServiceImpl(PersistenceRouter persistenceRouter)

@@ -5,7 +5,7 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class CO2ServiceImpl
+    public class CO2ServiceImpl : ICO2Service
     {
         PersistenceRouter persistenceRouter;
 
