@@ -4,13 +4,9 @@ using Data.Data;
 
 namespace Data
 {
-    public interface IService
+    public interface ISmartHomeService
     {
-        //Temperature
-        Task<IList<Measurement>> GetAllTemperatures();
-        Task<Measurement> AddTemperature(Measurement temperature);
-        Task<Measurement> GetLastTemeperature();
-        Task RemoveTemperature(int id);
+        // TODO: Divide into smaller interfaces
 
         //Humidity
         Task<IList<Measurement>> GetAllHumidities();
