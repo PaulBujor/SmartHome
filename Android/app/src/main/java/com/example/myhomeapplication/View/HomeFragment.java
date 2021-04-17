@@ -2,6 +2,7 @@ package com.example.myhomeapplication.View;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -25,7 +26,6 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -46,11 +46,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         temperatureCardButton = view.findViewById(R.id.temperatureCardButton);
         temperatureCardButton.setOnClickListener((v) -> temperatureDetails(v));
+
         return view;
     }
 
     private void temperatureDetails(View v)
     {
-        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_temperatureFragment);
+        NavHostFragment.findNavController(this).navigate(R.id.openTemperatureDetailsAction);
     }
 }

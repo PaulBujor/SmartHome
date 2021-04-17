@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.myhomeapplication.View.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="MyHome"
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/openTemperatureDetailsAction"
@@ -33,7 +33,7 @@
     <fragment
         android:id="@+id/temperatureFragment"
         android:name="com.example.myhomeapplication.View.TemperatureFragment"
-        android:label="fragment_temperature"
+        android:label="Temperature"
         tools:layout="@layout/fragment_temperature" />
     <fragment
         android:id="@+id/humidityFragment"
