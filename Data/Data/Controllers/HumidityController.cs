@@ -14,6 +14,13 @@ namespace Data.Controllers
 	[ApiController]
 	public class HumidityController : ControllerBase
 	{
+		private readonly IService _service;
+
+		public HumidityController(IService service)
+		{
+			_service = service;
+		}
+
 		// gets humidity measurement by id
 		[HttpGet("api/humidity/{id}")]
 		public async Task<Measurement> Get(int id)

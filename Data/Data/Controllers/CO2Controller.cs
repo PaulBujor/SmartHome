@@ -12,6 +12,13 @@ namespace Data.Controllers
 	[ApiController]
 	public class CO2Controller : ControllerBase
 	{
+		private readonly IService _service;
+
+		public CO2Controller(IService service)
+		{
+			_service = service;
+		}
+
 		// gets co2 measurement by id
 		[HttpGet("api/co2/{id}")]
 		public async Task<CO2Measurement> Get(int id)

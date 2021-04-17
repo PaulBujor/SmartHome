@@ -13,6 +13,13 @@ namespace Data.Controllers
 	[ApiController]
 	public class AlarmController : ControllerBase
 	{
+		private readonly IService _service;
+
+		public AlarmController(IService service)
+		{
+			_service = service;
+		}
+
 		// gets alarm trigger by id
 		[HttpGet("api/alarms/{id}")]
 		public async Task<Measurement> Get(int id)
@@ -23,6 +30,7 @@ namespace Data.Controllers
 				Timestamp = DateTime.Now,
 				Value = 0
 			};
+			//return 
 		}
 
 		// gets all alarm trigger by device id

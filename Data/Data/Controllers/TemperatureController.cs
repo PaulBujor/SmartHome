@@ -12,6 +12,13 @@ namespace Data.Controllers
 	[ApiController]
 	public class TemperatureController : ControllerBase
 	{
+		private readonly IService _service;
+
+		public TemperatureController(IService service)
+		{
+			_service = service;
+		}
+
 		// gets temperature measurement by id
 		[HttpGet("api/temperatures/{id}")]
 		public async Task<Measurement> Get(int id)

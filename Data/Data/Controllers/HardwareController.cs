@@ -13,6 +13,13 @@ namespace Data.Controllers
 	[ApiController]
 	public class HardwareController : ControllerBase
 	{
+		private readonly IService _service;
+
+		public HardwareController(IService service)
+		{
+			_service = service;
+		}
+
 		// gets settings by device id
 		[HttpGet("api/devices/{id}/settings")]
 		public async Task<Settings> Get(int id)
