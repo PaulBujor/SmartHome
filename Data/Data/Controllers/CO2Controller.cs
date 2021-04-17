@@ -71,7 +71,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo add to device
-				return Ok(await _service.AddCO2(value));
+				return Ok(await _service.AddCO2(value, id));
 			}
 			catch (Exception e)
 			{

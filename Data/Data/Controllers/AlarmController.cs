@@ -75,7 +75,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo add to device
-				return Ok(await _service.AddMotion(value));
+				return Ok(await _service.AddMotion(value, id));
 			}
 			catch (Exception e)
 			{

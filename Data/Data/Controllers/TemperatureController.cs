@@ -71,7 +71,7 @@ namespace Data.Controllers
 			try
 			{
 				//add by device id
-				return Ok(await _service.AddTemperature(value));
+				return Ok(await _service.AddTemperature(value, id));
 			}
 			catch (Exception e)
 			{
