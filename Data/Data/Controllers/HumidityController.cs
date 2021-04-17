@@ -72,7 +72,7 @@ namespace Data.Controllers
 		{
 			try
 			{
-				return Ok(await _service.AddHumidity(value));
+				return Ok(await _service.AddHumidity(value, id));
 			}
 			catch (Exception e)
 			{
