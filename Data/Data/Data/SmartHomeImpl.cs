@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Data;
+using Data.Services;
 
 namespace Data
 {
-    public class SmartHomeImpl : IService  //IService is now called ISmartHomeService
+    public class SmartHomeImpl : ITemperatureService, IHumidityService, ICO2Service, IHardwareService, IAlarmService //ISmartHomeService
     {
 
         // TEMPERATURE
