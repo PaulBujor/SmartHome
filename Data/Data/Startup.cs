@@ -1,3 +1,4 @@
+using Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +26,12 @@ namespace Data
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddSingleton<IService, SmartHomeImpl>();
+			//todo add implementations
+			services.AddSingleton<IAlarmService>();
+			services.AddSingleton<ICO2Service>();
+			services.AddSingleton<IHardwareService>();
+			services.AddSingleton<IHumidityService>();
+			services.AddSingleton<ITemperatureService>();
 			services.AddControllers();
 		}
 

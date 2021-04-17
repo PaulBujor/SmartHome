@@ -1,4 +1,5 @@
 ﻿using Data.Data;
+using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace Data.Controllers
 	[ApiController]
 	public class TemperatureController : ControllerBase
 	{
-		private readonly IService _service;
+		private readonly ITemperatureService _service;
 
-		public TemperatureController(IService service)
+		public TemperatureController(ITemperatureService service)
 		{
 			_service = service;
 		}

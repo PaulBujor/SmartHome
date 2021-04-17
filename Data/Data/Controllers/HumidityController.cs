@@ -1,5 +1,6 @@
 ﻿using Data.Data;
 using Data.Data.ConcreteMeasurements;
+using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace Data.Controllers
 	[ApiController]
 	public class HumidityController : ControllerBase
 	{
-		private readonly IService _service;
+		private readonly IHumidityService _service;
 
-		public HumidityController(IService service)
+		public HumidityController(IHumidityService service)
 		{
 			_service = service;
 		}

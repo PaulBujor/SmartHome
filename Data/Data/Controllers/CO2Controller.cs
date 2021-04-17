@@ -1,4 +1,5 @@
 ﻿using Data.Data;
+using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace Data.Controllers
 	[ApiController]
 	public class CO2Controller : ControllerBase
 	{
-		private readonly IService _service;
+		private readonly ICO2Service _service;
 
-		public CO2Controller(IService service)
+		public CO2Controller(ICO2Service service)
 		{
 			_service = service;
 		}

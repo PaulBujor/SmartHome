@@ -1,5 +1,6 @@
 ﻿using Data.Data;
 using Data.Data.ConcreteConfigurations;
+using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace Data.Controllers
 	[ApiController]
 	public class HardwareController : ControllerBase
 	{
-		private readonly IService _service;
+		private readonly IHardwareService _service;
 
-		public HardwareController(IService service)
+		public HardwareController(IHardwareService service)
 		{
 			_service = service;
 		}
@@ -67,8 +68,8 @@ namespace Data.Controllers
 		{
 			try
 			{
-				//todo Remove -> Reset
-				await _service.RemoveSetting(id);
+				//todo Remove -> Reset, remove cast
+				await _service.RemoveSetting((int) id);
 				return Ok();
 			}
 			catch (Exception e)

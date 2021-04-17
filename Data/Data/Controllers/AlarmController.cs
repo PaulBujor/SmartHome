@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Data.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,9 +16,9 @@ namespace Data.Controllers
 	[ApiController]
 	public class AlarmController : ControllerBase
 	{
-		private readonly IService _service;
+		private readonly IAlarmService _service;
 
-		public AlarmController(IService service)
+		public AlarmController(IAlarmService service)
 		{
 			_service = service;
 		}
