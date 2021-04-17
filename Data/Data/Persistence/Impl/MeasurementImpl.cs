@@ -12,6 +12,7 @@ namespace Data.Properties.Persistence.Impl
         {
             _databaseContext = context;
         }
+
         public async Task AddMeasurement(Measurement measurement)
         {
             throw new System.NotImplementedException();
@@ -22,7 +23,22 @@ namespace Data.Properties.Persistence.Impl
             throw new System.NotImplementedException();
         }
 
-        public async Task<List<Measurement>> GetMeasurements()
+        public async Task<List<Measurement>> GetAlarmMeasurements(long deviceID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<List<Measurement>> GetCO2Measurements(long deviceID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<List<Measurement>> GetHumidityMeasurements(long deviceID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<List<Measurement>> GetTemperatureMeasurements(long deviceID)
         {
             throw new System.NotImplementedException();
         }
