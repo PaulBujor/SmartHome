@@ -8,7 +8,7 @@ namespace Data.Properties.Persistence
     {
         Task AddSetting(Settings setting);
         Task<Settings> GetSetting(long id);
-        Task<List<Settings>> GetSettings();
+        Task<List<Settings>> GetSettings(long id);
         Task UpdateSetting(Settings setting);
         Task RemoveSetting(long id);
     }

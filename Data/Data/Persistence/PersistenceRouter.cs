@@ -111,9 +111,9 @@ namespace Data.Properties.Persistence
             return await _settings.GetSetting(id);
         }
 
-        public async Task<List<Settings>> GetSettings()
+        public async Task<List<Settings>> GetSettings(long id)
         {
-            return await _settings.GetSettings();
+            return await _settings.GetSettings(id);
         }
 
         public async Task UpdateSetting(Settings setting)

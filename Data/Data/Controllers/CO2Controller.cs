@@ -40,7 +40,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device
-				return Ok(await _service.GetAllCO2s());
+				return Ok(await _service.GetAllCO2s(id));
 			} catch(Exception e)
 			{
 				Console.WriteLine(e.StackTrace);
@@ -55,7 +55,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device
-				return Ok(await _service.GetLastCO2());
+				return Ok(await _service.GetLastCO2(id));
 			}
 			catch (Exception e)
 			{

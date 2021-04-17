@@ -8,7 +8,7 @@ namespace Data.Services
     {
          //Temperature
         Task<IList<Measurement>> GetAllTemperatures(long deviceId);
-        Task<Measurement> AddTemperature(Measurement temperature);
+        Task<Measurement> AddTemperature(Measurement temperature, long deviceId);
         Task<Measurement> GetLastTemperature(long deviceId);
         Task RemoveTemperature(int id);
     }

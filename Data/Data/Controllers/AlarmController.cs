@@ -43,7 +43,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device
-				return Ok(await _service.GetAllMotions());
+				return Ok(await _service.GetAllMotions(id));
 			}
 			catch (Exception e)
 			{
@@ -59,7 +59,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device
-				return await _service.GetLastMotion();
+				return await _service.GetLastMotion(id);
 			}
 			catch (Exception e)
 			{

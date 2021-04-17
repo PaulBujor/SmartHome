@@ -15,9 +15,9 @@ namespace Data
         }
 
         // TEMPERATURE
-        public async Task<Measurement> AddTemperature(Measurement temperature)
+        public async Task<Measurement> AddTemperature(Measurement temperature, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(temperature);
+            await persistenceRouter.AddMeasurement(temperature, deviceId);
             return temperature;
         }
 
@@ -39,9 +39,9 @@ namespace Data
 
 
         // CO2
-        public async Task<Measurement> AddCO2(Measurement co2)
+        public async Task<Measurement> AddCO2(Measurement co2, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(co2);
+            await persistenceRouter.AddMeasurement(co2, deviceId);
             return co2;
         }
 
@@ -75,9 +75,9 @@ namespace Data
         }
 
         //HUMIDITY
-        public async Task<Measurement> AddHumidity(Measurement humidity)
+        public async Task<Measurement> AddHumidity(Measurement humidity, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(humidity);
+            await persistenceRouter.AddMeasurement(humidity, deviceId);
             return humidity;
         }
 
@@ -103,10 +103,10 @@ namespace Data
             await persistenceRouter.AddSetting(settings);
             return settings;
         }
-        public async Task<IList<Measurement>> GetAllSettings(long deviceId)
+        public async Task<IList<Settings>> GetAllSettings(long deviceId)
         {
             //missing deviceId in persistenceRouter???
-            List<Measurement> settings = await persistenceRouter.GetSettings(deviceId);
+            List<Settings> settings = await persistenceRouter.GetSettings(deviceId);
             return settings;
         }
 
@@ -122,15 +122,15 @@ namespace Data
         }
 
         //MOTION
-        public async Task<Measurement> AddMotion(Measurement motion)
+        public async Task<Measurement> AddMotion(Measurement motion, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(motion);
+            await persistenceRouter.AddMeasurement(motion, deviceId);
             return motion;
         }
 
-        public async Task<IList<Measurement>> GetAllMotions(long deviceId)
+        public async Task<IEnumerable<Measurement>> GetAllMotions(long deviceId)
         {
-            List<Measurement> motions = await persistenceRouter.GetAlarmMeasurements(deviceId);
+            IEnumerable<Measurement> motions = await persistenceRouter.GetAlarmMeasurements(deviceId);
             return motions;
         }
 

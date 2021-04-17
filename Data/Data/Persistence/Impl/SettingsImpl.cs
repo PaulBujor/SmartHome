@@ -21,7 +21,7 @@ namespace Data.Properties.Persistence.Impl
             throw new System.NotImplementedException();
         }
 
-        public async Task<List<Settings>> GetSettings()
+        public async Task<List<Settings>> GetSettings(long id)
         {
             throw new System.NotImplementedException();
         }

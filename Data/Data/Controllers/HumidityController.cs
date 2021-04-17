@@ -41,7 +41,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device id
-				return Ok(await _service.GetAllHumidities());
+				return Ok(await _service.GetAllHumidities(id));
 			}
 			catch (Exception e)
 			{

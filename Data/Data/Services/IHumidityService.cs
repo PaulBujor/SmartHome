@@ -9,7 +9,7 @@ namespace Data.Services
          //Humidity
         Task<IList<Measurement>> GetAllHumidities(long deviceId);
         Task<Measurement> GetLastHumidity();
-        Task<Measurement> AddHumidity(Measurement humidity);
+        Task<Measurement> AddHumidity(Measurement humidity, long deviceId);
         Task RemoveHumidity(int id);
 
     }
