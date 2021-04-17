@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20210416171945_init")]
-    partial class init
+    [Migration("20210417125857_newmig")]
+    partial class newmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,12 +50,12 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("DeviceConfigurationConfigurationID")
+                    b.Property<long?>("DeviceSettingsSettingsID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DeviceID");
 
-                    b.HasIndex("DeviceConfigurationConfigurationID");
+                    b.HasIndex("DeviceSettingsSettingsID");
 
                     b.ToTable("Devices");
                 });
@@ -207,11 +207,11 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Data.Device", b =>
                 {
-                    b.HasOne("Data.Data.Configuration", "DeviceConfiguration")
+                    b.HasOne("Data.Data.Settings", "DeviceSettings")
                         .WithMany()
-                        .HasForeignKey("DeviceConfigurationConfigurationID");
+                        .HasForeignKey("DeviceSettingsSettingsID");
 
-                    b.Navigation("DeviceConfiguration");
+                    b.Navigation("DeviceSettings");
                 });
 
             modelBuilder.Entity("Data.Data.Settings", b =>

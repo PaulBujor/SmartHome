@@ -66,9 +66,9 @@ namespace Data.Properties.Persistence
             await _device.RemoveDevice(id);
         }
 
-        public async Task AddMeasurement(Measurement measurement)
+        public async Task AddMeasurement(Measurement measurement,long deviceID)
         {
-            await _measurement.AddMeasurement(measurement);
+            await _measurement.AddMeasurement(measurement,deviceID);
         }
 
         public async Task<Measurement> GetMeasurement(long id)
@@ -76,7 +76,7 @@ namespace Data.Properties.Persistence
           return  await _measurement.GetMeasurement(id);
         }
 
-        public async Task<List<Measurement>> GetAlarmMeasurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID)
         {
             return await _measurement.GetAlarmMeasurements(deviceID);
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class init : Migration
+    public partial class newmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,25 +21,6 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Configurations", x => x.ConfigurationID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Devices",
-                columns: table => new
-                {
-                    DeviceID = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DeviceConfigurationConfigurationID = table.Column<long>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Devices", x => x.DeviceID);
-                    table.ForeignKey(
-                        name: "FK_Devices_Configurations_DeviceConfigurationConfigurationID",
-                        column: x => x.DeviceConfigurationConfigurationID,
-                        principalTable: "Configurations",
-                        principalColumn: "ConfigurationID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,6 +71,25 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Devices",
+                columns: table => new
+                {
+                    DeviceID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DeviceSettingsSettingsID = table.Column<long>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Devices", x => x.DeviceID);
+                    table.ForeignKey(
+                        name: "FK_Devices_Settings_DeviceSettingsSettingsID",
+                        column: x => x.DeviceSettingsSettingsID,
+                        principalTable: "Settings",
+                        principalColumn: "SettingsID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Measurements",
                 columns: table => new
                 {
@@ -133,9 +133,9 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Devices_DeviceConfigurationConfigurationID",
+                name: "IX_Devices_DeviceSettingsSettingsID",
                 table: "Devices",
-                column: "DeviceConfigurationConfigurationID");
+                column: "DeviceSettingsSettingsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Measurements_AlarmMeasurement_DeviceID",
@@ -189,10 +189,10 @@ namespace Data.Migrations
                 name: "Measurements");
 
             migrationBuilder.DropTable(
-                name: "Settings");
+                name: "Devices");
 
             migrationBuilder.DropTable(
-                name: "Devices");
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "Configurations");
