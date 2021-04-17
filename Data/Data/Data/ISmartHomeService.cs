@@ -7,12 +7,6 @@ namespace Data
     public interface ISmartHomeService
     {
         // TODO: Divide into smaller interfaces
-
-        //Humidity
-        Task<IList<Measurement>> GetAllHumidities();
-        Task<Measurement> GetLastHumidity();
-        Task<Measurement> AddHumidity(Measurement humidity);
-
         Task RemoveHumidity(int id);
 
         //CO2
