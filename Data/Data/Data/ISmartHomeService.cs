@@ -9,12 +9,6 @@ namespace Data
         // TODO: Divide into smaller interfaces
         Task RemoveHumidity(int id);
 
-        //CO2
-        Task<IList<Measurement>> GetAllCO2s();
-        Task<Measurement> AddCO2(Measurement co2);
-        Task<Measurement> GetLastCO2();
-        Task RemoveCO2(int id);
-
         //Motion
         Task<IList<Measurement>> GetAllMotions();   //<Measurement> --> not sure, but for now is okay.
         Task<Measurement> AddMotion(Measurement motion);   //<Measurement> --> not sure, but for now is okay.
