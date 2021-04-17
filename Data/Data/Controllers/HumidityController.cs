@@ -23,58 +23,68 @@ namespace Data.Controllers
 
 		// gets humidity measurement by id
 		[HttpGet("api/humidity/{id}")]
-		public async Task<Measurement> Get(int id)
+		public async Task<ActionResult<Measurement>> Get(long id)
 		{
-			return new HumidityMeasurement
+			return Ok(new HumidityMeasurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
-			};
+			});
 		}
 
 		// gets all humidity measurement by device id
 		[HttpGet("api/devices/{id}/humidity")]
-		public async Task<IEnumerable<Measurement>> GetByDevice(int id)
+		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
-			return new Measurement[] {
-				new HumidityMeasurement
-				{
-					MeasurementID = 0,
-					Timestamp = DateTime.Now,
-					Value = 0
-				},
-				new HumidityMeasurement
-				{
-					MeasurementID = 1,
-					Timestamp = DateTime.Now,
-					Value = 1
-				}
-			};
+			try
+			{
+				//todo get by device id
+				return Ok(await _service.GetAllHumidities());
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// gets latest measurement by device id
 		[HttpGet("api/devices/{id}/last_humidity")]
-		public async Task<Measurement> GetLastByDevice(int id)
+		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
-			return new HumidityMeasurement
+			try
 			{
-				MeasurementID = 0,
-				Timestamp = DateTime.Now,
-				Value = 0
-			};
+				//todo get by ID
+				return Ok(await _service.GetLastHumidity());
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// Adds new humidity measurement to device
 		[HttpPost("api/devices/{id}/humidity")]
-		public async Task Post(int id, [FromBody] Measurement value)
+		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
+			try
+			{
+				return Ok(await _service.AddHumidity(value));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// deletes humidity measurement with ID
 		[HttpDelete("api/humidity/{id}")]
-		public async Task Delete(int id)
+		public async Task<ActionResult> Delete(long id)
 		{
+			return StatusCode(404, "NO.");
 		}
 	}
 }

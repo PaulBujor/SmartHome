@@ -22,30 +22,60 @@ namespace Data.Controllers
 
 		// gets settings by device id
 		[HttpGet("api/devices/{id}/settings")]
-		public async Task<Settings> Get(int id)
+		public async Task<ActionResult<Settings>> Get(long id)
 		{
-			return new Settings
+			try
 			{
-				SettingsID = 0,
-				DeviceConfiguration = new DeviceConfiguration { Active = true, ConfigurationID = 2, Max = 0, MinOrDefault = 0},
-				AlarmConfiguration = new AlarmConfiguration { Active = true, ConfigurationID = 0, Max = 0, MinOrDefault = 0.5},
-				CO2Configuration = new CO2Configuration { Active = false, ConfigurationID = 1, Max = 700, MinOrDefault = 500},
-				HumidityConfiguration = new HumidityConfiguration { Active = true, ConfigurationID = 3, Max = 90.3, MinOrDefault = 30 },
-				TemperatureConfiguration = new TemperatureConfiguration { Active = true, ConfigurationID = 4, Max = 24, MinOrDefault = 20 }
-			};
+				return Ok(await _service.GetSettingsByID(id));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
+
+			//return new Settings
+			//{
+			//	SettingsID = 0,
+			//	DeviceConfiguration = new DeviceConfiguration { Active = true},
+			//	AlarmConfiguration = new AlarmConfiguration { Active = true, MinOrDefault = 0.5},
+			//	CO2Configuration = new CO2Configuration { Active = true, Max = 650, MinOrDefault = 200},
+			//	HumidityConfiguration = new HumidityConfiguration { Active = true, Max = 50, MinOrDefault = 30 },
+			//	TemperatureConfiguration = new TemperatureConfiguration { Active = true, Max = 23, MinOrDefault = 20 }
+			//};
 		}
 
 		//patches all settings
 		[HttpPatch("api/devices/{id}/settings")]
-		public async Task Patch(int id)
+		public async Task<ActionResult> Patch(long id, [FromBody] Settings settings)
 		{
-			//patch all settings
+			try
+			{
+				//todo by device ID, change Add to Set
+				return Ok(await _service.AddSetting(settings));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// resets settings of device
 		[HttpDelete("api/devices/{id}/settings")]
-		public async Task Delete(int id)
+		public async Task<ActionResult> Delete(long id)
 		{
+			try
+			{
+				//todo Remove -> Reset
+				await _service.RemoveSetting(id);
+				return Ok();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 	}
 }

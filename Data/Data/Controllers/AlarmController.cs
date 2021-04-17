@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,59 +24,71 @@ namespace Data.Controllers
 
 		// gets alarm trigger by id
 		[HttpGet("api/alarms/{id}")]
-		public async Task<Measurement> Get(int id)
+		public async Task<ActionResult<Measurement>> Get(long id)
 		{
-			return new AlarmMeasurement
+			//todo implement in service
+			return Ok(new AlarmMeasurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
-			};
-			//return 
+			});
 		}
 
 		// gets all alarm trigger by device id
 		[HttpGet("api/devices/{id}/alarms")]
-		public async Task<IEnumerable<Measurement>> GetByDevice(int id)
+		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
-			return new Measurement[] {
-				new AlarmMeasurement
-				{
-					MeasurementID = 0,
-					Timestamp = DateTime.Now,
-					Value = 0
-				},
-				new AlarmMeasurement
-				{
-					MeasurementID = 1,
-					Timestamp = DateTime.Now,
-					Value = 1
-				}
-			};
+			try
+			{
+				//todo get by device
+				return Ok(await _service.GetAllMotions());
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// gets latest measurement by device id
 		[HttpGet("api/devices/{id}/last_alarm")]
-		public async Task<Measurement> GetLastByDevice(int id)
+		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
-			return new AlarmMeasurement
+			try
 			{
-				MeasurementID = 0,
-				Timestamp = DateTime.Now,
-				Value = 0
-			};
+				//todo get by device
+				return await _service.GetLastMotion();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// Adds new alarm trigger to device
 		[HttpPost("api/devices/{id}/alarms")]
-		public async Task Post(int id, [FromBody] Measurement value)
+		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
+			try
+			{
+				//todo add to device
+				return Ok(await _service.AddMotion(value));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// deletes alarm trigger with ID
 		[HttpDelete("api/alarms/{id}")]
-		public async Task Delete(int id)
+		public async Task<ActionResult> Delete(long id)
 		{
+			//probably won't use this at all
+			return StatusCode(404, "NO.");
 		}
 	}
 }

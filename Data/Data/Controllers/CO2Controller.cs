@@ -21,58 +21,70 @@ namespace Data.Controllers
 
 		// gets co2 measurement by id
 		[HttpGet("api/co2/{id}")]
-		public async Task<CO2Measurement> Get(int id)
+		public async Task<ActionResult<CO2Measurement>> Get(long id)
 		{
-			return new CO2Measurement
+			//todo implement in service
+			return Ok(new CO2Measurement
 			{
 				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
-			};
+			});
 		}
 
 		// gets all co2 measurement by device id
 		[HttpGet("api/devices/{id}/co2")]
-		public async Task<IEnumerable<Measurement>> GetByDevice(int id)
+		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
-			return new Measurement[] {
-				new CO2Measurement
-				{
-					MeasurementID = 0,
-					Timestamp = DateTime.Now,
-					Value = 0
-				},
-				new CO2Measurement
-				{
-					MeasurementID = 1,
-					Timestamp = DateTime.Now,
-					Value = 1
-				}
-			};
+			try
+			{
+				//todo get by device
+				return Ok(await _service.GetAllCO2s());
+			} catch(Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// gets latest measurement by device id
 		[HttpGet("api/devices/{id}/last_co2")]
-		public async Task<Measurement> GetLastByDevice(int id)
+		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
-			return new CO2Measurement
+			try
 			{
-				MeasurementID = 0,
-				Timestamp = DateTime.Now,
-				Value = 0
-			};
+				//todo get by device
+				return Ok(await _service.GetLastCO2());
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// Adds new co2 measurement to device
 		[HttpPost("api/devices/{id}/co2")]
-		public async Task Post(int id, [FromBody] Measurement value)
+		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
+			try
+			{
+				//todo add to device
+				return Ok(await _service.AddCO2(value));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
 		}
 
 		// deletes co2 measurement with ID
 		[HttpDelete("api/co2/{id}")]
-		public async Task Delete(int id)
+		public async Task<ActionResult> Delete(long id)
 		{
+			//probably won't use this at all
+			return StatusCode(404, "NO.");
 		}
 	}
 }
