@@ -11,7 +11,7 @@ namespace Data.Data
 	{
 		[Key]
 		public long DeviceID { get; set; }
-		public Configuration DeviceConfiguration { get; set; }
+		public Settings DeviceSettings { get; set; }
 		public List<AlarmMeasurement> Alarm { get; set; }
 		public List<TemperatureMeasurement> Temperature { get; set; }
 		public List<CO2Measurement> CO2 { get; set; }

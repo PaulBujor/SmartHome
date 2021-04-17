@@ -6,27 +6,32 @@ namespace Data.Properties.Persistence.Impl
 {
     public class SettingsImpl : ISettings
     {
-        public Task AddSetting(Settings setting)
+        private Database _databaseContext;
+        public SettingsImpl(Database context)
+        {
+            _databaseContext = context;
+        }
+        public async Task AddSetting(Settings setting)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Settings> GetSetting(long id)
+        public async Task<Settings> GetSetting(long id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<List<Settings>> GetSettings()
+        public async Task<List<Settings>> GetSettings()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task UpdateSetting(Settings setting)
+        public async Task UpdateSetting(Settings setting)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task RemoveSetting(long id)
+        public async Task RemoveSetting(long id)
         {
             throw new System.NotImplementedException();
         }

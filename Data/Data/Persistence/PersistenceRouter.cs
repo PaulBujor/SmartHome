@@ -1,101 +1,114 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Data;
+using Data.Properties.Persistence.Impl;
 
 namespace Data.Properties.Persistence
 {
     public class PersistenceRouter : IConfiguration,IDevice,IMeasurement,ISettings
     {
+         private IConfiguration _configuration;
+         private IDevice _device;
+         private IMeasurement _measurement;
+         private ISettings _settings;
+
+         public PersistenceRouter()
+         {
+             Database context = new Database();
+             _configuration = new ConfigurationImpl(context);
+             _device = new DeviceImpl(context);
+             _measurement = new MeasurementImpl(context);
+             _settings = new SettingsImpl(context);
+         }
         
-        
-        public Task AddConfiguration(Configuration configuration)
+        public async Task AddConfiguration(Configuration configuration)
+        {
+          await _configuration.AddConfiguration(configuration);
+        }
+
+        public async Task<Configuration> GetConfiguration(long id)
+        {
+            return await _configuration.GetConfiguration(id);
+        }
+
+        public async Task<List<Configuration>> GetConfigurations()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Configuration> GetConfiguration(long id)
+        public async Task UpdateConfiguration(Configuration configuration)
         {
-            throw new System.NotImplementedException();
+           await _configuration.UpdateConfiguration(configuration);
         }
 
-        public Task<List<Configuration>> GetConfigurations()
+        public async Task AddDevice(Device device)
         {
-            throw new System.NotImplementedException();
+            await _device.AddDevice(device);
         }
 
-        public Task UpdateConfiguration(Configuration configuration)
+        public async Task<Device> GetDevice(long id)
         {
-            throw new System.NotImplementedException();
+            return await _device.GetDevice(id);
         }
 
-        public Task AddDevice(Device device)
+        public async Task<List<Device>> GetDevices()
         {
-            throw new System.NotImplementedException();
+            return await _device.GetDevices();
         }
 
-        public Task<Device> GetDevice(long id)
+        public async Task UpdateDevice(Device device)
         {
-            throw new System.NotImplementedException();
+            await _device.UpdateDevice(device);
         }
 
-        public Task<List<Device>> GetDevices()
+        public async Task RemoveDevice(long id)
         {
-            throw new System.NotImplementedException();
+            await _device.RemoveDevice(id);
         }
 
-        public Task UpdateDevice(Device device)
+        public async Task AddMeasurement(Measurement measurement)
         {
-            throw new System.NotImplementedException();
+            await _measurement.AddMeasurement(measurement);
         }
 
-        public Task RemoveDevice(long id)
+        public async Task<Measurement> GetMeasurement(long id)
         {
-            throw new System.NotImplementedException();
+          return  await _measurement.GetMeasurement(id);
         }
 
-        public Task AddMeasurement(Measurement measurement)
+        public async Task<List<Measurement>> GetMeasurements()
         {
-            throw new System.NotImplementedException();
+            return await _measurement.GetMeasurements();
         }
 
-        public Task<Measurement> GetMeasurement(long id)
+        public async Task RemoveMeasurement(long id)
         {
-            throw new System.NotImplementedException();
+            await _measurement.RemoveMeasurement(id);
         }
 
-        public Task<List<Measurement>> GetMeasurements()
+        public async Task AddSetting(Settings setting)
         {
-            throw new System.NotImplementedException();
+            await _settings.AddSetting(setting);
         }
 
-        public Task RemoveMeasurement(long id)
+        public async Task<Settings> GetSetting(long id)
         {
-            throw new System.NotImplementedException();
+            return await _settings.GetSetting(id);
         }
 
-        public Task AddSetting(Settings setting)
+        public async Task<List<Settings>> GetSettings()
         {
-            throw new System.NotImplementedException();
+            return await _settings.GetSettings();
         }
 
-        public Task<Settings> GetSetting(long id)
+        public async Task UpdateSetting(Settings setting)
         {
-            throw new System.NotImplementedException();
+            await _settings.UpdateSetting(setting);
         }
 
-        public Task<List<Settings>> GetSettings()
+        public async Task RemoveSetting(long id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task UpdateSetting(Settings setting)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task RemoveSetting(long id)
-        {
-            throw new System.NotImplementedException();
+            await _settings.RemoveSetting(id);
         }
     }
 }

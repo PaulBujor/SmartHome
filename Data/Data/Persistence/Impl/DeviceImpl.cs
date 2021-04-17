@@ -1,34 +1,51 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Properties.Persistence.Impl
 {
     public class DeviceImpl : IDevice
     {
-        public Task AddDevice(Device device)
+        private Database _databaseContext;
+
+        public DeviceImpl(Database context)
         {
-            throw new System.NotImplementedException();
+            _databaseContext = context;
+        }
+        public async Task AddDevice(Device device)
+        {
+            await _databaseContext.Devices.AddAsync(device);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public Task<Device> GetDevice(long id)
+        public async Task<Device> GetDevice(long id)
         {
-            throw new System.NotImplementedException();
+          
+            
+            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == id);
+            return tmpDevice;
         }
 
-        public Task<List<Device>> GetDevices()
+        public async Task<List<Device>> GetDevices()
         {
-            throw new System.NotImplementedException();
+            return await _databaseContext.Devices.ToListAsync();
         }
 
-        public Task UpdateDevice(Device device)
+        public async Task UpdateDevice(Device device)
         {
-            throw new System.NotImplementedException();
+            _databaseContext.Update(device);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public Task RemoveDevice(long id)
+        public async Task RemoveDevice(long id)
         {
-            throw new System.NotImplementedException();
+            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == id);
+            if (tmpDevice != null)
+            {
+                _databaseContext.Remove(tmpDevice);
+                await _databaseContext.SaveChangesAsync();
+            }
         }
     }
 }

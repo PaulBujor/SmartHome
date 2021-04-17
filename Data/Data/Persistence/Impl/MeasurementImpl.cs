@@ -6,22 +6,28 @@ namespace Data.Properties.Persistence.Impl
 {
     public class MeasurementImpl : IMeasurement
     {
-        public Task AddMeasurement(Measurement measurement)
+        private Database _databaseContext;
+
+        public MeasurementImpl(Database context)
+        {
+            _databaseContext = context;
+        }
+        public async Task AddMeasurement(Measurement measurement)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Measurement> GetMeasurement(long id)
+        public async Task<Measurement> GetMeasurement(long id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<List<Measurement>> GetMeasurements()
+        public async Task<List<Measurement>> GetMeasurements()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task RemoveMeasurement(long id)
+        public async Task RemoveMeasurement(long id)
         {
             throw new System.NotImplementedException();
         }
