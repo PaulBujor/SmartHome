@@ -15,7 +15,7 @@ namespace Data.Controllers
 	{
 		// gets alarm trigger by id
 		[HttpGet("api/alarms/{id}")]
-		public Measurement Get(int id)
+		public async Task<Measurement> Get(int id)
 		{
 			return new AlarmMeasurement
 			{
@@ -27,7 +27,7 @@ namespace Data.Controllers
 
 		// gets all alarm trigger by device id
 		[HttpGet("api/devices/{id}/alarms")]
-		public IEnumerable<Measurement> GetByDevice(int id)
+		public async Task<IEnumerable<Measurement>> GetByDevice(int id)
 		{
 			return new Measurement[] {
 				new AlarmMeasurement
@@ -47,7 +47,7 @@ namespace Data.Controllers
 
 		// gets latest measurement by device id
 		[HttpGet("api/devices/{id}/last_alarm")]
-		public Measurement GetLastByDevice(int id)
+		public async Task<Measurement> GetLastByDevice(int id)
 		{
 			return new AlarmMeasurement
 			{
@@ -59,13 +59,13 @@ namespace Data.Controllers
 
 		// Adds new alarm trigger to device
 		[HttpPost("api/devices/{id}/alarms")]
-		public void Post(int id, [FromBody] Measurement value)
+		public async Task Post(int id, [FromBody] Measurement value)
 		{
 		}
 
 		// deletes alarm trigger with ID
 		[HttpDelete("api/alarms/{id}")]
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
 		}
 	}

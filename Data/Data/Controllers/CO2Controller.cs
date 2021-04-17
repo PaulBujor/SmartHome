@@ -14,7 +14,7 @@ namespace Data.Controllers
 	{
 		// gets co2 measurement by id
 		[HttpGet("api/co2/{id}")]
-		public CO2Measurement Get(int id)
+		public async Task<CO2Measurement> Get(int id)
 		{
 			return new CO2Measurement
 			{
@@ -26,7 +26,7 @@ namespace Data.Controllers
 
 		// gets all co2 measurement by device id
 		[HttpGet("api/devices/{id}/co2")]
-		public IEnumerable<Measurement> GetByDevice(int id)
+		public async Task<IEnumerable<Measurement>> GetByDevice(int id)
 		{
 			return new Measurement[] {
 				new CO2Measurement
@@ -46,7 +46,7 @@ namespace Data.Controllers
 
 		// gets latest measurement by device id
 		[HttpGet("api/devices/{id}/last_co2")]
-		public Measurement GetLastByDevice(int id)
+		public async Task<Measurement> GetLastByDevice(int id)
 		{
 			return new CO2Measurement
 			{
@@ -58,13 +58,13 @@ namespace Data.Controllers
 
 		// Adds new co2 measurement to device
 		[HttpPost("api/devices/{id}/co2")]
-		public void Post(int id, [FromBody] Measurement value)
+		public async Task Post(int id, [FromBody] Measurement value)
 		{
 		}
 
 		// deletes co2 measurement with ID
 		[HttpDelete("api/co2/{id}")]
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
 		}
 	}

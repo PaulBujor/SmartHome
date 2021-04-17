@@ -16,7 +16,7 @@ namespace Data.Controllers
 	{
 		// gets humidity measurement by id
 		[HttpGet("api/humidity/{id}")]
-		public Measurement Get(int id)
+		public async Task<Measurement> Get(int id)
 		{
 			return new HumidityMeasurement
 			{
@@ -28,7 +28,7 @@ namespace Data.Controllers
 
 		// gets all humidity measurement by device id
 		[HttpGet("api/devices/{id}/humidity")]
-		public IEnumerable<Measurement> GetByDevice(int id)
+		public async Task<IEnumerable<Measurement>> GetByDevice(int id)
 		{
 			return new Measurement[] {
 				new HumidityMeasurement
@@ -48,7 +48,7 @@ namespace Data.Controllers
 
 		// gets latest measurement by device id
 		[HttpGet("api/devices/{id}/last_humidity")]
-		public Measurement GetLastByDevice(int id)
+		public async Task<Measurement> GetLastByDevice(int id)
 		{
 			return new HumidityMeasurement
 			{
@@ -60,13 +60,13 @@ namespace Data.Controllers
 
 		// Adds new humidity measurement to device
 		[HttpPost("api/devices/{id}/humidity")]
-		public void Post(int id, [FromBody] Measurement value)
+		public async Task Post(int id, [FromBody] Measurement value)
 		{
 		}
 
 		// deletes humidity measurement with ID
 		[HttpDelete("api/humidity/{id}")]
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
 		}
 	}

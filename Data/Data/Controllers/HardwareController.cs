@@ -15,7 +15,7 @@ namespace Data.Controllers
 	{
 		// gets settings by device id
 		[HttpGet("api/devices/{id}/settings")]
-		public Settings Get(int id)
+		public async Task<Settings> Get(int id)
 		{
 			return new Settings
 			{
@@ -30,14 +30,14 @@ namespace Data.Controllers
 
 		//patches all settings
 		[HttpPatch("api/devices/{id}/settings")]
-		public void Patch(int id)
+		public async Task Patch(int id)
 		{
 			//patch all settings
 		}
 
 		// resets settings of device
 		[HttpDelete("api/devices/{id}/settings")]
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
 		}
 	}
