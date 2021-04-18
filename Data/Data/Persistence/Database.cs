@@ -1,5 +1,7 @@
 using Data.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using Configuration = Data.Data.Configuration;
 
 namespace Data.Properties.Persistence
 {
@@ -13,7 +15,8 @@ namespace Data.Properties.Persistence
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data source=database.db");
+            var config = System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString;
+            optionsBuilder.UseSqlServer(config);
         }
     }
 }
