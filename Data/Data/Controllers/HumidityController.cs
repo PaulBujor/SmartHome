@@ -57,7 +57,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by ID
-				return Ok(await _service.GetLastHumidity());
+				return Ok(await _service.GetLastHumidity(id));
 			}
 			catch (Exception e)
 			{

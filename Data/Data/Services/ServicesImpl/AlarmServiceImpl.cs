@@ -7,14 +7,17 @@ namespace Data.Services.ServicesImpl
 {
     public class AlarmServiceImpl : IAlarmService
     {
-        PersistenceRouter persistenceRouter;
-        public AlarmServiceImpl(PersistenceRouter persistenceRouter)
+        private readonly PersistenceRouter persistenceRouter;
+        private readonly IHardwareService hardwareService;
+        public AlarmServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
         {
             this.persistenceRouter = persistenceRouter;
+            this.hardwareService = service;
         }
         //MOTION
         public async Task<Measurement> AddMotion(Measurement motion, long deviceId)
         {
+            hardwareService.CheckDeviceExists(deviceId);
             await persistenceRouter.AddAlarmMeasurement(motion, deviceId);
             return motion;
         }

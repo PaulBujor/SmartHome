@@ -7,16 +7,18 @@ namespace Data.Services.ServicesImpl
 {
     public class CO2ServiceImpl : ICO2Service
     {
-        PersistenceRouter persistenceRouter;
+        private readonly PersistenceRouter persistenceRouter;
+        private readonly IHardwareService hardwareService;
 
-        public CO2ServiceImpl(PersistenceRouter persistenceRouter)
+        public CO2ServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
         {
             this.persistenceRouter = persistenceRouter;
-            
+            this.hardwareService = service;
         }
         // CO2
         public async Task<Measurement> AddCO2(Measurement co2, long deviceId)
         {
+            hardwareService.CheckDeviceExists(deviceId);
             await persistenceRouter.AddCO2Measurement(co2, deviceId);
             return co2;
         }

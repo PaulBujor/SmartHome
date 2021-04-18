@@ -7,14 +7,17 @@ namespace Data.Services.ServicesImpl
 {
     public class HumidityServiceImpl : IHumidityService
     {
-        PersistenceRouter persistenceRouter;
-        public HumidityServiceImpl(PersistenceRouter persistenceRouter)
+        private readonly PersistenceRouter persistenceRouter;
+        private readonly IHardwareService hardwareService;
+        public HumidityServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
         {
             this.persistenceRouter = persistenceRouter;
+            this.hardwareService = service;
         }
         //HUMIDITY
         public async Task<Measurement> AddHumidity(Measurement humidity, long deviceId)
         {
+            hardwareService.CheckDeviceExists(deviceId);
             await persistenceRouter.AddHumidityMeasurement(humidity, deviceId);
             return humidity;
         }

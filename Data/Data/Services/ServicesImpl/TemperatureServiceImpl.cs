@@ -7,15 +7,18 @@ namespace Data.Services.ServicesImpl
 {
     public class TemperatureServiceImpl : ITemperatureService
     {
-        PersistenceRouter persistenceRouter;
+        private readonly PersistenceRouter persistenceRouter;
+        private readonly IHardwareService hardwareService;
 
-        public TemperatureServiceImpl(PersistenceRouter persistenceRouter)
+        public TemperatureServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
         {
             this.persistenceRouter = persistenceRouter;
+            this.hardwareService = service;
         }
         // TEMPERATURE
         public async Task<Measurement> AddTemperature(Measurement temperature, long deviceId)
         {
+            hardwareService.CheckDeviceExists(deviceId);
             await persistenceRouter.AddTemperatureMeasurement(temperature, deviceId);
             return temperature;
         }

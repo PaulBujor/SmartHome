@@ -31,9 +31,9 @@ namespace Data
 		{
 			//todo add implementations
 			services.AddSingleton<PersistenceRouter>();
+			services.AddSingleton<IHardwareService, HardwareServiceImpl>();
 			services.AddSingleton<IAlarmService, AlarmServiceImpl>();
 			services.AddSingleton<ICO2Service, CO2ServiceImpl>();
-			services.AddSingleton<IHardwareService, HardwareServiceImpl>();
 			services.AddSingleton<IHumidityService, HumidityServiceImpl>();
 			services.AddSingleton<ITemperatureService, TemperatureServiceImpl>();
 			services.AddControllers();
