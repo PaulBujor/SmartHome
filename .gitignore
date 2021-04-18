@@ -7,3 +7,6 @@ Android/.idea
 Android/app/build
 .idea
 
+Data/Data/Data.csproj.user
+Data/Data/database.db-shm
+Data/Data/database.db-wal
