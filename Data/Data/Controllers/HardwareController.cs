@@ -27,7 +27,7 @@ namespace Data.Controllers
 		{
 			try
 			{
-				return Ok(await _service.GetSettingsByID(id));
+				return Ok(await _service.GetSettings(id));
 			}
 			catch (Exception e)
 			{
@@ -53,7 +53,8 @@ namespace Data.Controllers
 			try
 			{
 				//todo by device ID, change Add to Set
-				return Ok(await _service.AddSetting(settings));
+				await _service.SetSettings(settings, id);
+				return Ok();
 			}
 			catch (Exception e)
 			{
@@ -69,7 +70,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo Remove -> Reset, remove cast
-				await _service.RemoveSetting((int) id);
+				await _service.Reset(id);
 				return Ok();
 			}
 			catch (Exception e)

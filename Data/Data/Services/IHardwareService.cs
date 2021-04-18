@@ -11,5 +11,6 @@ namespace Data.Services
         Task SetSettings(Settings settings,long deviceID);
         Task CheckDeviceExists(long deviceId);
 
+        Task Reset(long id);
     }
 }
