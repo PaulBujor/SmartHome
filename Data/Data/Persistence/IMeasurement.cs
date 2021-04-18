@@ -9,9 +9,9 @@ namespace Data.Properties.Persistence
         Task AddMeasurement(Measurement measurement, long deviceID);
         Task<Measurement> GetMeasurement(long id);
         Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID);
-        Task<List<Measurement>> GetCO2Measurements(long deviceID);
-        Task<List<Measurement>> GetHumidityMeasurements(long deviceID);
-        Task<List<Measurement>> GetTemperatureMeasurements(long deviceID);
+        Task<IEnumerable<Measurement>> GetCO2Measurements(long deviceID);
+        Task<IEnumerable<Measurement>> GetHumidityMeasurements(long deviceID);
+        Task<IEnumerable<Measurement>> GetTemperatureMeasurements(long deviceID);
         Task RemoveMeasurement(long id);
     }
 }

@@ -26,9 +26,9 @@ namespace Data.Services.ServicesImpl
             await persistenceRouter.RemoveMeasurement(id);
         }
 
-        public async Task<IList<Measurement>> GetAllCO2s(long deviceId)
+        public async Task<IEnumerable<Measurement>> GetAllCO2s(long deviceId)
         {
-            List<Measurement> co2s = await persistenceRouter.GetCO2Measurements(deviceId);
+            IEnumerable<Measurement> co2s = await persistenceRouter.GetCO2Measurements(deviceId);
             return co2s;
         }
 

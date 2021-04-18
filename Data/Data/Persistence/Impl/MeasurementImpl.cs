@@ -18,8 +18,8 @@ namespace Data.Properties.Persistence.Impl
 
         public async Task AddMeasurement(Measurement measurement, long deviceID)
         {
-            throw new System.NotImplementedException();
-            /*await _databaseContext.Measurements.AddAsync(measurement);*/
+            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            
         }
 
         public async Task<Measurement> GetMeasurement(long id)
@@ -32,24 +32,33 @@ namespace Data.Properties.Persistence.Impl
             return (await _databaseContext.Devices.Include(p=>p.Alarm).FirstOrDefaultAsync(p => p.DeviceID == deviceID)).Alarm;
         }
 
-        public async Task<List<Measurement>> GetCO2Measurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetCO2Measurements(long deviceID)
         {
-            throw new System.NotImplementedException();
+            return (await _databaseContext.Devices.Include(p => p.CO2).FirstOrDefaultAsync(p => p.DeviceID == deviceID))
+                .CO2;
         }
 
-        public async Task<List<Measurement>> GetHumidityMeasurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetHumidityMeasurements(long deviceID)
         {
-            throw new System.NotImplementedException();
+            return (await _databaseContext.Devices.Include(p => p.Humidity)
+                .FirstOrDefaultAsync(p => p.DeviceID == deviceID)).Humidity;
         }
 
-        public async Task<List<Measurement>> GetTemperatureMeasurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetTemperatureMeasurements(long deviceID)
         {
-            throw new System.NotImplementedException();
+            return (await _databaseContext.Devices.Include(p => p.Temperature)
+                .FirstOrDefaultAsync(p => p.DeviceID == deviceID)).Temperature;
         }
 
         public async Task RemoveMeasurement(long id)
         {
-            throw new System.NotImplementedException();
+            Measurement tmpMeasurement =
+                await _databaseContext.Measurements.FirstOrDefaultAsync(p => p.MeasurementID == id);
+            if (tmpMeasurement != null)
+            {
+                _databaseContext.Remove(tmpMeasurement);
+                await _databaseContext.SaveChangesAsync();
+            }
         }
     }
 }

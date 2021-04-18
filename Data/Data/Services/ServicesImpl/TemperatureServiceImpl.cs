@@ -20,9 +20,9 @@ namespace Data.Services.ServicesImpl
             return temperature;
         }
 
-        public async Task<IList<Measurement>> GetAllTemperatures(long deviceId)
+        public async Task<IEnumerable<Measurement>> GetAllTemperatures(long deviceId)
         {
-            List<Measurement> temperatures = await persistenceRouter.GetTemperatureMeasurements(deviceId);
+            IEnumerable<Measurement> temperatures = await persistenceRouter.GetTemperatureMeasurements(deviceId);
             return temperatures;
         }
 

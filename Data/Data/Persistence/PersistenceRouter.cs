@@ -81,17 +81,17 @@ namespace Data.Properties.Persistence
             return await _measurement.GetAlarmMeasurements(deviceID);
         }
 
-        public async Task<List<Measurement>> GetCO2Measurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetCO2Measurements(long deviceID)
         {
             return await _measurement.GetCO2Measurements(deviceID);
         }
 
-        public async Task<List<Measurement>> GetHumidityMeasurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetHumidityMeasurements(long deviceID)
         {
             return await _measurement.GetHumidityMeasurements(deviceID);
         }
 
-        public async Task<List<Measurement>> GetTemperatureMeasurements(long deviceID)
+        public async Task<IEnumerable<Measurement>> GetTemperatureMeasurements(long deviceID)
         {
             return await _measurement.GetTemperatureMeasurements(deviceID);
         }

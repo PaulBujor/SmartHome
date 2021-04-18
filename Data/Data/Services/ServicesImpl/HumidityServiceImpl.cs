@@ -19,9 +19,9 @@ namespace Data.Services.ServicesImpl
             return humidity;
         }
 
-        public async Task<IList<Measurement>> GetAllHumidities(long deviceId)
+        public async Task<IEnumerable<Measurement>> GetAllHumidities(long deviceId)
         {
-            List<Measurement> humidities = await persistenceRouter.GetHumidityMeasurements(deviceId);
+            IEnumerable<Measurement> humidities = await persistenceRouter.GetHumidityMeasurements(deviceId);
             return humidities;
         }
 
