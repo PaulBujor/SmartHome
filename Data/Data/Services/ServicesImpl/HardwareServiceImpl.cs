@@ -13,9 +13,9 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
         }
         //SETTINGS
-        public async Task<Data.Settings> AddSetting(Settings settings)
+        public async Task<Data.Settings> SetSetting(Settings settings, long deviceId)
         {
-            await persistenceRouter.AddSetting(settings);
+            await persistenceRouter.AddSetting(settings, deviceId);
             return settings;
         }
         public async Task<IList<Settings>> GetAllSettings(long deviceId)
@@ -30,10 +30,16 @@ namespace Data.Services.ServicesImpl
             await persistenceRouter.RemoveSetting(id);
         }
 
-        public Task<Settings> GetSettingsByID(long id)
+        public async Task<Settings> GetSettingsByID(long id)
         {
             //not sure if this method is needed...
-            throw new System.NotImplementedException();
+            Device device = await persistenceRouter.GetDevice(id);
+            return device.DeviceSettings;
+        }
+
+        public async Task Reset(long id){
+            Device device = await (persistenceRouter.GetDevice(id));
+            device.DeviceSettings.Defaults();
         }
     }
 }

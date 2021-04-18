@@ -8,7 +8,8 @@ namespace Data.Services
     {
         Task<IList<Settings>> GetAllSettings(long deviceId);
         Task<Settings> GetSettingsByID(long id);
-        Task<Settings> AddSetting(Settings settings);
+        Task<Settings> SetSetting(Settings settings, long DeviceId);
         Task RemoveSetting(int id);
+        Task Reset(long id);
     }
 }

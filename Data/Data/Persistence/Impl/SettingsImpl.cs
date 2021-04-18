@@ -11,7 +11,7 @@ namespace Data.Properties.Persistence.Impl
         {
             _databaseContext = context;
         }
-        public async Task AddSetting(Settings setting)
+        public async Task AddSetting(Settings setting, long deviceId)
         {
             throw new System.NotImplementedException();
         }

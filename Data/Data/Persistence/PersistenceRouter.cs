@@ -101,9 +101,9 @@ namespace Data.Properties.Persistence
             await _measurement.RemoveMeasurement(id);
         }
 
-        public async Task AddSetting(Settings setting)
+        public async Task AddSetting(Settings setting, long deviceId)
         {
-            await _settings.AddSetting(setting);
+            await _settings.AddSetting(setting, deviceId);
         }
 
         public async Task<Settings> GetSetting(long id)
