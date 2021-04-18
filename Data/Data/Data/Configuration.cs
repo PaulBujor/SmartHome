@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.Data
 {
-	public abstract class Configuration
+	public class Configuration
 	{
 		[Key]
 		[JsonPropertyName("configurationId")]

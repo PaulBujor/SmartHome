@@ -9,7 +9,7 @@ namespace Data.Services
 
         Task<Settings> GetSettings(long deviceID);
         Task SetSettings(Settings settings,long deviceID);
-        void CheckDeviceExists(long deviceId);
+        Task CheckDeviceExists(long deviceId);
         Task Reset(long id);
     }
 }

@@ -7,5 +7,13 @@ namespace Data.Data.ConcreteConfigurations
 {
 	public class TemperatureConfiguration : Configuration
 	{
+		public TemperatureConfiguration() { }
+		public TemperatureConfiguration(Configuration config)
+		{
+			ConfigurationID = config.ConfigurationID;
+			MinOrDefault = config.MinOrDefault;
+			Max = config.Max;
+			Active = config.Active;
+		}
 	}
 }

@@ -16,32 +16,38 @@ namespace Data.Properties.Persistence.Impl
         {
             _databaseContext = context;
         }
+
+        /* CHANGES
+         * 1. Instead of casting to concrete measurement, made constructor in concrete measurement to convert it to concrete class, otherwise casting error
+         * See https://stackoverflow.com/questions/5240143/invalidcastexception-unable-to-cast-objects-of-type-base-to-type-subclass
+         * 2. Include array of specific measurement, otherwise it returned NullReferenceException (array was not loaded)
+         */
         
         public async Task AddCO2Measurement(Measurement measurement, long deviceID)
         {
-            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-            tmpDevice.CO2.Add((CO2Measurement)measurement);
+            Device tmpDevice = await _databaseContext.Devices.Include(p => p.CO2).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            tmpDevice.CO2.Add(new CO2Measurement(measurement));
             await _databaseContext.SaveChangesAsync();
         }
 
         public async Task AddAlarmMeasurement(Measurement measurement, long deviceID)
         {
-            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-            tmpDevice.Alarm.Add((AlarmMeasurement)measurement);
+            Device tmpDevice = await _databaseContext.Devices.Include(p => p.Alarm).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            tmpDevice.Alarm.Add(new AlarmMeasurement(measurement));
             await _databaseContext.SaveChangesAsync();
         }
 
         public async Task AddHumidityMeasurement(Measurement measurement, long deviceID)
         {
-            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-            tmpDevice.Humidity.Add((HumidityMeasurement)measurement);
+            Device tmpDevice = await _databaseContext.Devices.Include(p => p.Humidity).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            tmpDevice.Humidity.Add(new HumidityMeasurement(measurement));
             await _databaseContext.SaveChangesAsync();
         }
 
         public async Task AddTemperatureMeasurement(Measurement measurement, long deviceID)
         {
-            Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-            tmpDevice.Temperature.Add((TemperatureMeasurement)measurement);
+            Device tmpDevice = await _databaseContext.Devices.Include(p=> p.Temperature).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            tmpDevice.Temperature.Add(new TemperatureMeasurement(measurement));
             await _databaseContext.SaveChangesAsync();
         }
 
