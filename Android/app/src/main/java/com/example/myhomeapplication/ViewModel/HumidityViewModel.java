@@ -1,4 +1,6 @@
 package com.example.myhomeapplication.ViewModel;
 
-public class HumidityViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class HumidityViewModel extends ViewModel {
 }

@@ -1,4 +1,6 @@
 package com.example.myhomeapplication.ViewModel;
 
-public class CO2ViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class CO2ViewModel extends ViewModel {
 }
