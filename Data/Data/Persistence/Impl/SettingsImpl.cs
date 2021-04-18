@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Properties.Persistence.Impl
 {
@@ -11,29 +12,19 @@ namespace Data.Properties.Persistence.Impl
         {
             _databaseContext = context;
         }
-        public async Task AddSetting(Settings setting)
+
+        public async Task<Settings> GetSettings(long deviceID)
         {
-            throw new System.NotImplementedException();
+            Device tmpDevice = await _databaseContext.Devices.Include(p=>p.DeviceSettings).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            return tmpDevice.DeviceSettings;
         }
 
-        public async Task<Settings> GetSetting(long id)
+        public async Task SetSettings(Settings settings, long deviceID)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<List<Settings>> GetSettings(long id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task UpdateSetting(Settings setting)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task RemoveSetting(long id)
-        {
-            throw new System.NotImplementedException();
+            Device tmpDevice = await _databaseContext.Devices.Include(p => p.DeviceSettings)
+                .FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            tmpDevice.DeviceSettings = settings;
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

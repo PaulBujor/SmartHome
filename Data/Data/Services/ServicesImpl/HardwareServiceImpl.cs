@@ -13,27 +13,14 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
         }
         //SETTINGS
-        public async Task<Data.Settings> AddSetting(Settings settings)
+        public async Task<Settings> GetSettings(long deviceID)
         {
-            await persistenceRouter.AddSetting(settings);
-            return settings;
-        }
-        public async Task<IList<Settings>> GetAllSettings(long deviceId)
-        {
-            //missing deviceId in persistenceRouter???
-            List<Settings> settings = await persistenceRouter.GetSettings(deviceId);
-            return settings;
+            return await persistenceRouter.GetSettings(deviceID);
         }
 
-        public async Task RemoveSetting(int id)
+        public async Task SetSettings(Settings settings, long deviceID)
         {
-            await persistenceRouter.RemoveSetting(id);
-        }
-
-        public Task<Settings> GetSettingsByID(long id)
-        {
-            //not sure if this method is needed...
-            throw new System.NotImplementedException();
+            await persistenceRouter.SetSettings(settings, deviceID);
         }
     }
 }

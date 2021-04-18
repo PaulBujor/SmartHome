@@ -6,8 +6,16 @@ namespace Data.Properties.Persistence
 {
     public interface IMeasurement
     {
-        Task AddMeasurement(Measurement measurement, long deviceID);
-        Task<Measurement> GetMeasurement(long id);
+        Task AddCO2Measurement(Measurement measurement, long deviceID);
+        Task AddAlarmMeasurement(Measurement measurement, long deviceID);
+        Task AddHumidityMeasurement(Measurement measurement, long deviceID);
+        Task AddTemperatureMeasurement(Measurement measurement, long deviceID);
+
+        Task<Measurement> GetLatestCO2Measurement(long deviceID);
+        Task<Measurement> GetLatestAlarmMeasurement(long deviceID);
+        Task<Measurement> GetLatestHumidityMeasurement(long deviceID);
+        Task<Measurement> GetLatestTemperatureMeasurement(long deviceID);
+  
         Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID);
         Task<IEnumerable<Measurement>> GetCO2Measurements(long deviceID);
         Task<IEnumerable<Measurement>> GetHumidityMeasurements(long deviceID);

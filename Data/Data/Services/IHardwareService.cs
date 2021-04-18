@@ -6,9 +6,7 @@ namespace Data.Services
 {
     public interface IHardwareService
     {
-        Task<IList<Settings>> GetAllSettings(long deviceId);
-        Task<Settings> GetSettingsByID(long id);
-        Task<Settings> AddSetting(Settings settings);
-        Task RemoveSetting(int id);
+        Task<Settings> GetSettings(long deviceID);
+        Task SetSettings(Settings settings,long deviceID);
     }
 }

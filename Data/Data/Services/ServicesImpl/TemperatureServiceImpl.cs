@@ -16,7 +16,7 @@ namespace Data.Services.ServicesImpl
         // TEMPERATURE
         public async Task<Measurement> AddTemperature(Measurement temperature, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(temperature, deviceId);
+            await persistenceRouter.AddTemperatureMeasurement(temperature, deviceId);
             return temperature;
         }
 

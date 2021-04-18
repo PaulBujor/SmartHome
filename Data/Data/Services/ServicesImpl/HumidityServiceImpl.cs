@@ -15,7 +15,7 @@ namespace Data.Services.ServicesImpl
         //HUMIDITY
         public async Task<Measurement> AddHumidity(Measurement humidity, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(humidity, deviceId);
+            await persistenceRouter.AddHumidityMeasurement(humidity, deviceId);
             return humidity;
         }
 

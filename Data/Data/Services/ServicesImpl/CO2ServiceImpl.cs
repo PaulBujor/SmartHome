@@ -17,7 +17,7 @@ namespace Data.Services.ServicesImpl
         // CO2
         public async Task<Measurement> AddCO2(Measurement co2, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(co2, deviceId);
+            await persistenceRouter.AddCO2Measurement(co2, deviceId);
             return co2;
         }
 

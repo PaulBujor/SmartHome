@@ -66,14 +66,44 @@ namespace Data.Properties.Persistence
             await _device.RemoveDevice(id);
         }
 
-        public async Task AddMeasurement(Measurement measurement,long deviceID)
+        public async Task AddCO2Measurement(Measurement measurement, long deviceID)
         {
-            await _measurement.AddMeasurement(measurement,deviceID);
+            await _measurement.AddCO2Measurement(measurement, deviceID);
         }
 
-        public async Task<Measurement> GetMeasurement(long id)
+        public async Task AddAlarmMeasurement(Measurement measurement, long deviceID)
         {
-          return  await _measurement.GetMeasurement(id);
+            await _measurement.AddAlarmMeasurement(measurement, deviceID);
+        }
+
+        public async Task AddHumidityMeasurement(Measurement measurement, long deviceID)
+        {
+            await _measurement.AddHumidityMeasurement(measurement, deviceID);
+        }
+
+        public async Task AddTemperatureMeasurement(Measurement measurement, long deviceID)
+        {
+            await _measurement.AddTemperatureMeasurement(measurement, deviceID);
+        }
+
+        public async Task<Measurement> GetLatestCO2Measurement(long deviceID)
+        {
+            return await _measurement.GetLatestCO2Measurement(deviceID);
+        }
+
+        public async Task<Measurement> GetLatestAlarmMeasurement(long deviceID)
+        {
+            return await _measurement.GetLatestAlarmMeasurement(deviceID);
+        }
+
+        public async Task<Measurement> GetLatestHumidityMeasurement(long deviceID)
+        {
+            return await _measurement.GetLatestHumidityMeasurement(deviceID);
+        }
+
+        public async Task<Measurement> GetLatestTemperatureMeasurement(long deviceID)
+        {
+            return await _measurement.GetLatestTemperatureMeasurement(deviceID);
         }
 
         public async Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID)
@@ -101,29 +131,14 @@ namespace Data.Properties.Persistence
             await _measurement.RemoveMeasurement(id);
         }
 
-        public async Task AddSetting(Settings setting)
+        public async Task<Settings> GetSettings(long deviceID)
         {
-            await _settings.AddSetting(setting);
+            return await _settings.GetSettings(deviceID);
         }
 
-        public async Task<Settings> GetSetting(long id)
+        public async Task SetSettings(Settings settings, long deviceID)
         {
-            return await _settings.GetSetting(id);
-        }
-
-        public async Task<List<Settings>> GetSettings(long id)
-        {
-            return await _settings.GetSettings(id);
-        }
-
-        public async Task UpdateSetting(Settings setting)
-        {
-            await _settings.UpdateSetting(setting);
-        }
-
-        public async Task RemoveSetting(long id)
-        {
-            await _settings.RemoveSetting(id);
+            await _settings.SetSettings(settings, deviceID);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Data.Services.ServicesImpl
         //MOTION
         public async Task<Measurement> AddMotion(Measurement motion, long deviceId)
         {
-            await persistenceRouter.AddMeasurement(motion, deviceId);
+            await persistenceRouter.AddAlarmMeasurement(motion, deviceId);
             return motion;
         }
 
