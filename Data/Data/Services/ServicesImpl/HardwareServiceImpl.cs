@@ -13,9 +13,14 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
         }
 
-        public Task CheckDeviceExists(long deviceId)
+        public void CheckDeviceExists(long deviceId)
         {
-            throw new System.NotImplementedException();
+            if (persistenceRouter.GetDevice(deviceId) == null)
+            {
+                Device device = new Device();
+                device.DeviceSettings = Settings.Defaults();
+                persistenceRouter.AddDevice(device);
+            }
         }
 
         //SETTINGS
@@ -32,8 +37,7 @@ namespace Data.Services.ServicesImpl
         }
 
         public async Task Reset(long id){
-            Device device = await (persistenceRouter.GetDevice(id));
-            device.DeviceSettings.Defaults();
+            await SetSettings(Settings.Defaults(), id); 
         }
     }
 }

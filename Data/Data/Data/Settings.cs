@@ -17,7 +17,7 @@ namespace Data.Data
 		public CO2Configuration CO2Configuration { get; set; }
 		public HumidityConfiguration HumidityConfiguration { get; set; }
 
-		public Settings Defaults()
+		public static Settings Defaults()
 		{
 			return new Settings
 			{
