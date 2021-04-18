@@ -132,6 +132,7 @@ namespace Data.Properties.Persistence
         }
 
         public async Task<Settings> GetSettings(long deviceID)
+
         {
             return await _settings.GetSettings(deviceID);
         }

@@ -13,6 +13,7 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
         }
         //SETTINGS
+
         public async Task<Settings> GetSettings(long deviceID)
         {
             return await persistenceRouter.GetSettings(deviceID);
@@ -21,6 +22,7 @@ namespace Data.Services.ServicesImpl
         public async Task SetSettings(Settings settings, long deviceID)
         {
             await persistenceRouter.SetSettings(settings, deviceID);
+
         }
     }
 }

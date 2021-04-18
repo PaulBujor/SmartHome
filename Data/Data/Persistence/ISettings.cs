@@ -6,8 +6,10 @@ namespace Data.Properties.Persistence
 {
     public interface ISettings
     {
+
         Task<Settings> GetSettings(long deviceID);
         Task SetSettings(Settings settings,long deviceID);
   
+
     }
 }

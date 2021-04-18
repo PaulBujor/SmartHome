@@ -12,7 +12,6 @@ namespace Data.Properties.Persistence.Impl
         {
             _databaseContext = context;
         }
-
         public async Task<Settings> GetSettings(long deviceID)
         {
             Device tmpDevice = await _databaseContext.Devices.Include(p=>p.DeviceSettings).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
