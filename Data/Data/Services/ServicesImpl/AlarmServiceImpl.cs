@@ -25,9 +25,9 @@ namespace Data.Services.ServicesImpl
             return motions;
         }
 
-        public Task<Measurement> GetLastMotion(long deviceId)
+        public async Task<Measurement> GetLastMotion(long deviceId)
         {
-            throw new System.NotImplementedException();
+            return await persistenceRouter.GetLatestAlarmMeasurement(deviceId);
         }
 
         public async Task RemoveMotion(int id)

@@ -32,9 +32,9 @@ namespace Data.Services.ServicesImpl
             return co2s;
         }
 
-        public Task<Measurement> GetLastCO2(long deviceId)
+        public async Task<Measurement> GetLastCO2(long deviceId)
         {
-            throw new System.NotImplementedException();
+            return await persistenceRouter.GetLatestCO2Measurement(deviceId);
         }
 
     }

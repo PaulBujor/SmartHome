@@ -26,9 +26,9 @@ namespace Data.Services.ServicesImpl
             return temperatures;
         }
 
-        public Task<Measurement> GetLastTemperature(long deviceId)
+        public async Task<Measurement> GetLastTemperature(long deviceId)
         {
-            throw new System.NotImplementedException();
+            return await persistenceRouter.GetLatestTemperatureMeasurement(deviceId);
         }
 
         public async Task RemoveTemperature(int id)

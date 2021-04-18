@@ -12,6 +12,12 @@ namespace Data.Services.ServicesImpl
         {
             this.persistenceRouter = persistenceRouter;
         }
+
+        public Task CheckDeviceExists(long deviceId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         //SETTINGS
 
         public async Task<Settings> GetSettings(long deviceID)

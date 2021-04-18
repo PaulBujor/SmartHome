@@ -25,9 +25,9 @@ namespace Data.Services.ServicesImpl
             return humidities;
         }
 
-        public Task<Measurement> GetLastHumidity()
+        public async Task<Measurement> GetLastHumidity(long deviceId)
         {
-            throw new System.NotImplementedException();
+            return await persistenceRouter.GetLatestHumidityMeasurement(deviceId);
         }
 
         public async Task RemoveHumidity(int id)
