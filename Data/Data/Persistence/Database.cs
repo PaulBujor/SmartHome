@@ -15,8 +15,7 @@ namespace Data.Properties.Persistence
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString;
-            optionsBuilder.UseSqlServer(config);
+            optionsBuilder.UseSqlServer("Server=tcp:sep4db.database.windows.net,1433;Initial Catalog=Data_db;Persist Security Info=False;User ID=sep4admin;Password=Lc7wQNyykW520S14;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
     }
 }

@@ -5,6 +5,12 @@
       "type": "mssql.azure",
       "connectionId": "sep4db",
       "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "AzureDb",
+      "suggestion": "true",
+      "ignored": "true"
     }
   }
 }
