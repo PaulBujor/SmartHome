@@ -24,5 +24,10 @@ namespace Data.Services.ServicesImpl
             await persistenceRouter.SetSettings(settings, deviceID);
 
         }
+
+        public async Task Reset(long id){
+            Device device = await (persistenceRouter.GetDevice(id));
+            device.DeviceSettings.Defaults();
+        }
     }
 }
