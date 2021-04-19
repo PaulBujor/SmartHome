@@ -48,15 +48,18 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Data.Device", b =>
                 {
-                    b.Property<long>("DeviceID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("DeviceID")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("DeviceSettingsSettingsID")
                         .HasColumnType("bigint");
 
-                    b.HasKey("DeviceID");
+                    b.HasKey("ID");
 
                     b.HasIndex("DeviceSettingsSettingsID");
 
