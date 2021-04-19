@@ -2,11 +2,14 @@
 Data/.vs/*
 Data/Data/bin/*
 Data/Data/obj/*
+Data/Data/Data.csproj.user
+Data/Data/database.db-shm
+Data/Data/database.db-wal
 
 Android/.gradle
 Android/.idea
 Android/app/build
 .idea
 
-IOT/4.Semester/.vs/4.Semester/v14/.atsuo
+IOT/.vs
 IOT/IoT/Debug
