@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Data.Controllers
 {
-	[Route("api/[controller]")]
 	[ApiController]
 	public class HumidityController : ControllerBase
 	{
