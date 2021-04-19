@@ -74,13 +74,14 @@ namespace Data.Migrations
                 name: "Devices",
                 columns: table => new
                 {
-                    DeviceID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DeviceID = table.Column<long>(type: "bigint", nullable: false),
                     DeviceSettingsSettingsID = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Devices", x => x.DeviceID);
+                    table.PrimaryKey("PK_Devices", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Devices_Settings_DeviceSettingsSettingsID",
                         column: x => x.DeviceSettingsSettingsID,
@@ -110,25 +111,25 @@ namespace Data.Migrations
                         name: "FK_Measurements_Devices_AlarmMeasurement_DeviceID",
                         column: x => x.AlarmMeasurement_DeviceID,
                         principalTable: "Devices",
-                        principalColumn: "DeviceID",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Measurements_Devices_CO2Measurement_DeviceID",
                         column: x => x.CO2Measurement_DeviceID,
                         principalTable: "Devices",
-                        principalColumn: "DeviceID",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Measurements_Devices_DeviceID",
                         column: x => x.DeviceID,
                         principalTable: "Devices",
-                        principalColumn: "DeviceID",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Measurements_Devices_TemperatureMeasurement_DeviceID",
                         column: x => x.TemperatureMeasurement_DeviceID,
                         principalTable: "Devices",
-                        principalColumn: "DeviceID",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
 

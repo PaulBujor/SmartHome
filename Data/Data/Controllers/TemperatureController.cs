@@ -75,7 +75,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.StackTrace);
+				Console.WriteLine(e);
 				return StatusCode(500, e.Message);
 			}
 		}
