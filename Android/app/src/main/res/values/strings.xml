@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">MyHomeApplication</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_card_temperature_title">Temperature</string>
+    <string name="home_card_humidity_title">Humidity</string>
+    <string name="home_card_co2_title" translatable="false">CO2</string>
+    <string name="home_card_motion_title">Motion</string>
 </resources>

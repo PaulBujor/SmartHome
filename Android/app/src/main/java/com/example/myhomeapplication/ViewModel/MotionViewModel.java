@@ -1,4 +1,6 @@
 package com.example.myhomeapplication.ViewModel;
 
-public class MotionViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class MotionViewModel extends ViewModel {
 }

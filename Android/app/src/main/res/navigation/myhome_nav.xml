@@ -8,31 +8,32 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.myhomeapplication.View.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="MyHome"
+        tools:layout="@layout/fragment_home">
+
         <action
-            android:id="@+id/action_homeFragment_to_temperatureFragment"
+            android:id="@+id/openTemperatureDetailsAction"
             app:destination="@id/temperatureFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_humidityFragment"
+            android:id="@+id/openHumidityDetailsAction"
             app:destination="@id/humidityFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_CO2Fragment"
+            android:id="@+id/openCO2DetailsAction"
             app:destination="@id/CO2Fragment" />
         <action
-            android:id="@+id/action_homeFragment_to_motionFragment"
+            android:id="@+id/openMotionDetailsAction"
             app:destination="@id/motionFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_applicationPreferencesFragment"
+            android:id="@+id/openApplicationPreferencesAction"
             app:destination="@id/applicationPreferencesFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_deviceSettingsFragment"
+            android:id="@+id/openDeviceSettingsAction"
             app:destination="@id/deviceSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/temperatureFragment"
         android:name="com.example.myhomeapplication.View.TemperatureFragment"
-        android:label="fragment_temperature"
+        android:label="Temperature"
         tools:layout="@layout/fragment_temperature" />
     <fragment
         android:id="@+id/humidityFragment"
