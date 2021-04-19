@@ -1,5 +1,10 @@
 package com.example.myhomeapplication.Models;
 
+import com.example.myhomeapplication.Remote.CustomDateAndTimeDeserialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.Date;
 
 public class Measurement {

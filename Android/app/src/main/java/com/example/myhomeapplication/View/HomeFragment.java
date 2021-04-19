@@ -68,13 +68,20 @@ public class HomeFragment extends Fragment {
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
 
-        temperatureViewModel.getAllTemperatureMeasurements().observe(getViewLifecycleOwner(), measurements -> temperatureTextView.setText(String.format("%.1f", measurements.get(measurements.size()-1).getValue())));
+        temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
 
+        temperatureViewModel.receiveLatestTemperatureMeasurement();
+
+        //Retrieving data simulation
+
+        /*
+        temperatureViewModel.getAllTemperatureMeasurements().observe(getViewLifecycleOwner(), measurements -> temperatureTextView.setText(String.format("%.1f", measurements.get(measurements.size()-1).getValue())));
         try {
             temperatureViewModel.addDataSimulation();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
         return view;
     }
 

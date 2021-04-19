@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myhomeapplication.Models.Measurement;
+import com.example.myhomeapplication.Remote.LocalRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class TemperatureViewModel extends ViewModel {
 
     private MutableLiveData<List<Measurement>> temperatureMeasurements;
-    private MutableLiveData<Measurement> latestMeasurement;
+    private LocalRepository repository;
 
     private int i = 1;
 
@@ -32,6 +33,8 @@ public class TemperatureViewModel extends ViewModel {
         List<Measurement> newList = new ArrayList<>();
         newList.add(new Measurement(0, new Date(), 19));
         temperatureMeasurements.setValue(newList);
+
+        repository = LocalRepository.getInstance();
     }
 
     public LiveData<List<Measurement>> getAllTemperatureMeasurements()
@@ -39,11 +42,17 @@ public class TemperatureViewModel extends ViewModel {
         return temperatureMeasurements;
     }
 
-   /* public LiveData<Measurement> getLatestTemperatureMeasurement()
+    public LiveData<Measurement> getLatestTemperatureMeasurement()
     {
-        TempController.getLatest
+        return repository.getLatestMeasurement();
+    }
 
-    }*/
+    public void receiveLatestTemperatureMeasurement()
+    {
+        repository.receiveLatestMeasurement();
+    }
+
+
 
 
     public void addDataSimulation() throws InterruptedException {
