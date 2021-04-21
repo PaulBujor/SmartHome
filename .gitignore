@@ -10,3 +10,6 @@ Android/app/build
 Data/Data/Data.csproj.user
 Data/Data/database.db-shm
 Data/Data/database.db-wal
+Data/Data.Tests/bin/*
+Data/Data.Tests/obj/*
+Data/Packages
