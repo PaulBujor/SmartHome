@@ -52,7 +52,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/last_alarm")]
+		[HttpGet("api/devices/{id}/last-alarm")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
