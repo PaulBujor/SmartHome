@@ -42,33 +42,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        //Retrofit (won't work until we have the base URL)
-        /*Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("")// <-- insert api url
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<List<Measurement>> call = jsonPlaceHolderApi.getMeasurements();
-        call.enqueue(new Callback<List<Measurement>>() {
-            @Override
-            public void onResponse(Call<List<Measurement>> call, Response<List<Measurement>> response) {
-                if (!response.isSuccessful()){
-                    temperatureCardValue.setText(response.code());
-                    return;
-                }
-                List<Measurement> measurements = response.body();
-                for (Measurement measurement : measurements){
-                    String content = "";
-                    content+="Value: "+measurement.getValue() + "\n\n";
-                    temperatureCardValue.append(content);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Measurement>> call, Throwable t) {
-                temperatureCardValue.setText("404");
-            }
-        });*/
     }
 
     @Override

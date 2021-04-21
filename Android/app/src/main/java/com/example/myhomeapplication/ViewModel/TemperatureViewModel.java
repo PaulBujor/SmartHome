@@ -1,61 +1,45 @@
 package com.example.myhomeapplication.ViewModel;
 
-import android.icu.util.Measure;
-import android.os.Build;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myhomeapplication.Models.Measurement;
-import com.example.myhomeapplication.Remote.LocalRepository;
+import com.example.myhomeapplication.Local_Persistence.Cache;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class TemperatureViewModel extends ViewModel {
 
-    private MutableLiveData<List<Measurement>> temperatureMeasurements;
-    private LocalRepository repository;
-
-    private int i = 1;
+    private Cache repository;
 
     public TemperatureViewModel() {
-        temperatureMeasurements = new MutableLiveData<>();
-        List<Measurement> newList = new ArrayList<>();
-        newList.add(new Measurement(0, new Date(), 19));
-        temperatureMeasurements.setValue(newList);
-
-        repository = LocalRepository.getInstance();
+        repository = Cache.getInstance();
     }
 
     public LiveData<List<Measurement>> getAllTemperatureMeasurements()
     {
-        return temperatureMeasurements;
+        return repository.getAllTemperatureMeasurements();
     }
 
     public LiveData<Measurement> getLatestTemperatureMeasurement()
     {
-        return repository.getLatestMeasurement();
+        return repository.getLatestTemperatureMeasurement();
     }
 
-    public void receiveLatestTemperatureMeasurement()
+    public void receiveLatestTemperatureMeasurement(int deviceID, String measurementType)
     {
-        repository.receiveLatestMeasurement();
+        repository.receiveLatestMeasurement(deviceID, measurementType);
+    }
+
+    public void receiveAllTemperatureMeasurements()
+    {
+        repository.receiveAllMeasurements();
     }
 
 
 
 
-    public void addDataSimulation() throws InterruptedException {
+/*    public void addDataSimulation() throws InterruptedException {
 
         new Thread(() -> {
         while (true)
@@ -71,6 +55,6 @@ public class TemperatureViewModel extends ViewModel {
             }
         }
         }).start();
-    }
+    }*/
 
 }

@@ -38,6 +38,13 @@ public class HomeFragment extends Fragment {
     private CO2ViewModel CO2ViewModel;
     private MotionViewModel motionViewModel;
 
+    private int deviceID = 1;
+    private final static String  TYPE_TEMPERATURE = "temperature";
+    private final static String  TYPE_ALL_TEMPERATURES = "temperatures";
+    private final static String  TYPE_CO2 = "co2";
+    private final static String  TYPE_HUMIDITY = "humidity";
+    private final static String  TYPE_ALARM = "alarm";
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -70,7 +77,7 @@ public class HomeFragment extends Fragment {
 
         temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
 
-        temperatureViewModel.receiveLatestTemperatureMeasurement();
+        temperatureViewModel.receiveLatestTemperatureMeasurement(deviceID, TYPE_TEMPERATURE);
 
         //Retrieving data simulation
 
