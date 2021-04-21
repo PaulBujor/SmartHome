@@ -17,50 +17,77 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class Cache {
+
     private static Cache instance;
-    private final MutableLiveData<Measurement> latestMeasurement;
-    private  MutableLiveData<List<Measurement>> allMeasurements;
+
+    private final MutableLiveData<Measurement> latestTemperatureMeasurement;
+    private final MutableLiveData<Measurement> latestHumidityMeasurement;
+    private final MutableLiveData<Measurement> latestCO2Measurement;
+    private final MutableLiveData<Measurement> latestAlarmMeasurement;
+    private MutableLiveData<List<Measurement>> allMeasurements;
 
 
     public Cache() {
 
-        this.latestMeasurement = new MutableLiveData<>();
+        this.latestTemperatureMeasurement = new MutableLiveData<>();
+        this.latestHumidityMeasurement = new MutableLiveData<>();
+        this.latestCO2Measurement = new MutableLiveData<>();
+        this.latestAlarmMeasurement = new MutableLiveData<>();
         this.allMeasurements = new MutableLiveData<>();
     }
 
-    public static synchronized Cache getInstance()
-    {
+    public static synchronized Cache getInstance() {
         if (instance == null)
             instance = new Cache();
         return instance;
     }
 
-    public LiveData<Measurement> getLatestTemperatureMeasurement()
-    {
-        return latestMeasurement;
+    public LiveData<Measurement> getLatestTemperatureMeasurement() {
+        return latestTemperatureMeasurement;
     }
 
-    public LiveData<List<Measurement>> getAllTemperatureMeasurements()
-    {
+    public LiveData<Measurement> getLatestHumidityMeasurement() {
+        return latestHumidityMeasurement;
+    }
+
+    public LiveData<Measurement> getLatestCO2Measurement() {
+        return latestCO2Measurement;
+    }
+
+    public LiveData<Measurement> getLatestAlarmMeasurement() {
+        return latestAlarmMeasurement;
+    }
+
+
+    public LiveData<List<Measurement>> getAllTemperatureMeasurements() {
         return allMeasurements;
     }
 
-    public void receiveLatestMeasurement(int deviceID, String measurementType)
-    {
-        MeasurementAPI temperatureAPI = TemperatureServiceGenerator.getTemperatureAPI();
-        Call<Measurement> call = temperatureAPI.getLatestMeasurement(deviceID, measurementType);
+    public void receiveLatestMeasurement(int deviceID, String measurementType) {
+        MeasurementAPI measurementAPI = TemperatureServiceGenerator.getMeasurementAPI();
+        Call<Measurement> call = measurementAPI.getLatestMeasurement(deviceID, measurementType);
+        Log.i("Cache", measurementType + " " + deviceID);
         call.enqueue(new Callback<Measurement>() {
 
             @EverythingIsNonNull
             @Override
             public void onResponse(Call<Measurement> call, Response<Measurement> response) {
-                if (response.code() == 200){
-                    latestMeasurement.setValue(response.body());
-                    Log.i("HTTPResponseCode", String.valueOf(response.code()));
-                }
-                else
-                {
-                    Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code()));
+                if (response.code() == 200) {
+                    switch (measurementType) {
+                        case MeasurementTypes.TYPE_TEMPERATURE: latestTemperatureMeasurement.setValue(response.body());
+                        break;
+                        case MeasurementTypes.TYPE_HUMIDITY: latestHumidityMeasurement.setValue(response.body());
+                            break;
+                        case MeasurementTypes.TYPE_CO2: latestCO2Measurement.setValue(response.body());
+                            break;
+                        case MeasurementTypes.TYPE_ALARM: latestAlarmMeasurement.setValue(response.body());
+                            break;
+                        default:
+                            Log.wtf("Repository", "Wrong measurement type");
+                    }
+                    Log.i("HTTPResponseCode", String.valueOf(response.code()) + " " + measurementType);
+                } else {
+                    Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code()  + " " + measurementType + "\n" + response.message()));
                 }
             }
 
@@ -76,14 +103,14 @@ public class Cache {
 
     public void receiveAllMeasurements() {
 
-        MeasurementAPI temperatureAPI = TemperatureServiceGenerator.getTemperatureAPI();
-        Call<Measurement> call = temperatureAPI.getMeasurements(1,"temperatures");
+        MeasurementAPI temperatureAPI = TemperatureServiceGenerator.getMeasurementAPI();
+        Call<Measurement> call = temperatureAPI.getMeasurements(1, "temperatures");
         call.enqueue(new Callback<Measurement>() {
             @EverythingIsNonNull
             @Override
             public void onResponse(Call<Measurement> call, Response<Measurement> response) {
-                if (response.isSuccessful()){
-                    latestMeasurement.setValue(response.body());
+                if (response.isSuccessful()) {
+                    latestTemperatureMeasurement.setValue(response.body());
                 }
             }
 

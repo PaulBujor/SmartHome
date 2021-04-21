@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myhomeapplication.Local_Persistence.DataRetriever;
+import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.CO2ViewModel;
@@ -39,11 +41,6 @@ public class HomeFragment extends Fragment {
     private MotionViewModel motionViewModel;
 
     private int deviceID = 1;
-    private final static String  TYPE_TEMPERATURE = "temperature";
-    private final static String  TYPE_ALL_TEMPERATURES = "temperatures";
-    private final static String  TYPE_CO2 = "co2";
-    private final static String  TYPE_HUMIDITY = "humidity";
-    private final static String  TYPE_ALARM = "alarm";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -77,7 +74,8 @@ public class HomeFragment extends Fragment {
 
         temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
 
-        temperatureViewModel.receiveLatestTemperatureMeasurement(deviceID, TYPE_TEMPERATURE);
+        DataRetriever dataRetriever = DataRetriever.getInstance();
+        dataRetriever.startRetrievingData(deviceID);
 
         //Retrieving data simulation
 

@@ -6,19 +6,19 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class TemperatureServiceGenerator {
 
     private static final String BASE_URL = "https://sep4.azurewebsites.net/";
-    private static MeasurementAPI temperatureAPI;
+    private static MeasurementAPI measurementAPI;
 
-    public static MeasurementAPI getTemperatureAPI()
+    public static MeasurementAPI getMeasurementAPI()
     {
-        if (temperatureAPI == null)
+        if (measurementAPI == null)
         {
-            temperatureAPI = new Retrofit.Builder()
+            measurementAPI = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(JacksonConverterFactory.create())
                     .build()
                     .create(MeasurementAPI.class);
         }
-        return temperatureAPI;
+        return measurementAPI;
     }
 
 }
