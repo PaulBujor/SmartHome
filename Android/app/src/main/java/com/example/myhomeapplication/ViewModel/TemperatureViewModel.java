@@ -16,9 +16,9 @@ public class TemperatureViewModel extends ViewModel {
         repository = Cache.getInstance();
     }
 
-    public LiveData<List<Measurement>> getAllTemperatureMeasurements()
+    public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType)
     {
-        return repository.getAllTemperatureMeasurements();
+        return repository.getAllMeasurements(deviceID, measurementType);
     }
 
     public LiveData<Measurement> getLatestTemperatureMeasurement()
@@ -26,15 +26,6 @@ public class TemperatureViewModel extends ViewModel {
         return repository.getLatestTemperatureMeasurement();
     }
 
-    public void receiveLatestTemperatureMeasurement(int deviceID, String measurementType)
-    {
-        repository.receiveLatestMeasurement(deviceID, measurementType);
-    }
-
-    public void receiveAllTemperatureMeasurements()
-    {
-        repository.receiveAllMeasurements();
-    }
 
 
 

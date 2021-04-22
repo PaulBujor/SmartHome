@@ -40,6 +40,4 @@ public class DataRetriever {
         }
         ).start();
     }
-
-
 }
