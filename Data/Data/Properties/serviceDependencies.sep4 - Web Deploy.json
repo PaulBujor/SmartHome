@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/sep4db/databases/Data_db",
+      "type": "mssql.azure",
+      "connectionId": "sep4db",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "AzureDb",
+      "suggestion": "true",
+      "ignored": "true"
+    }
+  }
+}
