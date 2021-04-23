@@ -1,10 +1,8 @@
 import model.Measurement;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import remote.api.MeasurementController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 

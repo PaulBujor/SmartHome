@@ -1,5 +1,6 @@
 import model.Measurement;
 import org.junit.Test;
+import remote.api.MeasurementController;
 
 import java.io.IOException;
 import java.util.Date;
