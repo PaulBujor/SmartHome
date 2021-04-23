@@ -5,8 +5,8 @@ Data/Data/obj/*
 Data/Data/Data.csproj.user
 Data/Data/database.db-shm
 Data/Data/database.db-wal
-Data/API_Testing/target/*
-Data/API_Testing/API_Testing.iml
+Data/APIBridge/target/*
+Data/APIBridge/API_Testing.iml
 
 
 Android/.gradle

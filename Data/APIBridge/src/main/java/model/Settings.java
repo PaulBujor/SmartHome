@@ -67,4 +67,16 @@ public class Settings {
     public void setHumidityConfiguration(Configuration humidityConfiguration) {
         this.humidityConfiguration = humidityConfiguration;
     }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "settingsId=" + settingsId +
+                ", deviceConfiguration=" + deviceConfiguration +
+                ", alarmConfiguration=" + alarmConfiguration +
+                ", temperatureConfiguration=" + temperatureConfiguration +
+                ", Co2Configuration=" + Co2Configuration +
+                ", humidityConfiguration=" + humidityConfiguration +
+                '}';
+    }
 }

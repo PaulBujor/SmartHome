@@ -47,4 +47,14 @@ public class Configuration {
     public void setMax(double max) {
         this.max = max;
     }
+
+    @Override
+    public String toString() {
+        return "Configuration{" +
+                "configurationId=" + configurationId +
+                ", active=" + active +
+                ", minOrDefault=" + minOrDefault +
+                ", max=" + max +
+                '}';
+    }
 }

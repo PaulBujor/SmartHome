@@ -43,6 +43,7 @@ namespace Data.Controllers
 				return Ok(await _service.GetAllCO2s(id));
 			} catch(Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
@@ -59,6 +60,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
@@ -75,6 +77,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
