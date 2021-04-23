@@ -17,6 +17,7 @@ public class Bridge {
     public Bridge(String wsURI) {
         client = new WebsocketClient(wsURI, this);
         controllers = new Manager(new MeasurementController(), new SettingsController());
+        while(true);
     }
 
     public void addData(String data) {

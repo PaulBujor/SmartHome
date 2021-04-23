@@ -1,5 +1,5 @@
 package remote.api;
 
 public class SettingsController {
-    //todo implement
+    //todo implement this, see @MeasurementController
 }
