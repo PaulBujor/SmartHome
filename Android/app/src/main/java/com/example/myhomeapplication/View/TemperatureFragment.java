@@ -1,19 +1,27 @@
 package com.example.myhomeapplication.View;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
+import com.example.myhomeapplication.Models.TemperatureRecyclerAdapter;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,10 +38,9 @@ import java.util.List;
 public class TemperatureFragment extends Fragment {
 
     private TemperatureViewModel temperatureViewModel;
-
+    private RecyclerView recyclerView;
     private LineChart temperatureGraph;
     private int deviceID = 1;
-
     public TemperatureFragment() {
         // Required empty public constructor
     }
@@ -44,7 +51,6 @@ public class TemperatureFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,10 +90,17 @@ public class TemperatureFragment extends Fragment {
 
 
         //Testing getAllMeasurements
+        recyclerView = view.findViewById(R.id.recyclerViewTemperatureDetails);
+        LiveData<List<Measurement>> temperatureViewModelAllMeasurements = temperatureViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALL_TEMPERATURES);
+        TemperatureRecyclerAdapter temperatureRecyclerAdapter = new TemperatureRecyclerAdapter(temperatureViewModelAllMeasurements);
+
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), measurements -> {
             for (Measurement m : measurements)
             {
                 Log.d("TestingMeasurements", String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + String.valueOf(m.getValue()));
+//not finished :(                temperatureViewModelAllMeasurements.getValue().add(m);
+//not finished :(                recyclerView.setAdapter(temperatureRecyclerAdapter);
+
             }
         });
 
