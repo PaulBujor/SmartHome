@@ -36,7 +36,7 @@ public class MeasurementController {
 
     /**
      * API Controller for generic measurements
-     *
+     * <p>
      * used methods must contain which measurement type it is in string
      */
     public MeasurementController() {
@@ -75,21 +75,25 @@ public class MeasurementController {
         this.measurementType = measurementType;
     }
 
-    public void addMeasurement(long deviceId, Measurement measurement, String measurementType) throws IOException {
-                StringEntity entity = new StringEntity(
+    public void addMeasurement(long deviceId, Measurement measurement, String measurementType) {
+        StringEntity entity = new StringEntity(
                 gson.toJson(measurement),
                 ContentType.APPLICATION_JSON
         );
 
-        var post = new HttpPost(API_Config.getURI() + "/devices/" + deviceId + "/" + measurementType
+        var post = new HttpPost(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
         post.setEntity(entity);
 
-        CloseableHttpResponse response = client.execute(post);
+        try {
+            CloseableHttpResponse response = client.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Measurement> getMeasurements(long deviceId, String measurementType) throws IOException, InterruptedException {
-        HttpGet get = new HttpGet(API_Config.getURI() + "/devices/" + deviceId + "/" + measurementType
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
 
         CloseableHttpResponse httpResponse = client.execute(get);
@@ -98,7 +102,7 @@ public class MeasurementController {
     }
 
     public Measurement getLatestMeassurement(long deviceId, String measurementType) throws IOException, InterruptedException {
-        HttpGet get = new HttpGet(API_Config.getURI() + "/devices/" + deviceId + "/last-" + measurementType);
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/last-" + measurementType);
 
         CloseableHttpResponse httpResponse = client.execute(get);
         Measurement response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), Measurement.class);
@@ -106,9 +110,8 @@ public class MeasurementController {
     }
 
 
-
     public void addMeasurement(long deviceId, Measurement measurement) throws IOException {
-        if(measurementType == null || measurementType.isEmpty())
+        if (measurementType == null || measurementType.isEmpty())
             throw new IllegalArgumentException("This Controller doesn't have a specific measurementType");
 
         StringEntity entity = new StringEntity(
@@ -116,7 +119,7 @@ public class MeasurementController {
                 ContentType.APPLICATION_JSON
         );
 
-        var post = new HttpPost(API_Config.getURI() + "/devices/" + deviceId + "/" + measurementType
+        var post = new HttpPost(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
         post.setEntity(entity);
 
@@ -124,10 +127,10 @@ public class MeasurementController {
     }
 
     public ArrayList<Measurement> getMeasurements(long deviceId) throws IOException, InterruptedException {
-        if(measurementType == null || measurementType.isEmpty())
+        if (measurementType == null || measurementType.isEmpty())
             throw new IllegalArgumentException("This Controller doesn't have a specific measurementType");
 
-        HttpGet get = new HttpGet(API_Config.getURI() + "/devices/" + deviceId + "/" + measurementType
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
 
         CloseableHttpResponse httpResponse = client.execute(get);
@@ -136,10 +139,10 @@ public class MeasurementController {
     }
 
     public Measurement getLatestMeassurement(long deviceId) throws IOException, InterruptedException {
-        if(measurementType == null || measurementType.isEmpty())
+        if (measurementType == null || measurementType.isEmpty())
             throw new IllegalArgumentException("This Controller doesn't have a specific measurementType");
 
-        HttpGet get = new HttpGet(API_Config.getURI() + "/devices/" + deviceId + "/last-" + measurementType);
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/last-" + measurementType);
 
         CloseableHttpResponse httpResponse = client.execute(get);
         Measurement response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), Measurement.class);
