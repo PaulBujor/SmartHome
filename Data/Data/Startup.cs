@@ -30,12 +30,12 @@ namespace Data
 		public void ConfigureServices(IServiceCollection services)
 		{
 			//todo add implementations
-			services.AddSingleton<PersistenceRouter>();
-			services.AddSingleton<IHardwareService, HardwareServiceImpl>();
-			services.AddSingleton<IAlarmService, AlarmServiceImpl>();
-			services.AddSingleton<ICO2Service, CO2ServiceImpl>();
-			services.AddSingleton<IHumidityService, HumidityServiceImpl>();
-			services.AddSingleton<ITemperatureService, TemperatureServiceImpl>();
+			services.AddScoped<PersistenceRouter>();
+			services.AddScoped<IHardwareService, HardwareServiceImpl>();
+			services.AddScoped<IAlarmService, AlarmServiceImpl>();
+			services.AddScoped<ICO2Service, CO2ServiceImpl>();
+			services.AddScoped<IHumidityService, HumidityServiceImpl>();
+			services.AddScoped<ITemperatureService, TemperatureServiceImpl>();
 			services.AddControllers();
 		}
 
