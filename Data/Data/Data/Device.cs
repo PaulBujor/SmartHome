@@ -20,7 +20,7 @@ namespace Data.Data
 		public Settings DeviceSettings { get; set; }
 		[JsonPropertyName("alarm")]
 		public List<AlarmMeasurement> Alarm { get; set; }
-		[JsonPropertyName("tempearture")]
+		[JsonPropertyName("temperature")]
 		public List<TemperatureMeasurement> Temperature { get; set; }
 		[JsonPropertyName("co2")]
 		public List<CO2Measurement> CO2 { get; set; }
