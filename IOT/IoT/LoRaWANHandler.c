@@ -170,8 +170,8 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[7] = lastSoundValue & 0xFF;
 		
 		if(motion == false)
-			_uplink_payload.bytes[8] = 1 >> 8;
-		else _uplink_payload.bytes[8] = 0 >> 8;
+			_uplink_payload.bytes[8] = 0;
+		else _uplink_payload.bytes[8] = 1;
 		
 		printf("---Hum = %d Temp = %d PPm = %d Sound = %d\n", (int)humidity, (int)temperature, ppm, lastSoundValue);
 
