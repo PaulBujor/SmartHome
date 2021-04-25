@@ -56,34 +56,26 @@ public class TemperatureFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_temperature, container, false);
 
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
-            //TODO update graph
+            // update graph
             LineData newLineData = getLineData(measurements);
-            //newLineData.clearValues();
-            temperatureGraph.setData(newLineData);
-            temperatureGraph.invalidate();
-
+            temperatureGraph.setData(newLineData); //might need to do .clearData() for lineData from onCreateView
+            temperatureGraph.invalidate(); //refreshes graph
 
             //set newly updated adapter
             TemperatureRecyclerAdapter newAdapter = new TemperatureRecyclerAdapter(measurements);
             recyclerView.setAdapter(newAdapter);
         };
 
-
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), allMeasurementsObserver);
-
-        LiveData<List<Measurement>> currentAllMeasurements = temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES);
-
 
         temperatureGraph = view.findViewById(R.id.temperatureDetailsGraph);
         LineDataSet lineDataSet = new LineDataSet(null, "Temperature Measurements Set");
@@ -109,9 +101,10 @@ public class TemperatureFragment extends Fragment {
         yr.setEnabled(false);
         yr.setDrawAxisLine(false);
 
-
-        temperatureGraph.invalidate();
-
+        //Left YAxis
+        YAxis yl = temperatureGraph.getAxisLeft();
+        yl.setSpaceTop(30);
+        yl.setSpaceBottom(20);
 
         recyclerView = view.findViewById(R.id.recyclerViewTemperatureDetails);
         recyclerView.hasFixedSize();
@@ -121,7 +114,6 @@ public class TemperatureFragment extends Fragment {
         // temperatureRecyclerAdapter = new TemperatureRecyclerAdapter(currentAllMeasurements.getValue());
         // recyclerView.setAdapter(temperatureRecyclerAdapter);
 
-
         //Testing getAllMeasurements
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), measurements -> {
             for (Measurement m : measurements) {
@@ -129,23 +121,7 @@ public class TemperatureFragment extends Fragment {
             }
         });
 
-
         return view;
-    }
-
-    private ArrayList<Entry> lineChartDataSet() {
-        ArrayList<Entry> dataSet = new ArrayList<Entry>();
-
-        float tempStart = 25;
-        float i = 43200000;
-
-        for (int index = 0; index < 5; index++) {
-            i += 300000;
-            dataSet.add(new Entry(i, tempStart += 2));
-
-        }
-
-        return dataSet;
     }
 
     private LineData getLineData(List<Measurement> measurements) {
