@@ -1,6 +1,7 @@
 package com.example.myhomeapplication.View;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,12 +27,16 @@ import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,6 +47,7 @@ public class TemperatureFragment extends Fragment {
     private TemperatureRecyclerAdapter temperatureRecyclerAdapter;
     private LineChart temperatureGraph;
     private int deviceID = 1;
+
     public TemperatureFragment() {
         // Required empty public constructor
     }
@@ -52,49 +58,59 @@ public class TemperatureFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_temperature, container, false);
 
-        final Observer<List<Measurement>> allMeasurementsObserver = new Observer<List<Measurement>>() {
-            @Override
-            public void onChanged(List<Measurement> measurements) {
-                //TODO update graph
+        final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
+            //TODO update graph
+            LineData newLineData = getLineData(measurements);
+            //newLineData.clearValues();
+            temperatureGraph.setData(newLineData);
+            temperatureGraph.invalidate();
 
-                //set newly updated adapter
-                TemperatureRecyclerAdapter newAdapter = new TemperatureRecyclerAdapter(measurements);
-                recyclerView.setAdapter(newAdapter);
-            }
+
+            //set newly updated adapter
+            TemperatureRecyclerAdapter newAdapter = new TemperatureRecyclerAdapter(measurements);
+            recyclerView.setAdapter(newAdapter);
         };
 
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), allMeasurementsObserver);
 
-        LiveData<List<Measurement>> currentAllMeasurements = temperatureViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALL_TEMPERATURES);
+        LiveData<List<Measurement>> currentAllMeasurements = temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES);
 
 
         temperatureGraph = view.findViewById(R.id.temperatureDetailsGraph);
-        LineDataSet lineDataSet = new LineDataSet(lineChartDataSet(), "Temperature Measurements Set");
-        ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
-        iLineDataSets.add(lineDataSet);
+        LineDataSet lineDataSet = new LineDataSet(null, "Temperature Measurements Set");
 
-        LineData lineData = new LineData(iLineDataSets);
+        LineData lineData = new LineData((ILineDataSet) lineDataSet);
         temperatureGraph.setData(lineData);
 
         //Styling
-        temperatureGraph.setDrawGridBackground(true);
-        temperatureGraph.setDrawBorders(true);
+        temperatureGraph.setDrawGridBackground(false);
+        temperatureGraph.setDrawBorders(false);
+        temperatureGraph.setDescription(null);
+        temperatureGraph.getLegend().setEnabled(false);
 
+        //XAxis
         XAxis xAxis = temperatureGraph.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
         xAxis.setValueFormatter(new XAxisValueFormatter());
+
+        //Right YAxis - disabled
+        YAxis yr = temperatureGraph.getAxisRight();
+        yr.setEnabled(false);
+        yr.setDrawAxisLine(false);
 
 
         temperatureGraph.invalidate();
-
 
 
         recyclerView = view.findViewById(R.id.recyclerViewTemperatureDetails);
@@ -108,12 +124,10 @@ public class TemperatureFragment extends Fragment {
 
         //Testing getAllMeasurements
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), measurements -> {
-            for (Measurement m : measurements)
-            {
+            for (Measurement m : measurements) {
                 Log.d("TestingMeasurements", String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + " " + String.valueOf(m.getValue()));
             }
         });
-
 
 
         return view;
@@ -125,13 +139,43 @@ public class TemperatureFragment extends Fragment {
         float tempStart = 25;
         float i = 43200000;
 
-        for (int index = 0; index < 5; index++)
-        {
-            i+=300000;
-            dataSet.add(new Entry(i, tempStart+=2));
+        for (int index = 0; index < 5; index++) {
+            i += 300000;
+            dataSet.add(new Entry(i, tempStart += 2));
 
         }
 
         return dataSet;
+    }
+
+    private LineData getLineData(List<Measurement> measurements) {
+        ArrayList<Entry> values = new ArrayList<>();
+
+        for (Measurement m : measurements) {
+            values.add(new Entry(getMilliseconds(m.getTimestamp()), (float) m.getValue()));
+        }
+
+        LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
+        set1.setLineWidth(4f);
+        set1.setCircleRadius(5f);
+        set1.setCircleHoleRadius(2.5f);
+        set1.setColor(Color.parseColor("#4B6C53"));
+        set1.setCircleColor(Color.WHITE);
+        set1.setCircleHoleColor(Color.parseColor("#4B6C53"));
+        set1.setHighLightColor(Color.parseColor("#48B864"));
+        set1.setHighlightLineWidth(2f);
+        set1.setDrawHorizontalHighlightIndicator(false);
+        set1.setDrawValues(true);
+
+        return new LineData(set1);
+    }
+
+    private float getMilliseconds(Date d) {
+        DateTime df = new DateTime(d);
+
+        float millis = df.getMillisOfDay();
+        Log.d("MILIS", String.valueOf(millis));
+        Log.d("MILIS", String.valueOf(df.getMillisOfDay()));
+        return millis;
     }
 }
