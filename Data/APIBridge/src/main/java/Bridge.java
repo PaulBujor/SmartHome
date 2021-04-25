@@ -1,8 +1,6 @@
 import config.IoT_Config;
 import model.Measurement;
 import remote.Manager;
-import remote.api.MeasurementController;
-import remote.api.SettingsController;
 
 import java.io.IOException;
 import java.util.Date;
@@ -17,7 +15,7 @@ public class Bridge {
 
     public Bridge(String wsURI) {
         client = new WebsocketClient(wsURI, this);
-        controllers = new Manager(new MeasurementController(), new SettingsController());
+        controllers = new Manager();
         while (true) ;
     }
 
