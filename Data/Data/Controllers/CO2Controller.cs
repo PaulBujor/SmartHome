@@ -43,13 +43,14 @@ namespace Data.Controllers
 				return Ok(await _service.GetAllCO2s(id));
 			} catch(Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/last_co2")]
+		[HttpGet("api/devices/{id}/last-co2")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
@@ -59,6 +60,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
@@ -75,6 +77,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}

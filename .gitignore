@@ -5,6 +5,9 @@ Data/Data/obj/*
 Data/Data/Data.csproj.user
 Data/Data/database.db-shm
 Data/Data/database.db-wal
+Data/APIBridge/target/*
+Data/APIBridge/API_Testing.iml
+
 
 Android/.gradle
 Android/.idea

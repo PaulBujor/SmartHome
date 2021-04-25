@@ -44,13 +44,14 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/last_humidity")]
+		[HttpGet("api/devices/{id}/last-humidity")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
@@ -60,6 +61,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
@@ -75,6 +77,7 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
