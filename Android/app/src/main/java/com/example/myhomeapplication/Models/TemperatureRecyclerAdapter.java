@@ -14,11 +14,13 @@ import com.example.myhomeapplication.R;
 import java.util.List;
 
 public class TemperatureRecyclerAdapter extends RecyclerView.Adapter<TemperatureRecyclerAdapter.ViewHolder> {
-    LiveData<List<Measurement>> measurements;
-    public TemperatureRecyclerAdapter(LiveData<List<Measurement>> measurements){
+
+    private List<Measurement> measurements;
+
+
+    public TemperatureRecyclerAdapter(List<Measurement> measurements){
         this.measurements =  measurements;
     }
-
 
     @NonNull
     @Override
@@ -31,22 +33,26 @@ public class TemperatureRecyclerAdapter extends RecyclerView.Adapter<Temperature
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Measurement measurement = measurements.getValue().get(position);
-        holder.id.setText((int) measurement.getMeasurementID());
-        holder.timestamp.setText((CharSequence) measurement.getTimestamp());
-        holder.value.setText((int) measurement.getValue());
+        Measurement measurement = measurements.get(position);
+        holder.id.setText(String.valueOf(measurement.getMeasurementID()));
+        holder.timestamp.setText(String.valueOf( measurement.getTimestamp()));
+        holder.value.setText(String.valueOf(measurement.getValue()));
 
     }
 
 
     @Override
     public int getItemCount() {
-        return measurements.getValue().size();
+        return measurements.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
         TextView id;
         TextView timestamp;
         TextView value;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.id = itemView.findViewById(R.id.prefix_temperature);

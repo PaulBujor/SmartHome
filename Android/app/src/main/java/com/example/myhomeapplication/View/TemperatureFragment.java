@@ -39,6 +39,7 @@ public class TemperatureFragment extends Fragment {
 
     private TemperatureViewModel temperatureViewModel;
     private RecyclerView recyclerView;
+    private TemperatureRecyclerAdapter temperatureRecyclerAdapter;
     private LineChart temperatureGraph;
     private int deviceID = 1;
     public TemperatureFragment() {
@@ -60,13 +61,19 @@ public class TemperatureFragment extends Fragment {
         final Observer<List<Measurement>> allMeasurementsObserver = new Observer<List<Measurement>>() {
             @Override
             public void onChanged(List<Measurement> measurements) {
-                //update graph
+                //TODO update graph
+
+                //set newly updated adapter
+                TemperatureRecyclerAdapter newAdapter = new TemperatureRecyclerAdapter(measurements);
+                recyclerView.setAdapter(newAdapter);
             }
         };
 
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), allMeasurementsObserver);
+
+        LiveData<List<Measurement>> currentAllMeasurements = temperatureViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALL_TEMPERATURES);
 
 
         temperatureGraph = view.findViewById(R.id.temperatureDetailsGraph);
@@ -89,18 +96,21 @@ public class TemperatureFragment extends Fragment {
         temperatureGraph.invalidate();
 
 
-        //Testing getAllMeasurements
-        recyclerView = view.findViewById(R.id.recyclerViewTemperatureDetails);
-        LiveData<List<Measurement>> temperatureViewModelAllMeasurements = temperatureViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALL_TEMPERATURES);
-        TemperatureRecyclerAdapter temperatureRecyclerAdapter = new TemperatureRecyclerAdapter(temperatureViewModelAllMeasurements);
 
+        recyclerView = view.findViewById(R.id.recyclerViewTemperatureDetails);
+        recyclerView.hasFixedSize();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Probably redundant since an observer is set
+        // temperatureRecyclerAdapter = new TemperatureRecyclerAdapter(currentAllMeasurements.getValue());
+        // recyclerView.setAdapter(temperatureRecyclerAdapter);
+
+
+        //Testing getAllMeasurements
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), measurements -> {
             for (Measurement m : measurements)
             {
-                Log.d("TestingMeasurements", String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + String.valueOf(m.getValue()));
-//not finished :(                temperatureViewModelAllMeasurements.getValue().add(m);
-//not finished :(                recyclerView.setAdapter(temperatureRecyclerAdapter);
-
+                Log.d("TestingMeasurements", String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + " " + String.valueOf(m.getValue()));
             }
         });
 

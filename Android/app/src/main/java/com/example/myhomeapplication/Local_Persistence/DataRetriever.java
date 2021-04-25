@@ -10,7 +10,7 @@ public class DataRetriever {
 
     private static DataRetriever instance;
     private Cache repository;
-    private int delay = 60 * 5;
+    private int delay = 5;
 
 
     public DataRetriever() {
