@@ -40,7 +40,7 @@ public class Bridge {
         float floatNoise = ((float) intNoise);
         float floatAlarm = ((float) intAlarm);
 
-        //System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\nAlarm " + floatAlarm + "\n");
+        System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\nAlarm " + floatAlarm + "\n");
         temperature.setTimestamp(date);
         co2.setTimestamp(date);
         humidity.setTimestamp(date);
