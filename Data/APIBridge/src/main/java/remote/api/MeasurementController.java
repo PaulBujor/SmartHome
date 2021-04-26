@@ -40,7 +40,10 @@ public class MeasurementController {
 
     /**
      * This method creates a new HTTP client to access the REST API.
-     * Normally, after a number (~5) of requests, the client dies and all the requests will timeout.
+     * Normally, after a number (~2) of requests per controller, the client dies and all the requests will timeout.
+     * While this can be fixed (https://stackoverflow.com/questions/56942445/what-is-the-difference-beetween-max-connections-per-route-and-max-connections-to),
+     * it still has to be handled.
+     * 
      * Because of this, this method is also used to rebuild the client if a request times out,
      * after which the request is executed again.
      * If the second request fails, then it throws the timeout exception to the controller Manager.
