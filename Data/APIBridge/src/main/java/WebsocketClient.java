@@ -28,7 +28,12 @@ public class WebsocketClient implements WebSocket.Listener {
             logger = new PrintWriter(file);
             new Thread(() -> {
                 while(true) {
-                    Thread.sleep(5*);
+                    try {
+                        Thread.sleep(5*60*1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    logger.flush();
                 }
             }).start();
         } catch (FileNotFoundException e) {
