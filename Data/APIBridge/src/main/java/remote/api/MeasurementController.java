@@ -119,6 +119,8 @@ public class MeasurementController {
                 ContentType.APPLICATION_JSON
         );
 
+        System.out.println("Sending " + measurementType + ":\n" + measurement);
+
         var post = new HttpPost(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
         post.setEntity(entity);
