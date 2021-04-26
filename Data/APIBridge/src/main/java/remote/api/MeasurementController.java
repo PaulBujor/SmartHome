@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import config.API_Config;
 import model.Measurement;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +25,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,37 +36,88 @@ public class MeasurementController {
     private Type listType = new TypeToken<List<Measurement>>() {
     }.getType();
 
+    private Object threadLock = new Object();
+
+    /**
+     * This method creates a new HTTP client to access the REST API.
+     * Normally, after a number (~5) of requests, the client dies and all the requests will timeout.
+     * Because of this, this method is also used to rebuild the client if a request times out,
+     * after which the request is executed again.
+     * If the second request fails, then it throws the timeout exception to the controller Manager.
+     *
+     * The method is as thread safe as possible, even though no multithreading is present in here o(*￣▽￣*)o
+     *
+     * 2 client builders are used, one for when the Azure API is used, and one for when a local running API is used.
+     * This is changed by the static usingAzure variable in API_Config class.
+     * It has to be different because local running server doesn't have certificates.
+     */
+    private void createClient() {
+        int timeout = 10; //seconds
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout * 1000)
+                .setConnectionRequestTimeout(timeout * 1000)
+                .setSocketTimeout(timeout * 1000)
+                .build();
+        synchronized (threadLock) {
+            if (client != null) {
+                synchronized (threadLock) {
+                    if (client != null) {
+                        try {
+                            System.out.println("Closing current client...");
+                            client.close();
+                            client = null;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            if (client == null) {
+                synchronized (threadLock) {
+                    if (client == null) {
+                        System.out.println("Creating new client...");
+                        if (API_Config.isUsingAzure())
+                            client = HttpClients.custom().setDefaultRequestConfig(config).build();
+                        else {
+                            try {
+                                client = HttpClients.custom()
+                                        .setDefaultRequestConfig(config)
+                                        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                                        .setSSLContext(new SSLContextBuilder()
+                                                .loadTrustMaterial(null, new TrustStrategy() {
+                                                    public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                                                        return true;
+                                                    }
+                                                }).build())
+                                        .build();
+                            } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * API Controller for generic measurements
      * <p>
      * used methods must contain which measurement type it is in string
      */
     public MeasurementController() {
-        if (API_Config.isUsingAzure())
-            client = HttpClients.createDefault();
-        else {
-            try {
-                client = HttpClients.custom().
-                        setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).
-                        setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                                return true;
-                            }
-                        }).build()).build();
-            } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
-                e.printStackTrace();
-            }
-        }
+        createClient();
     }
 
     /**
      * API Controller for specific type measurements
      *
-     * @param measurementType represents which mreasurement this controller is for. eg. "temperature" or "co2"
+     * @param measurementType represents which measurement this controller is for. eg. "temperature" or "co2"
      */
     public MeasurementController(String measurementType) {
         this();
         this.measurementType = measurementType;
+        System.out.println("Creating controller for " + measurementType);
     }
 
     public String getMeasurementType() {
@@ -75,6 +128,7 @@ public class MeasurementController {
         this.measurementType = measurementType;
     }
 
+    @Deprecated
     public void addMeasurement(long deviceId, Measurement measurement, String measurementType) {
         StringEntity entity = new StringEntity(
                 gson.toJson(measurement),
@@ -92,7 +146,8 @@ public class MeasurementController {
         }
     }
 
-    public ArrayList<Measurement> getMeasurements(long deviceId, String measurementType) throws IOException, InterruptedException {
+    @Deprecated
+    public ArrayList<Measurement> getMeasurements(long deviceId, String measurementType) throws IOException {
         HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
 
@@ -101,7 +156,8 @@ public class MeasurementController {
         return response;
     }
 
-    public Measurement getLatestMeassurement(long deviceId, String measurementType) throws IOException, InterruptedException {
+    @Deprecated
+    public Measurement getLatestMeasurement(long deviceId, String measurementType) throws IOException {
         HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/last-" + measurementType);
 
         CloseableHttpResponse httpResponse = client.execute(get);
@@ -110,7 +166,7 @@ public class MeasurementController {
     }
 
 
-    public void addMeasurement(long deviceId, Measurement measurement) throws IOException {
+    public synchronized void addMeasurement(long deviceId, Measurement measurement) throws IOException {
         if (measurementType == null || measurementType.isEmpty())
             throw new IllegalArgumentException("This Controller doesn't have a specific measurementType");
 
@@ -125,28 +181,49 @@ public class MeasurementController {
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
         post.setEntity(entity);
 
-        CloseableHttpResponse response = client.execute(post);
+        CloseableHttpResponse response;
+        try {
+            response = client.execute(post);
+        } catch (IOException e) {
+            System.out.println("Restarting HTTP client... Time:" + LocalDateTime.now());
+            createClient();
+            response = client.execute(post);
+        }
     }
 
-    public ArrayList<Measurement> getMeasurements(long deviceId) throws IOException, InterruptedException {
+    public ArrayList<Measurement> getMeasurements(long deviceId) throws IOException {
         if (measurementType == null || measurementType.isEmpty())
             throw new IllegalArgumentException("This Controller doesn't have a specific measurementType");
 
         HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/" + measurementType
                 + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
 
-        CloseableHttpResponse httpResponse = client.execute(get);
+        CloseableHttpResponse httpResponse;
+        try {
+            httpResponse = client.execute(get);
+        } catch (IOException e) {
+            System.out.println("Restarting HTTP client... Time:" + LocalDateTime.now());
+            createClient();
+            httpResponse = client.execute(get);
+        }
         ArrayList<Measurement> response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), listType);
         return response;
     }
 
-    public Measurement getLatestMeassurement(long deviceId) throws IOException, InterruptedException {
+    public Measurement getLatestMeasurement(long deviceId) throws IOException {
         if (measurementType == null || measurementType.isEmpty())
             throw new IllegalArgumentException("This Controller doesn't have a specific measurementType");
 
         HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/last-" + measurementType);
 
-        CloseableHttpResponse httpResponse = client.execute(get);
+        CloseableHttpResponse httpResponse;
+        try {
+            httpResponse = client.execute(get);
+        } catch (IOException e) {
+            System.out.println("Restarting HTTP client... Time:" + LocalDateTime.now());
+            createClient();
+            httpResponse = client.execute(get);
+        }
         Measurement response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), Measurement.class);
         return response;
     }

@@ -44,6 +44,6 @@ public class TemperatureTest {
         measurement.setValue(10 + new Random().nextDouble() * 20);
         measurement.setTimestamp(new Date(System.currentTimeMillis()));
         temp_controller.addMeasurement(Test_Config.getTestDeviceId(), measurement);
-        assertEquals(temp_controller.getLatestMeassurement(Test_Config.getTestDeviceId()), measurement);
+        assertEquals(temp_controller.getLatestMeasurement(Test_Config.getTestDeviceId()), measurement);
     }
 }

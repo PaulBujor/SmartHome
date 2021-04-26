@@ -14,28 +14,22 @@ public class EFLockingTest {
         AtomicIntegerArray measurement = new AtomicIntegerArray(3);
         Thread t1 = new Thread(() -> {
             try {
-                measurement.set(0, (int) temp_controller.getLatestMeassurement(1).getValue());
+                measurement.set(0, (int) temp_controller.getLatestMeasurement(1).getValue());
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
         Thread t2 = new Thread(() -> {
             try {
-                measurement.set(1, (int) co2_controller.getLatestMeassurement(1).getValue());
+                measurement.set(1, (int) co2_controller.getLatestMeasurement(1).getValue());
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
         Thread t3 = new Thread(() -> {
             try {
-                measurement.set(2, (int) humidity_controller.getLatestMeassurement(1).getValue());
+                measurement.set(2, (int) humidity_controller.getLatestMeasurement(1).getValue());
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
