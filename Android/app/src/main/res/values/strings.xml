@@ -8,4 +8,16 @@
     <string name="time_stamp">Time Stamp</string>
     <string name="value">value</string>
     <string name="a">A</string>
+    <string name="device_settings">Device settings</string>
+    <string name="all_devices">All devices</string>
+    <string name="hardware_1">Hardware 1</string>
+    <string name="remove">remove</string>
+    <string name="motion_detector">Motion detector</string>
+    <string name="humidity">Humidity</string>
+    <string name="hardware_2">Hardware 2</string>
+    <string name="remove">remove</string>
+    <string name="co2_level">CO2 level</string>
+    <string name="add_device"><![CDATA[Add device >]]></string>
+    <string name="temperature">Temperature</string>
+    <string name="manage_sensors">Manage sensors</string>
 </resources>
