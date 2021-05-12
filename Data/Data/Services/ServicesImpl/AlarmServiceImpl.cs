@@ -14,28 +14,23 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
             this.hardwareService = service;
         }
-        //MOTION
-        public async Task<Measurement> AddMotion(Measurement motion, long deviceId)
-        {
-            await hardwareService.CheckDeviceExists(deviceId);
-            await persistenceRouter.AddAlarmMeasurement(motion, deviceId);
-            return motion;
-        }
 
         public async Task<IEnumerable<Measurement>> GetAllMotions(long deviceId)
         {
-            IEnumerable<Measurement> motions = await persistenceRouter.GetAlarmMeasurements(deviceId);
-            return motions;
+            IEnumerable<MeasurementSet> measurements = await persistenceRouter.getAllMeasurementSets(deviceId);
+            List<Measurement> alarms = new List<Measurement>();
+            foreach (var measurementSet in measurements)
+            {
+                alarms.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.Alarm});
+            }
+            return alarms;
         }
 
         public async Task<Measurement> GetLastMotion(long deviceId)
         {
-            return await persistenceRouter.GetLatestAlarmMeasurement(deviceId);
-        }
-
-        public async Task RemoveMotion(int id)
-        {
-            await persistenceRouter.RemoveMeasurement(id);
+            MeasurementSet measurements = await persistenceRouter.getLatestMeasurmentSet(deviceId);
+            
+            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.Alarm};
         }
     }
 }
