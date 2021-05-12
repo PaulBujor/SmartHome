@@ -1,5 +1,5 @@
 import config.IoT_Config;
-import model.Measurement;
+import model.MeasurementSet;
 import remote.Manager;
 
 import java.io.IOException;
@@ -21,10 +21,6 @@ public class Bridge {
 
     public void addData(long deviceId, String data) {
         Date date = new Date(System.currentTimeMillis());
-        Measurement temperature = new Measurement();
-        Measurement co2 = new Measurement();
-        Measurement humidity = new Measurement();
-        Measurement alarm = new Measurement();
 
         String[] hexMeasurement = data.split("(?<=\\G....)");
 
@@ -42,43 +38,14 @@ public class Bridge {
 
         System.out.println("\n== == == == ==");
         System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\nAlarm " + floatAlarm + "\n");
-        temperature.setTimestamp(date);
-        co2.setTimestamp(date);
-        humidity.setTimestamp(date);
-        alarm.setTimestamp(date);
-
-        temperature.setValue(floatTemperature);
-        co2.setValue(floatCO2);
-        humidity.setValue(floatHumidity);
-        alarm.setValue(floatAlarm);
+        MeasurementSet measurement = new MeasurementSet(date, floatTemperature, floatCO2,floatHumidity, floatAlarm);
 
 
         //i hate this
         try {
-            controllers.addTemperature(deviceId, temperature);
+            controllers.addMeasurement(deviceId, measurement);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try {
-            controllers.addCO2(deviceId, co2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            controllers.addHumidity(deviceId, humidity);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (alarm.getValue() > 0) {
-            try {
-                controllers.addAlarm(deviceId, alarm);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 }
