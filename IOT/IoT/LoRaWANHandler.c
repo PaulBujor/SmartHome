@@ -12,9 +12,11 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
+#include "dataShare.h"
+
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+#define LORA_appEUI "611AAD47B9E2ED1C"
+#define LORA_appKEY "635966D4505560A6877C9547BA8DF772"
 
 static char _out_buf[100];
 
@@ -64,7 +66,7 @@ static void _lora_setup(void)
 	printf("Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
 
 	// Join the LoRaWAN
-	uint8_t maxJoinTriesLeft = 10;
+	uint8_t maxJoinTriesLeft = 100;
 	
 	do {
 		rc = lora_driver_join(LORA_OTAA);
@@ -81,6 +83,17 @@ static void _lora_setup(void)
 		{
 			break;
 		}
+		if(maxJoinTriesLeft == 0)
+		{
+			printf("Trying to reset");
+			lora_driver_resetRn2483(1);
+			
+			vTaskDelay(pdMS_TO_TICKS(5000UL));
+			
+			lora_driver_resetRn2483(0);
+			
+			maxJoinTriesLeft = 100;
+		}
 	} while (--maxJoinTriesLeft);
 
 	if (rc == LORA_ACCEPTED)
@@ -96,6 +109,7 @@ static void _lora_setup(void)
 		status_leds_ledOff(led_ST2); // OPTIONAL
 		// Make the red led blink fast to tell something went wrong
 		status_leds_fastBlink(led_ST1); // OPTIONAL
+		
 
 		// Lets stay here
 		while (1)
@@ -119,7 +133,7 @@ void lora_handler_task( void *pvParameters )
 
 	_lora_setup();
 
-	_uplink_payload.len = 6;
+	_uplink_payload.len = 9;
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
@@ -129,20 +143,39 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		
+		//float temperature = 26.5;
+		//float humidity = 132.2;
 
-		// Some dummy payload
-		uint16_t hum = 12345; // Dummy humidity
-		int16_t temp = 675; // Dummy temp
-		uint16_t co2_ppm = 1050; // Dummy CO2
+		//uint16_t ppm = 100;
 
-		_uplink_payload.bytes[0] = hum >> 8;
-		_uplink_payload.bytes[1] = hum & 0xFF;
-		_uplink_payload.bytes[2] = temp >> 8;
-		_uplink_payload.bytes[3] = temp & 0xFF;
-		_uplink_payload.bytes[4] = co2_ppm >> 8;
-		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
+		//uint16_t lastSoundValue = 15;
+
+	
+
+		//bool motion = false;
+
+
+
+		_uplink_payload.bytes[0] = (int)humidity >> 8;
+		_uplink_payload.bytes[1] = (int)humidity & 0xFF;
+		
+		_uplink_payload.bytes[2] = (int)temperature >> 8;
+		_uplink_payload.bytes[3] = (int)temperature & 0xFF;
+		
+		_uplink_payload.bytes[4] = ppm >> 8;
+		_uplink_payload.bytes[5] = ppm & 0xFF;
+		
+		_uplink_payload.bytes[6] = lastSoundValue >> 8;
+		_uplink_payload.bytes[7] = lastSoundValue & 0xFF;
+		
+		if(motion == false)
+			_uplink_payload.bytes[8] = 1 >> 8;
+		else _uplink_payload.bytes[8] = 0 >> 8;
+		
+		printf("---Hum = %d Temp = %d PPm = %d Sound = %d\n", (int)humidity, (int)temperature, ppm, lastSoundValue);
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		printf("---Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 	}
 }

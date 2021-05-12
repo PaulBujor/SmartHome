@@ -11,17 +11,30 @@ using System.Threading.Tasks;
 namespace Data.Controllers
 {
 	[ApiController]
-	public class CO2Controller : ControllerBase
+	public class LegacyCO2Controller : ControllerBase
 	{
 		private readonly ICO2Service _service;
 
-		public CO2Controller(ICO2Service service)
+		public LegacyCO2Controller(ICO2Service service)
 		{
 			_service = service;
 		}
 
+		// gets co2 measurement by id
+		[HttpGet("api/co2/{id}")]
+		public async Task<ActionResult<CO2Measurement>> Get(long id)
+		{
+			//todo implement in service
+			return Ok(new CO2Measurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			});
+		}
+
 		// gets all co2 measurement by device id
-		[HttpGet("api/devices/{id}/measurements/co2")]
+		[HttpGet("api/devices/{id}/co2")]
 		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
 			try
@@ -37,7 +50,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/measurements/last-co2")]
+		[HttpGet("api/devices/{id}/last-co2")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
@@ -51,6 +64,31 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
+		}
+
+		// Adds new co2 measurement to device
+		[HttpPost("api/devices/{id}/co2")]
+		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
+		{
+			try
+			{
+				//todo add to device
+				return Ok(await _service.AddCO2(value, id));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
+		}
+
+		// deletes co2 measurement with ID
+		[HttpDelete("api/co2/{id}")]
+		public async Task<ActionResult> Delete(long id)
+		{
+			//probably won't use this at all
+			return StatusCode(404, "NO.");
 		}
 	}
 }

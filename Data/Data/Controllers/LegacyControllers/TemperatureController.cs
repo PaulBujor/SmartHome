@@ -11,17 +11,29 @@ using System.Threading.Tasks;
 namespace Data.Controllers
 {
 	[ApiController]
-	public class TemperatureController : ControllerBase
+	public class LegacyTemperatureController : ControllerBase
 	{
 		private readonly ITemperatureService _service;
 
-		public TemperatureController(ITemperatureService service)
+		public LegacyTemperatureController(ITemperatureService service)
 		{
 			_service = service;
 		}
 
+		// gets temperature measurement by id
+		[HttpGet("api/temperatures/{id}")]
+		public async Task<ActionResult<Measurement>> Get(long id)
+		{
+			return Ok(new TemperatureMeasurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			});
+		}
+
 		// gets all temperature measurement by device id
-		[HttpGet("api/devices/{id}/measurements/temperatures")]
+		[HttpGet("api/devices/{id}/temperatures")]
 		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
 			try
@@ -38,7 +50,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/measurements/last-temperature")]
+		[HttpGet("api/devices/{id}/last-temperature")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
@@ -52,6 +64,30 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
+		}
+
+		// Adds new temperature measurement to device
+		[HttpPost("api/devices/{id}/temperatures")]
+		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
+		{
+			try
+			{
+				//add by device id
+				return Ok(await _service.AddTemperature(value, id));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
+		}
+
+		// deletes temperature measurement with ID
+		[HttpDelete("api/temperatures/{id}")]
+		public async Task<ActionResult> Delete(long id)
+		{
+			return StatusCode(404, "still NO.");
 		}
 	}
 }

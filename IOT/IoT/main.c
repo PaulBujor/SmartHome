@@ -117,7 +117,7 @@ void getDataFromTempHumSensorTask( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		puts("-getDataFromTempHumSensorTask"); 
+		//puts("-getDataFromTempHumSensorTask"); 
 		
 		if (HIH8120_OK != hih8120_wakeup())
 		{
@@ -148,7 +148,7 @@ void getDataFromTempHumSensorTask( void *pvParameters )
 		temperature = hih8120_getTemperature();
 		
 		
-		printf("------VALUES FOUND TEMP: %d  ----- HUM: %d\n", (int)temperature, (int)humidity );
+		//printf("------VALUES FOUND TEMP: %d  ----- HUM: %d\n", (int)temperature, (int)humidity );
 		
 		
 		//PORTA ^= _BV(PA7);
@@ -168,7 +168,7 @@ void getDataFromCO2SensorTask( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		puts("-getDataFromCO2SensorTask");
+		//puts("-getDataFromCO2SensorTask");
 		
 		mh_z19_returnCode_t rc;
 		
@@ -184,7 +184,7 @@ void getDataFromCO2SensorTask( void *pvParameters )
 		mh_z19_getCo2Ppm(&ppm);
 		
 		
-		printf("------CO2 ----%u \n", (unsigned int)ppm);
+		//printf("------CO2 ----%u \n", (unsigned int)ppm);
 		
 		
 		//PORTA ^= _BV(PA7);
@@ -202,12 +202,12 @@ void getDataFromSoundSensorTask( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		puts("-getDataFromSoundSensorTask");
+		//puts("-getDataFromSoundSensorTask");
 		
 		lastSoundValue = sen14262_envelope();
 		
 		
-		printf("------Sound ----%u \n", (unsigned int)lastSoundValue);
+		//printf("------Sound ----%u \n", (unsigned int)lastSoundValue);
 		
 		
 		//PORTA ^= _BV(PA7);
@@ -225,7 +225,7 @@ void getDataFromMotionSensorTask( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		puts("-getDataFromMotionSensorTask");
+		//puts("-getDataFromMotionSensorTask");
 		
 		if ( hcsr501_isDetecting(hcsr501Inst))
 		{
@@ -238,8 +238,8 @@ void getDataFromMotionSensorTask( void *pvParameters )
 		
 		vTaskDelay(pdMS_TO_TICKS(1000));
 		
-		if(motion == true)
-			printf("---------------SOMETHING IS MOVING RUN-----------\n");
+		//if(motion == true)
+			//printf("---------------SOMETHING IS MOVING RUN-----------\n");
 		
 		//PORTA ^= _BV(PA7);
 	}
@@ -285,6 +285,8 @@ void initialiseSystem()
 	lora_handler_initialise(3);
 	
 
+	
+
 }
 
 /*-----------------------------------------------------------*/
@@ -295,9 +297,7 @@ int main(void)
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
 
 	/* Replace with your application code */
-	
 
-	
 
 	while (1)
 	{

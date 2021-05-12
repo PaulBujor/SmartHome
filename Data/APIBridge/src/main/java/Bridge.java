@@ -40,6 +40,7 @@ public class Bridge {
         float floatNoise = ((float) intNoise);
         float floatAlarm = ((float) intAlarm);
 
+        System.out.println("\n== == == == ==");
         System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\nAlarm " + floatAlarm + "\n");
         temperature.setTimestamp(date);
         co2.setTimestamp(date);
@@ -52,14 +53,32 @@ public class Bridge {
         alarm.setValue(floatAlarm);
 
 
+        //i hate this
         try {
             controllers.addTemperature(deviceId, temperature);
-            controllers.addCO2(deviceId, co2);
-            controllers.addHumidity(deviceId, humidity);
-            if (alarm.getValue() > 0)
-                controllers.addAlarm(deviceId, alarm);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            controllers.addCO2(deviceId, co2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            controllers.addHumidity(deviceId, humidity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (alarm.getValue() > 0) {
+            try {
+                controllers.addAlarm(deviceId, alarm);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
