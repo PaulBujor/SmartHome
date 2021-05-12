@@ -68,7 +68,7 @@ namespace Data.Controllers
 		}
 
 		// Adds new humidity measurement to device
-		[HttpPost("api/devices/{id}/humidity")]
+		/*[HttpPost("api/devices/{id}/humidity")]
 		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
 			try
@@ -81,7 +81,7 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
-		}
+		}*/
 
 		// deletes humidity measurement with ID
 		[HttpDelete("api/humidity/{id}")]

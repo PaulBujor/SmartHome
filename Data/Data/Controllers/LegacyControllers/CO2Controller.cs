@@ -67,7 +67,7 @@ namespace Data.Controllers
 		}
 
 		// Adds new co2 measurement to device
-		[HttpPost("api/devices/{id}/co2")]
+		/*[HttpPost("api/devices/{id}/co2")]
 		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
 			try
@@ -81,7 +81,7 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
-		}
+		}*/
 
 		// deletes co2 measurement with ID
 		[HttpDelete("api/co2/{id}")]

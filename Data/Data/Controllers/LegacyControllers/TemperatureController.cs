@@ -67,7 +67,7 @@ namespace Data.Controllers
 		}
 
 		// Adds new temperature measurement to device
-		[HttpPost("api/devices/{id}/temperatures")]
+		/*[HttpPost("api/devices/{id}/temperatures")]
 		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
 			try
@@ -81,7 +81,7 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
-		}
+		}*/
 
 		// deletes temperature measurement with ID
 		[HttpDelete("api/temperatures/{id}")]
