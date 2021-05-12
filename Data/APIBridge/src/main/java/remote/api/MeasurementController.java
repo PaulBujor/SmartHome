@@ -80,11 +80,17 @@ public class MeasurementController {
                     if (client == null) {
                         System.out.println("Creating new client...");
                         if (API_Config.isUsingAzure())
-                            client = HttpClients.custom().setDefaultRequestConfig(config).build();
+                            client = HttpClients.custom()
+                                    .setDefaultRequestConfig(config)
+                                    .setMaxConnPerRoute(5)
+                                    .setMaxConnTotal(20)
+                                    .build();
                         else {
                             try {
                                 client = HttpClients.custom()
                                         .setDefaultRequestConfig(config)
+                                        .setMaxConnPerRoute(5)
+                                        .setMaxConnTotal(20)
                                         .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                                         .setSSLContext(new SSLContextBuilder()
                                                 .loadTrustMaterial(null, new TrustStrategy() {
