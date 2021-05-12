@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20210419152418_init")]
-    partial class init
+    [Migration("20210512174923_initcreate")]
+    partial class initcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,28 +68,36 @@ namespace Data.Migrations
                     b.ToTable("Devices");
                 });
 
-            modelBuilder.Entity("Data.Data.Measurement", b =>
+            modelBuilder.Entity("Data.Data.MeasurementSet", b =>
                 {
                     b.Property<long>("MeasurementID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Alarm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("CO2")
+                        .HasColumnType("float");
+
+                    b.Property<long?>("DeviceID")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Humidity")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
-
                     b.HasKey("MeasurementID");
 
-                    b.ToTable("Measurements");
+                    b.HasIndex("DeviceID");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Measurement");
+                    b.ToTable("Measurements");
                 });
 
             modelBuilder.Entity("Data.Data.Settings", b =>
@@ -164,57 +172,6 @@ namespace Data.Migrations
                     b.HasDiscriminator().HasValue("TemperatureConfiguration");
                 });
 
-            modelBuilder.Entity("Data.Data.CO2Measurement", b =>
-                {
-                    b.HasBaseType("Data.Data.Measurement");
-
-                    b.Property<long?>("DeviceID")
-                        .HasColumnType("bigint")
-                        .HasColumnName("CO2Measurement_DeviceID");
-
-                    b.HasIndex("DeviceID");
-
-                    b.HasDiscriminator().HasValue("CO2Measurement");
-                });
-
-            modelBuilder.Entity("Data.Data.ConcreteMeasurements.AlarmMeasurement", b =>
-                {
-                    b.HasBaseType("Data.Data.Measurement");
-
-                    b.Property<long?>("DeviceID")
-                        .HasColumnType("bigint")
-                        .HasColumnName("AlarmMeasurement_DeviceID");
-
-                    b.HasIndex("DeviceID");
-
-                    b.HasDiscriminator().HasValue("AlarmMeasurement");
-                });
-
-            modelBuilder.Entity("Data.Data.ConcreteMeasurements.HumidityMeasurement", b =>
-                {
-                    b.HasBaseType("Data.Data.Measurement");
-
-                    b.Property<long?>("DeviceID")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("DeviceID");
-
-                    b.HasDiscriminator().HasValue("HumidityMeasurement");
-                });
-
-            modelBuilder.Entity("Data.Data.TemperatureMeasurement", b =>
-                {
-                    b.HasBaseType("Data.Data.Measurement");
-
-                    b.Property<long?>("DeviceID")
-                        .HasColumnType("bigint")
-                        .HasColumnName("TemperatureMeasurement_DeviceID");
-
-                    b.HasIndex("DeviceID");
-
-                    b.HasDiscriminator().HasValue("TemperatureMeasurement");
-                });
-
             modelBuilder.Entity("Data.Data.Device", b =>
                 {
                     b.HasOne("Data.Data.Settings", "DeviceSettings")
@@ -222,6 +179,13 @@ namespace Data.Migrations
                         .HasForeignKey("DeviceSettingsSettingsID");
 
                     b.Navigation("DeviceSettings");
+                });
+
+            modelBuilder.Entity("Data.Data.MeasurementSet", b =>
+                {
+                    b.HasOne("Data.Data.Device", null)
+                        .WithMany("Measurements")
+                        .HasForeignKey("DeviceID");
                 });
 
             modelBuilder.Entity("Data.Data.Settings", b =>
@@ -257,43 +221,9 @@ namespace Data.Migrations
                     b.Navigation("TemperatureConfiguration");
                 });
 
-            modelBuilder.Entity("Data.Data.CO2Measurement", b =>
-                {
-                    b.HasOne("Data.Data.Device", null)
-                        .WithMany("CO2")
-                        .HasForeignKey("DeviceID");
-                });
-
-            modelBuilder.Entity("Data.Data.ConcreteMeasurements.AlarmMeasurement", b =>
-                {
-                    b.HasOne("Data.Data.Device", null)
-                        .WithMany("Alarm")
-                        .HasForeignKey("DeviceID");
-                });
-
-            modelBuilder.Entity("Data.Data.ConcreteMeasurements.HumidityMeasurement", b =>
-                {
-                    b.HasOne("Data.Data.Device", null)
-                        .WithMany("Humidity")
-                        .HasForeignKey("DeviceID");
-                });
-
-            modelBuilder.Entity("Data.Data.TemperatureMeasurement", b =>
-                {
-                    b.HasOne("Data.Data.Device", null)
-                        .WithMany("Temperature")
-                        .HasForeignKey("DeviceID");
-                });
-
             modelBuilder.Entity("Data.Data.Device", b =>
                 {
-                    b.Navigation("Alarm");
-
-                    b.Navigation("CO2");
-
-                    b.Navigation("Humidity");
-
-                    b.Navigation("Temperature");
+                    b.Navigation("Measurements");
                 });
 #pragma warning restore 612, 618
         }

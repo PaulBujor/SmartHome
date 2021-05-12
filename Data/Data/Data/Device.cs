@@ -18,14 +18,9 @@ namespace Data.Data
 		public long DeviceID { get; set; }
 		[JsonPropertyName("deviceSettings")]
 		public Settings DeviceSettings { get; set; }
-		[JsonPropertyName("alarm")]
-		public List<AlarmMeasurement> Alarm { get; set; }
-		[JsonPropertyName("tempearture")]
-		public List<TemperatureMeasurement> Temperature { get; set; }
-		[JsonPropertyName("co2")]
-		public List<CO2Measurement> CO2 { get; set; }
-		[JsonPropertyName("humidity")]
-		public List<HumidityMeasurement> Humidity { get; set; }
+		[JsonPropertyName("measurements")]
+		public List<MeasurementSet> Measurements { get; set; }
+	
 
 		public Device()
 		{

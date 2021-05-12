@@ -66,7 +66,7 @@ namespace Data.Properties.Persistence
             await _device.RemoveDevice(id);
         }
 
-        public async Task AddCO2Measurement(Measurement measurement, long deviceID)
+        /*public async Task AddCO2Measurement(Measurement measurement, long deviceID)
         {
             await _measurement.AddCO2Measurement(measurement, deviceID);
         }
@@ -84,9 +84,24 @@ namespace Data.Properties.Persistence
         public async Task AddTemperatureMeasurement(Measurement measurement, long deviceID)
         {
             await _measurement.AddTemperatureMeasurement(measurement, deviceID);
+        }*/
+
+        public async Task addMeasurementSet(MeasurementSet measurementSet, long deviceID)
+        {
+            await _measurement.addMeasurementSet(measurementSet, deviceID);
         }
 
-        public async Task<Measurement> GetLatestCO2Measurement(long deviceID)
+        public async Task<MeasurementSet> getLatestMeasurmentSet(long deviceID)
+        {
+          return  await _measurement.getLatestMeasurmentSet(deviceID);
+        }
+
+        public async Task<IEnumerable<MeasurementSet>> getAllMeasurementSets(long deviceID)
+        {
+            return await _measurement.getAllMeasurementSets(deviceID);
+        }
+
+        /*public async Task<Measurement> GetLatestCO2Measurement(long deviceID)
         {
             return await _measurement.GetLatestCO2Measurement(deviceID);
         }
@@ -124,7 +139,7 @@ namespace Data.Properties.Persistence
         public async Task<IEnumerable<Measurement>> GetTemperatureMeasurements(long deviceID)
         {
             return await _measurement.GetTemperatureMeasurements(deviceID);
-        }
+        }*/
 
         public async Task RemoveMeasurement(long id)
         {

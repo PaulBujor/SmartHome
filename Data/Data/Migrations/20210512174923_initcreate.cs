@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class init : Migration
+    public partial class initcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,37 +97,18 @@ namespace Data.Migrations
                     MeasurementID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Value = table.Column<double>(type: "float", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CO2Measurement_DeviceID = table.Column<long>(type: "bigint", nullable: true),
-                    AlarmMeasurement_DeviceID = table.Column<long>(type: "bigint", nullable: true),
-                    DeviceID = table.Column<long>(type: "bigint", nullable: true),
-                    TemperatureMeasurement_DeviceID = table.Column<long>(type: "bigint", nullable: true)
+                    CO2 = table.Column<double>(type: "float", nullable: false),
+                    Humidity = table.Column<double>(type: "float", nullable: false),
+                    Temperature = table.Column<double>(type: "float", nullable: false),
+                    Alarm = table.Column<double>(type: "float", nullable: false),
+                    DeviceID = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Measurements", x => x.MeasurementID);
                     table.ForeignKey(
-                        name: "FK_Measurements_Devices_AlarmMeasurement_DeviceID",
-                        column: x => x.AlarmMeasurement_DeviceID,
-                        principalTable: "Devices",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Measurements_Devices_CO2Measurement_DeviceID",
-                        column: x => x.CO2Measurement_DeviceID,
-                        principalTable: "Devices",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Measurements_Devices_DeviceID",
                         column: x => x.DeviceID,
-                        principalTable: "Devices",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Measurements_Devices_TemperatureMeasurement_DeviceID",
-                        column: x => x.TemperatureMeasurement_DeviceID,
                         principalTable: "Devices",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -139,24 +120,9 @@ namespace Data.Migrations
                 column: "DeviceSettingsSettingsID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Measurements_AlarmMeasurement_DeviceID",
-                table: "Measurements",
-                column: "AlarmMeasurement_DeviceID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Measurements_CO2Measurement_DeviceID",
-                table: "Measurements",
-                column: "CO2Measurement_DeviceID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Measurements_DeviceID",
                 table: "Measurements",
                 column: "DeviceID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Measurements_TemperatureMeasurement_DeviceID",
-                table: "Measurements",
-                column: "TemperatureMeasurement_DeviceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_AlarmConfigurationConfigurationID",
