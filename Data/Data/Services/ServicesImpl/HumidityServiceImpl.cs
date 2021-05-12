@@ -14,28 +14,23 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
             this.hardwareService = service;
         }
-        //HUMIDITY
-        public async Task<Measurement> AddHumidity(Measurement humidity, long deviceId)
-        {
-            await hardwareService.CheckDeviceExists(deviceId);
-            await persistenceRouter.AddHumidityMeasurement(humidity, deviceId);
-            return humidity;
-        }
 
         public async Task<IEnumerable<Measurement>> GetAllHumidities(long deviceId)
         {
-            IEnumerable<Measurement> humidities = await persistenceRouter.GetHumidityMeasurements(deviceId);
+            IEnumerable<MeasurementSet> measurements = await persistenceRouter.getAllMeasurementSets(deviceId);
+            List<Measurement> humidities = new List<Measurement>();
+            foreach (var measurementSet in measurements)
+            {
+                humidities.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.Humidity});
+            }
             return humidities;
         }
 
         public async Task<Measurement> GetLastHumidity(long deviceId)
         {
-            return await persistenceRouter.GetLatestHumidityMeasurement(deviceId);
-        }
-
-        public async Task RemoveHumidity(int id)
-        {
-            await persistenceRouter.RemoveMeasurement(id);
+            MeasurementSet measurements = await persistenceRouter.getLatestMeasurmentSet(deviceId);
+            
+            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.Humidity};
         }
     }
 }

@@ -15,28 +15,23 @@ namespace Data.Services.ServicesImpl
             this.persistenceRouter = persistenceRouter;
             this.hardwareService = service;
         }
-        // CO2
-        public async Task<Measurement> AddCO2(Measurement co2, long deviceId)
-        {
-            await hardwareService.CheckDeviceExists(deviceId);
-            await persistenceRouter.AddCO2Measurement(co2, deviceId);
-            return co2;
-        }
-
-        public async Task RemoveCO2(int id)
-        {
-            await persistenceRouter.RemoveMeasurement(id);
-        }
-
+        
         public async Task<IEnumerable<Measurement>> GetAllCO2s(long deviceId)
         {
-            IEnumerable<Measurement> co2s = await persistenceRouter.GetCO2Measurements(deviceId);
+            IEnumerable<MeasurementSet> measurements = await persistenceRouter.getAllMeasurementSets(deviceId);
+            List<Measurement> co2s = new List<Measurement>();
+            foreach (var measurementSet in measurements)
+            {
+                co2s.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.CO2});
+            }
             return co2s;
         }
 
         public async Task<Measurement> GetLastCO2(long deviceId)
         {
-            return await persistenceRouter.GetLatestCO2Measurement(deviceId);
+            MeasurementSet measurements = await persistenceRouter.getLatestMeasurmentSet(deviceId);
+            
+            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.CO2};
         }
 
     }
