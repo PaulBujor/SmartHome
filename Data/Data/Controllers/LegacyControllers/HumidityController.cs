@@ -12,17 +12,29 @@ using System.Threading.Tasks;
 namespace Data.Controllers
 {
 	[ApiController]
-	public class HumidityController : ControllerBase
+	public class LegacyHumidityController : ControllerBase
 	{
 		private readonly IHumidityService _service;
 
-		public HumidityController(IHumidityService service)
+		public LegacyHumidityController(IHumidityService service)
 		{
 			_service = service;
 		}
 
+		// gets humidity measurement by id
+		[HttpGet("api/humidity/{id}")]
+		public async Task<ActionResult<Measurement>> Get(long id)
+		{
+			return Ok(new HumidityMeasurement
+			{
+				MeasurementID = 0,
+				Timestamp = DateTime.Now,
+				Value = 0
+			});
+		}
+
 		// gets all humidity measurement by device id
-		[HttpGet("api/devices/{id}/measurements/humidity")]
+		[HttpGet("api/devices/{id}/humidity")]
 		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
 			try
@@ -39,7 +51,7 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/measurements/last-humidity")]
+		[HttpGet("api/devices/{id}/last-humidity")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
@@ -53,6 +65,29 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
+		}
+
+		// Adds new humidity measurement to device
+		[HttpPost("api/devices/{id}/humidity")]
+		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
+		{
+			try
+			{
+				return Ok(await _service.AddHumidity(value, id));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
+		}
+
+		// deletes humidity measurement with ID
+		[HttpDelete("api/humidity/{id}")]
+		public async Task<ActionResult> Delete(long id)
+		{
+			return StatusCode(404, "NO.");
 		}
 	}
 }

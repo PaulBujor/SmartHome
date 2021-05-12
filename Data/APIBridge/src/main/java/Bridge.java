@@ -1,5 +1,5 @@
 import config.IoT_Config;
-import model.Measurement;
+import model.MeasurementSet;
 import remote.Manager;
 
 import java.io.IOException;
@@ -21,10 +21,6 @@ public class Bridge {
 
     public void addData(long deviceId, String data) {
         Date date = new Date(System.currentTimeMillis());
-        Measurement temperature = new Measurement();
-        Measurement co2 = new Measurement();
-        Measurement humidity = new Measurement();
-        Measurement alarm = new Measurement();
 
         String[] hexMeasurement = data.split("(?<=\\G....)");
 
@@ -40,24 +36,14 @@ public class Bridge {
         float floatNoise = ((float) intNoise);
         float floatAlarm = ((float) intAlarm);
 
+        System.out.println("\n== == == == ==");
         System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\nAlarm " + floatAlarm + "\n");
-        temperature.setTimestamp(date);
-        co2.setTimestamp(date);
-        humidity.setTimestamp(date);
-        alarm.setTimestamp(date);
-
-        temperature.setValue(floatTemperature);
-        co2.setValue(floatCO2);
-        humidity.setValue(floatHumidity);
-        alarm.setValue(floatAlarm);
+        MeasurementSet measurement = new MeasurementSet(date, floatTemperature, floatCO2,floatHumidity, floatAlarm);
 
 
+        //i hate this
         try {
-            controllers.addTemperature(deviceId, temperature);
-            controllers.addCO2(deviceId, co2);
-            controllers.addHumidity(deviceId, humidity);
-            if (alarm.getValue() > 0)
-                controllers.addAlarm(deviceId, alarm);
+            controllers.addMeasurement(deviceId, measurement);
         } catch (IOException e) {
             e.printStackTrace();
         }
