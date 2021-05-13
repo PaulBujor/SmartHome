@@ -26,6 +26,8 @@ static lora_driver_payload_t _uplink_payload;
 
 lora_driver_payload_t downlinkPayload;
 
+static bool onOffSwitch = false;
+
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 {
 	xTaskCreate(
@@ -161,17 +163,28 @@ void lora_handler_task( void *pvParameters )
 
 
 
-		_uplink_payload.bytes[0] = (int)humidity >> 8;
-		_uplink_payload.bytes[1] = (int)humidity & 0xFF;
+	
 		
-		_uplink_payload.bytes[2] = (int)temperature >> 8;
-		_uplink_payload.bytes[3] = (int)temperature & 0xFF;
-		
-		_uplink_payload.bytes[4] = ppm >> 8;
-		_uplink_payload.bytes[5] = ppm & 0xFF;
-		
-		_uplink_payload.bytes[6] = lastSoundValue >> 8;
-		_uplink_payload.bytes[7] = lastSoundValue & 0xFF;
+		if(onOffSwitch)
+		{
+			int i;
+			for(i = 0; i < 8; i++)
+				_uplink_payload.bytes[i] = 0;
+		}
+		else 
+		{
+			_uplink_payload.bytes[0] = (int)humidity >> 8;
+			_uplink_payload.bytes[1] = (int)humidity & 0xFF;
+			
+			_uplink_payload.bytes[2] = (int)temperature >> 8;
+			_uplink_payload.bytes[3] = (int)temperature & 0xFF;
+			
+			_uplink_payload.bytes[4] = ppm >> 8;
+			_uplink_payload.bytes[5] = ppm & 0xFF;
+			
+			_uplink_payload.bytes[6] = lastSoundValue >> 8;
+			_uplink_payload.bytes[7] = lastSoundValue & 0xFF;
+		}
 		
 		
 		
@@ -189,12 +202,15 @@ void lora_handler_task( void *pvParameters )
 		else if (rc == LORA_MAC_RX)
 		{
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-			if (6 == downlinkPayload.len) // Check that we have got the expected 4 bytes
+			if (7 == downlinkPayload.len) // Check that we have got the expected 4 bytes
 			{
 				// decode the payload into our variales
 				servoHumidity = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
 				servoTemperature = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
 				servoPpm = (downlinkPayload.bytes[4] << 8) + downlinkPayload.bytes[5];
+				if(downlinkPayload.bytes[4] == 1)
+					onOffSwitch = true;
+					else onOffSwitch = false;
 			}
 			
 			// The uplink message is sent and a downlink message is received

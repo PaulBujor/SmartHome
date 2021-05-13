@@ -238,7 +238,8 @@ void turnServoTask( void *pvParameters )
 		{
 			rc_servo_setPosition(1, 100); //OPEN
 		}
-		else rc_servo_setPosition(1, -100); //CLOSE
+		else if(servoTemperature > temperature|| servoPpm >ppm || servoHumidity > humidity) 
+			rc_servo_setPosition(1, -100); //CLOSE
 		
 		//if(motion == true)
 			//printf("---------------SOMETHING IS MOVING RUN-----------\n");
