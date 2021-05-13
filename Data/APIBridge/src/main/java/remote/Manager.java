@@ -17,8 +17,8 @@ public class Manager {
     }
 
     public void addMeasurement(long deviceId, MeasurementSet measurementSet) throws IOException {
-        //todo uncomment
-//        measurementController.addMeasurement(deviceId,measurementSet);
+        todo uncomment
+        measurementController.addMeasurement(deviceId,measurementSet);
     }
 
     public Settings getSettings(long deviceId) {
