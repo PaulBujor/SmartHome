@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeasurementController {
-    private String measurementType;
     private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     private CloseableHttpClient client;
     private Type listType = new TypeToken<List<Measurement>>() {
