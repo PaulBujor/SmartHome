@@ -1,5 +1,4 @@
-﻿using Data.Data.ConcreteConfigurations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,34 +13,37 @@ namespace Data.Data
 		[JsonPropertyName("settingsId")]
 		public long SettingsID { get; set; }
 		[JsonPropertyName("deviceConfiguration")]
-		public DeviceConfiguration DeviceConfiguration { get; set; }
-		[JsonPropertyName("alarmConfiguration")]
-		public AlarmConfiguration AlarmConfiguration { get; set; }
-		[JsonPropertyName("temperatureConfiguration")]
-		public TemperatureConfiguration TemperatureConfiguration { get; set; }
-		[JsonPropertyName("co2Configuration")]
-		public CO2Configuration CO2Configuration { get; set; }
-		[JsonPropertyName("humidityConfiguration")]
-		public HumidityConfiguration HumidityConfiguration { get; set; }
+		public bool DeviceConfiguration { get; set; }
+		[JsonPropertyName("minHumidity")]
+		public double MinHumidity { get; set; }
+		[JsonPropertyName("maxHumidity")]
+		public double MaxHumidity { get; set; }
+		[JsonPropertyName("minTemperature")]
+		public double MinTemperature { get; set; }
+		[JsonPropertyName("maxTemperature")]
+		public double MaxTemperature { get; set; }
+		[JsonPropertyName("minCo2")]
+		public double MinCo2 { get; set; }
+		[JsonPropertyName("maxCo2")]
+		public double MaxCo2 { get; set; }
 
 		public static Settings Defaults()
 		{
 			return new Settings
 			{
-				DeviceConfiguration = new DeviceConfiguration { Active = true },
-				AlarmConfiguration = new AlarmConfiguration { Active = true, MinOrDefault = 0.5 },
-				CO2Configuration = new CO2Configuration { Active = true, Max = 650, MinOrDefault = 200 },
-				HumidityConfiguration = new HumidityConfiguration { Active = true, Max = 50, MinOrDefault = 30 },
-				TemperatureConfiguration = new TemperatureConfiguration { Active = true, Max = 23, MinOrDefault = 20 }
+				DeviceConfiguration = true,
+				MinHumidity = 30,
+				MaxHumidity = 50,
+				MinTemperature = 20,
+				MaxTemperature = 23,
+				MinCo2 = 200,
+				MaxCo2 = 650
 			};
 		}
 
 		public Settings()
 		{
 		}
-
-
-
 
 		/* Default settings
 		 * Settings

@@ -22,12 +22,11 @@ namespace Data.Controllers
 
 		// gets co2 measurement by id
 		[HttpGet("api/co2/{id}")]
-		public async Task<ActionResult<CO2Measurement>> Get(long id)
+		public async Task<ActionResult<Measurement>> Get(long id)
 		{
 			//todo implement in service
-			return Ok(new CO2Measurement
+			return Ok(new Measurement()
 			{
-				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
 			});

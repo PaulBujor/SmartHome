@@ -5,32 +5,32 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class AlarmServiceImpl : IAlarmService
+    public class SoundServiceImpl : ISoundService
     {
         private readonly PersistenceRouter persistenceRouter;
         private readonly IHardwareService hardwareService;
-        public AlarmServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
+        public SoundServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
         {
             this.persistenceRouter = persistenceRouter;
             this.hardwareService = service;
         }
 
-        public async Task<IEnumerable<Measurement>> GetAllMotions(long deviceId)
+        public async Task<IEnumerable<Measurement>> GetAllSounds(long deviceId)
         {
             IEnumerable<MeasurementSet> measurements = await persistenceRouter.getAllMeasurementSets(deviceId);
-            List<Measurement> alarms = new List<Measurement>();
+            List<Measurement> sounds = new List<Measurement>();
             foreach (var measurementSet in measurements)
             {
-                alarms.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.Alarm});
+                sounds.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.Sound});
             }
-            return alarms;
+            return sounds;
         }
 
-        public async Task<Measurement> GetLastMotion(long deviceId)
+        public async Task<Measurement> GetLastSound(long deviceId)
         {
             MeasurementSet measurements = await persistenceRouter.getLatestMeasurmentSet(deviceId);
             
-            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.Alarm};
+            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.Sound};
         }
     }
 }

@@ -21,25 +21,25 @@ public class MeasurementTest {
         Measurement testTemp = new Measurement(measurement.getTimestamp(), measurement.getTemperature());
         Measurement testCo2 = new Measurement(measurement.getTimestamp(), measurement.getCo2());
         Measurement testHumid = new Measurement(measurement.getTimestamp(), measurement.getHumidity());
-        Measurement testAlarm = new Measurement(measurement.getTimestamp(), measurement.getSound());
+        Measurement testSound = new Measurement(measurement.getTimestamp(), measurement.getSound());
 
         controller.addMeasurement(deviceId, measurement);
 
         List<Measurement> temperatures = controller.getMeasurements(deviceId, "temperature");
         List<Measurement> co2 = controller.getMeasurements(deviceId, "co2");
         List<Measurement> humidity = controller.getMeasurements(deviceId, "humidity");
-        List<Measurement> alarm = controller.getMeasurements(deviceId, "alarm");
+        List<Measurement> sound = controller.getMeasurements(deviceId, "sound");
 
         assertTrue(temperatures.contains(testTemp));
         assertTrue(co2.contains(testCo2));
         assertTrue(humidity.contains(testHumid));
-        assertTrue(alarm.contains(testAlarm));
+        assertTrue(sound.contains(testSound));
     }
 
     private MeasurementSet generateMeasurementSet() {
         var measurement = new MeasurementSet();
 
-        measurement.setSound((int) new Random().nextDouble() * 2);
+        measurement.setSound(new Random().nextDouble() * 100);
         measurement.setCo2(new Random().nextDouble() * 2000);
         measurement.setHumidity(new Random().nextDouble() * 100);
         measurement.setTemperature(10 + new Random().nextDouble() * 20);

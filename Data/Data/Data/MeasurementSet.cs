@@ -17,8 +17,8 @@ namespace Data.Data
         public double Humidity { get; set; }
         [JsonPropertyName("temperature")]
         public double Temperature { get; set; }
-        [JsonPropertyName("alarm")]
-        public double Alarm { get; set; }
+        [JsonPropertyName("sound")]
+        public double Sound { get; set; }
 
         public MeasurementSet()
         {

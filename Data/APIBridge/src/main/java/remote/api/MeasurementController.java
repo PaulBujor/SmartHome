@@ -32,7 +32,7 @@ import java.util.List;
 
 public class MeasurementController {
     private String measurementType;
-    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'hh:mm:ss").create();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     private CloseableHttpClient client;
     private Type listType = new TypeToken<List<Measurement>>() {
     }.getType();
@@ -126,7 +126,7 @@ public class MeasurementController {
                 ContentType.APPLICATION_JSON
         );
 
-        System.out.println("Sending:\n" + measurement);
+        System.out.println("Sending:\n" + gson.toJson(measurement));
 
         var post = new HttpPost(API_Config.getURI() + "devices/" + deviceId + "/measurements");
         post.setEntity(entity);
@@ -142,8 +142,8 @@ public class MeasurementController {
     }
 
     public ArrayList<Measurement> getMeasurements(long deviceId, String measurementType) throws IOException {
-        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/"
-                + ((measurementType.equals("temperature") || measurementType.equals("alarm")) ? "s" : ""));
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/measurements/" + measurementType
+                + ((measurementType.equals("temperature") || measurementType.equals("sound")) ? "s" : ""));
 
         CloseableHttpResponse httpResponse = client.execute(get);
         ArrayList<Measurement> response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), listType);
@@ -151,7 +151,7 @@ public class MeasurementController {
     }
 
     public Measurement getLatestMeasurement(long deviceId, String measurementType) throws IOException {
-        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/last-" + measurementType);
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/measurements/last-" + measurementType);
 
         CloseableHttpResponse httpResponse = client.execute(get);
         Measurement response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), Measurement.class);

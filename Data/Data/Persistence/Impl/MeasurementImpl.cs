@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Data;
-using Data.Data.ConcreteMeasurements;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Properties.Persistence.Impl

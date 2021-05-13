@@ -8,7 +8,6 @@ namespace Data.Properties.Persistence
     public class Database : DbContext
     {
         public DbSet<Device> Devices {get; set;} 
-        public DbSet<Configuration> Configurations {get; set;}
         public DbSet<Settings> Settings {get;set;}
         public DbSet<MeasurementSet> Measurements {get;set;}
             

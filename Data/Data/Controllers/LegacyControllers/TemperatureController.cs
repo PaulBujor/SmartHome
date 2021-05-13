@@ -24,9 +24,8 @@ namespace Data.Controllers
 		[HttpGet("api/temperatures/{id}")]
 		public async Task<ActionResult<Measurement>> Get(long id)
 		{
-			return Ok(new TemperatureMeasurement
+			return Ok(new Measurement()
 			{
-				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
 			});

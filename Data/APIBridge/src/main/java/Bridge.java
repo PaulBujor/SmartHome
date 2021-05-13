@@ -37,7 +37,7 @@ public class Bridge {
         float floatNoise = ((float) intNoise);
 
         System.out.println("\n== == == == ==");
-        System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\nAlarm " + floatNoise + "\n");
+        System.out.println("Temperature: " + floatTemperature + "\nHumidity: " + floatHumidity + "\nCO2: " + floatCO2 + "\nSound " + floatNoise + "\n");
         MeasurementSet measurement = new MeasurementSet(date, floatTemperature, floatCO2, floatHumidity, floatNoise);
 
         try {
@@ -51,13 +51,13 @@ public class Bridge {
         }
 
         try {
-            sendFakeData(deviceId);
+            updateDeviceSettings(deviceId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendFakeData(long deviceId) throws JSONException {
+    public void updateDeviceSettings(long deviceId) throws JSONException {
         String hexDeviceId = Long.toHexString(deviceId);
         while(hexDeviceId.length() < 16) {
             hexDeviceId = "0".concat(hexDeviceId);

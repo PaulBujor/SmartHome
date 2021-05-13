@@ -1,5 +1,4 @@
 ﻿using Data.Data;
-using Data.Data.ConcreteMeasurements;
 using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,9 +24,8 @@ namespace Data.Controllers
 		[HttpGet("api/humidity/{id}")]
 		public async Task<ActionResult<Measurement>> Get(long id)
 		{
-			return Ok(new HumidityMeasurement
+			return Ok(new Measurement()
 			{
-				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
 			});
