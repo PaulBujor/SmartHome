@@ -46,12 +46,16 @@ uint16_t lastSoundValue;
 
 //servo thresholds
 
-float servoTemperature;
-float servoHumidity;
-
-uint16_t servoPpm;
 
 
+float servoMinTemperature = 20;
+float servoMaxTemperature = 30;
+
+float servoMinHumidity = 10;
+float servoMaxHumidity = 300;
+
+uint16_t servoMinPPM = 30;
+uint16_t servoMaxPPM = 3900;
 
 
 
@@ -233,18 +237,16 @@ void turnServoTask( void *pvParameters )
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("-getDataFromMotionSensorTask");
 		
+		//printf("Servotask---Hum = %d Temp = %d PPm = %d Sound = %d\n", (int)humidity, (int)temperature, ppm, lastSoundValue);
 		
-		if(servoTemperature < temperature + 1 || servoPpm < ppm + 20 || servoHumidity < humidity + 1)
+		//printf("Servotask---Hum = %d Temp = %d PPm = %d \n Hum = %d Temp = %d PPm = %d Sound = %d\n", (int)servoHumidity, (int)servoTemperature, servoPpm, );
+		if(servoMaxTemperature + 1 < temperature || servoMaxPPM + 20 < ppm || servoMaxHumidity + 1 < humidity)
 		{
-			rc_servo_setPosition(1, 100); //OPEN
+			rc_servo_setPosition(1, -100); //OPEN
 		}
-		else if(servoTemperature > temperature|| servoPpm >ppm || servoHumidity > humidity) 
-			rc_servo_setPosition(1, -100); //CLOSE
+		else if(servoMinTemperature > temperature && servoMinPPM >ppm && servoMinHumidity > humidity) 
+			rc_servo_setPosition(1, 100); //CLOSE
 		
-		//if(motion == true)
-			//printf("---------------SOMETHING IS MOVING RUN-----------\n");
-		
-		//PORTA ^= _BV(PA7);
 	}
 }
 

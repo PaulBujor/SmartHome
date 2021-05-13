@@ -26,7 +26,7 @@ static lora_driver_payload_t _uplink_payload;
 
 lora_driver_payload_t downlinkPayload;
 
-static bool onOffSwitch = false;
+static bool onOffSwitch = true;
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 {
@@ -139,7 +139,7 @@ void lora_handler_task( void *pvParameters )
 
 	_lora_setup();
 
-	_uplink_payload.len = 8;
+	_uplink_payload.len = 13;
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
@@ -148,7 +148,7 @@ void lora_handler_task( void *pvParameters )
 	
 	for(;;)
 	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		//xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 		//float temperature = 26.5;
 		//float humidity = 132.2;
@@ -165,7 +165,7 @@ void lora_handler_task( void *pvParameters )
 
 	
 		
-		if(onOffSwitch)
+		if(!onOffSwitch)
 		{
 			int i;
 			for(i = 0; i < 8; i++)
@@ -202,13 +202,22 @@ void lora_handler_task( void *pvParameters )
 		else if (rc == LORA_MAC_RX)
 		{
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-			if (7 == downlinkPayload.len) // Check that we have got the expected 4 bytes
+			if (13 == downlinkPayload.len) // Check that we have got the expected 4 bytes
 			{
 				// decode the payload into our variales
-				servoHumidity = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
-				servoTemperature = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
-				servoPpm = (downlinkPayload.bytes[4] << 8) + downlinkPayload.bytes[5];
-				if(downlinkPayload.bytes[4] == 1)
+				servoMinHumidity = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+				servoMaxHumidity = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
+				
+				
+				servoMinTemperature = (downlinkPayload.bytes[4] << 8) + downlinkPayload.bytes[5];
+				servoMaxTemperature = (downlinkPayload.bytes[6] << 8) + downlinkPayload.bytes[7];
+				
+				servoMinPPM = (downlinkPayload.bytes[8] << 8) + downlinkPayload.bytes[9];
+				servoMaxPPM = (downlinkPayload.bytes[10] << 8) + downlinkPayload.bytes[11];
+				
+				printf("RECEIVED---Hum = %d Temp = %d PPm = %d \n", (int)servoMaxHumidity, (int)servoMaxTemperature, servoMaxPPM);
+				
+				if(downlinkPayload.bytes[12] == 1)
 					onOffSwitch = true;
 					else onOffSwitch = false;
 			}
@@ -216,5 +225,7 @@ void lora_handler_task( void *pvParameters )
 			// The uplink message is sent and a downlink message is received
 		}
 		//printf("---Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
 }
