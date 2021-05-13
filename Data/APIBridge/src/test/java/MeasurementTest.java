@@ -21,7 +21,7 @@ public class MeasurementTest {
         Measurement testTemp = new Measurement(measurement.getTimestamp(), measurement.getTemperature());
         Measurement testCo2 = new Measurement(measurement.getTimestamp(), measurement.getCo2());
         Measurement testHumid = new Measurement(measurement.getTimestamp(), measurement.getHumidity());
-        Measurement testAlarm = new Measurement(measurement.getTimestamp(), measurement.getAlarm());
+        Measurement testAlarm = new Measurement(measurement.getTimestamp(), measurement.getSound());
 
         controller.addMeasurement(deviceId, measurement);
 
@@ -39,7 +39,7 @@ public class MeasurementTest {
     private MeasurementSet generateMeasurementSet() {
         var measurement = new MeasurementSet();
 
-        measurement.setAlarm((int) new Random().nextDouble() * 2);
+        measurement.setSound((int) new Random().nextDouble() * 2);
         measurement.setCo2(new Random().nextDouble() * 2000);
         measurement.setHumidity(new Random().nextDouble() * 100);
         measurement.setTemperature(10 + new Random().nextDouble() * 20);
