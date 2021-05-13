@@ -19,11 +19,6 @@ namespace Data.Properties.Persistence
 			_settings = new SettingsImpl(context);
 		}
 
-		public async Task<List<Configuration>> GetConfigurations()
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public async Task AddDevice(Device device)
 		{
 			await _device.AddDevice(device);

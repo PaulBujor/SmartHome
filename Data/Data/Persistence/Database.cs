@@ -1,7 +1,6 @@
 using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
-using Configuration = Data.Data.Configuration;
 
 namespace Data.Properties.Persistence
 {
