@@ -19,12 +19,13 @@
 // Needed for LoRaWAN
 #include <lora_driver.h>
 #include <status_leds.h>
+MessageBufferHandle_t downLinkMessageBufferHandle;
 
 //Sensor drivers
 #include <hih8120.h>
 #include <mh_z19.h>
 #include <sen14262.h>
-#include <hcsr501.h>
+#include <stdint.h>
 
 
 
@@ -32,7 +33,7 @@
 void getDataFromTempHumSensorTask( void *pvParameters );
 void getDataFromCO2SensorTask( void *pvParameters );
 void getDataFromSoundSensorTask( void *pvParameters );
-void getDataFromMotionSensorTask( void *pvParameters );
+void turnServoTask( void *pvParameters );
 
 //define sensor data
 
@@ -43,9 +44,14 @@ uint16_t ppm;
 
 uint16_t lastSoundValue;
 
-hcsr501_p hcsr501Inst = NULL;
+//servo thresholds
 
-bool motion = false;
+float servoTemperature;
+float servoHumidity;
+
+uint16_t servoPpm;
+
+
 
 
 
@@ -97,8 +103,8 @@ void create_tasks_and_semaphores(void)
 	,  NULL );
 	
 	xTaskCreate(
-	getDataFromMotionSensorTask
-	,  "getDataFromMotionSensorTask"  // A name just for humans
+	turnServoTask
+	,  "turnServoTask"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
@@ -214,7 +220,7 @@ void getDataFromSoundSensorTask( void *pvParameters )
 	}
 }
 
-void getDataFromMotionSensorTask( void *pvParameters )
+void turnServoTask( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
@@ -227,16 +233,12 @@ void getDataFromMotionSensorTask( void *pvParameters )
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("-getDataFromMotionSensorTask");
 		
-		if ( hcsr501_isDetecting(hcsr501Inst))
-		{
-			motion = true;
-		}
-		else
-		{
-			motion = false;
-		}
 		
-		vTaskDelay(pdMS_TO_TICKS(1000));
+		if(servoTemperature < temperature + 1 || servoPpm < ppm + 20 || servoHumidity < humidity + 1)
+		{
+			rc_servo_setPosition(1, 100); //OPEN
+		}
+		else rc_servo_setPosition(1, -100); //CLOSE
 		
 		//if(motion == true)
 			//printf("---------------SOMETHING IS MOVING RUN-----------\n");
@@ -260,12 +262,9 @@ void initialiseSystem()
 	
 	sen14262_initialise();
 	
-	hcsr501Inst = hcsr501_create(&PORTE, PE5);
-	if ( NULL != hcsr501Inst )
-	{
-		// Driver created OK
-		// If NULL is returned the driver is not created!!!
-	}	
+	rc_servo_initialise(); 
+	
+	
 	
 	
 	// Set output ports for leds used in the example
@@ -280,7 +279,12 @@ void initialiseSystem()
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
-	lora_driver_initialise(1, NULL);
+	//lora_driver_initialise(1, NULL);
+	
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2); // Here I make room for two downlink messages in the message buffer
+	lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
+	
+	
 	// Create LoRaWAN task and start it up with priority 3
 	lora_handler_initialise(3);
 	

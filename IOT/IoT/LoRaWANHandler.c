@@ -24,6 +24,8 @@ void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
+lora_driver_payload_t downlinkPayload;
+
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 {
 	xTaskCreate(
@@ -126,6 +128,8 @@ void lora_handler_task( void *pvParameters )
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
 	lora_driver_resetRn2483(0);
+	vTaskDelay(2);
+	lora_driver_flushBuffers();
 	// Give it a chance to wakeup
 	vTaskDelay(150);
 
@@ -133,7 +137,7 @@ void lora_handler_task( void *pvParameters )
 
 	_lora_setup();
 
-	_uplink_payload.len = 9;
+	_uplink_payload.len = 8;
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
@@ -169,13 +173,32 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[6] = lastSoundValue >> 8;
 		_uplink_payload.bytes[7] = lastSoundValue & 0xFF;
 		
-		if(motion == false)
-			_uplink_payload.bytes[8] = 0;
-		else _uplink_payload.bytes[8] = 1;
+		
 		
 		printf("---Hum = %d Temp = %d PPm = %d Sound = %d\n", (int)humidity, (int)temperature, ppm, lastSoundValue);
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
-		printf("---Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		
+		lora_driver_returnCode_t rc;
+		
+		if ((rc = lora_driver_sendUploadMessage(false, &_uplink_payload)) == LORA_MAC_TX_OK )
+		{
+			// The uplink message is sent and there is no downlink message received
+		}
+		else if (rc == LORA_MAC_RX)
+		{
+			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+			if (6 == downlinkPayload.len) // Check that we have got the expected 4 bytes
+			{
+				// decode the payload into our variales
+				servoHumidity = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+				servoTemperature = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
+				servoPpm = (downlinkPayload.bytes[4] << 8) + downlinkPayload.bytes[5];
+			}
+			
+			// The uplink message is sent and a downlink message is received
+		}
+		//printf("---Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 	}
 }

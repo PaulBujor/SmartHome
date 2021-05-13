@@ -16,8 +16,12 @@ extern uint16_t ppm;
 
 extern uint16_t lastSoundValue;
 
+extern float servoTemperature;
+extern float servoHumidity;
 
-extern bool motion;
+extern uint16_t servoPpm;
+
+extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
 
 
