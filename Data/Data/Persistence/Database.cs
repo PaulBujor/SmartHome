@@ -1,16 +1,14 @@
 using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
-using Configuration = Data.Data.Configuration;
 
 namespace Data.Properties.Persistence
 {
     public class Database : DbContext
     {
         public DbSet<Device> Devices {get; set;} 
-        public DbSet<Configuration> Configurations {get; set;}
         public DbSet<Settings> Settings {get;set;}
-        public DbSet<Measurement> Measurements {get;set;}
+        public DbSet<MeasurementSet> Measurements {get;set;}
             
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

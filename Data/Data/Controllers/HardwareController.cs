@@ -1,5 +1,4 @@
 ﻿using Data.Data;
-using Data.Data.ConcreteConfigurations;
 using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;

@@ -4,14 +4,16 @@ using Data.Properties.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20210513151346_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,23 +83,23 @@ namespace Data.Migrations
                     b.Property<bool>("DeviceConfiguration")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MaxCo2")
-                        .HasColumnType("int");
+                    b.Property<double>("MaxCo2")
+                        .HasColumnType("float");
 
-                    b.Property<int>("MaxHumidity")
-                        .HasColumnType("int");
+                    b.Property<double>("MaxHumidity")
+                        .HasColumnType("float");
 
-                    b.Property<int>("MaxTemperature")
-                        .HasColumnType("int");
+                    b.Property<double>("MaxTemperature")
+                        .HasColumnType("float");
 
-                    b.Property<int>("MinCo2")
-                        .HasColumnType("int");
+                    b.Property<double>("MinCo2")
+                        .HasColumnType("float");
 
-                    b.Property<int>("MinHumidity")
-                        .HasColumnType("int");
+                    b.Property<double>("MinHumidity")
+                        .HasColumnType("float");
 
-                    b.Property<int>("MinTemperature")
-                        .HasColumnType("int");
+                    b.Property<double>("MinTemperature")
+                        .HasColumnType("float");
 
                     b.HasKey("SettingsID");
 

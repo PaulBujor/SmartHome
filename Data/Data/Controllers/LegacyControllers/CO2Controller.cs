@@ -22,12 +22,11 @@ namespace Data.Controllers
 
 		// gets co2 measurement by id
 		[HttpGet("api/co2/{id}")]
-		public async Task<ActionResult<CO2Measurement>> Get(long id)
+		public async Task<ActionResult<Measurement>> Get(long id)
 		{
 			//todo implement in service
-			return Ok(new CO2Measurement
+			return Ok(new Measurement()
 			{
-				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
 			});
@@ -67,7 +66,7 @@ namespace Data.Controllers
 		}
 
 		// Adds new co2 measurement to device
-		[HttpPost("api/devices/{id}/co2")]
+		/*[HttpPost("api/devices/{id}/co2")]
 		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
 			try
@@ -81,7 +80,7 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
-		}
+		}*/
 
 		// deletes co2 measurement with ID
 		[HttpDelete("api/co2/{id}")]

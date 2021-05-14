@@ -1,5 +1,4 @@
 ﻿using Data.Data;
-using Data.Data.ConcreteMeasurements;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,9 +14,9 @@ namespace Data.Controllers
 	[ApiController]
 	public class LegacyAlarmController : ControllerBase
 	{
-		private readonly IAlarmService _service;
+		private readonly ISoundService _service;
 
-		public LegacyAlarmController(IAlarmService service)
+		public LegacyAlarmController(ISoundService service)
 		{
 			_service = service;
 		}
@@ -27,9 +26,8 @@ namespace Data.Controllers
 		public async Task<ActionResult<Measurement>> Get(long id)
 		{
 			//todo removed, for testing only
-			return Ok(new AlarmMeasurement
+			return Ok(new Measurement()
 			{
-				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
 			});
@@ -42,7 +40,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device
-				return Ok(await _service.GetAllMotions(id));
+				return Ok(await _service.GetAllSounds(id));
 			}
 			catch (Exception e)
 			{
@@ -59,7 +57,7 @@ namespace Data.Controllers
 			try
 			{
 				//todo get by device
-				return await _service.GetLastMotion(id);
+				return await _service.GetLastSound(id);
 			}
 			catch (Exception e)
 			{

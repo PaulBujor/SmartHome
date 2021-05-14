@@ -9,9 +9,6 @@ namespace Data.Data
 {
 	public class Measurement
 	{
-		[Key]
-		[JsonPropertyName("measurementId")]
-		public long MeasurementID { get; set; }
 		[JsonPropertyName("timestamp")]
 		public DateTime Timestamp { get; set; }
 		[JsonPropertyName("value")]

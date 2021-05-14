@@ -1,5 +1,4 @@
 ﻿using Data.Data;
-using Data.Data.ConcreteMeasurements;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,23 +12,23 @@ using Data.Services;
 namespace Data.Controllers
 {
 	[ApiController]
-	public class AlarmController : ControllerBase
+	public class SoundController : ControllerBase
 	{
-		private readonly IAlarmService _service;
+		private readonly ISoundService _service;
 
-		public AlarmController(IAlarmService service)
+		public SoundController(ISoundService service)
 		{
 			_service = service;
 		}
 
 		// gets all alarm trigger by device id
-		[HttpGet("api/devices/{id}/measurements/alarms")]
+		[HttpGet("api/devices/{id}/measurements/sounds")]
 		public async Task<ActionResult<IEnumerable<Measurement>>> GetByDevice(long id)
 		{
 			try
 			{
 				//todo get by device
-				return Ok(await _service.GetAllMotions(id));
+				return Ok(await _service.GetAllSounds(id));
 			}
 			catch (Exception e)
 			{
@@ -40,13 +39,13 @@ namespace Data.Controllers
 		}
 
 		// gets latest measurement by device id
-		[HttpGet("api/devices/{id}/measurements/last-alarm")]
+		[HttpGet("api/devices/{id}/measurements/last-sound")]
 		public async Task<ActionResult<Measurement>> GetLastByDevice(long id)
 		{
 			try
 			{
 				//todo get by device
-				return await _service.GetLastMotion(id);
+				return await _service.GetLastSound(id);
 			}
 			catch (Exception e)
 			{

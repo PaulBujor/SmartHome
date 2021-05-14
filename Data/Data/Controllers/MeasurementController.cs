@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Data;
+using Data.Services;
 
 namespace Data.Controllers
 {
 	[ApiController]
 	public class MeasurementController : ControllerBase
 	{
-		/*private IMeasurementService _service;
+		private IMeasurementSetService _service;
 
-		public MeasurementController(IMeasurementService service)
+		public MeasurementController(IMeasurementSetService service)
 		{
 			_service = service;
 		}
@@ -25,7 +26,8 @@ namespace Data.Controllers
 			try
 			{
 				//todo add to device
-				return Ok(await _service.AddMeasurement(value, id));
+				await _service.AddMeasurementSet(id, value);
+				return Ok();
 			}
 			catch (Exception e)
 			{
@@ -33,6 +35,6 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
-		}*/
+		}
 	}
 }

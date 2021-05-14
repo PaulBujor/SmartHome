@@ -1,23 +1,16 @@
 package model;
 
 public class Settings {
-    private long settingsId;
-    private Configuration deviceConfiguration;
-    private Configuration alarmConfiguration;
-    private Configuration temperatureConfiguration;
-    private Configuration Co2Configuration;
-    private Configuration humidityConfiguration;
+    public long settingsId;
+    private boolean deviceConfiguration;
+    private int minHumidity;
+    private int maxHumidity;
+    private int minTemperature;
+    private int maxTemperature;
+    private int minCo2;
+    private int maxCo2;
 
     public Settings() {
-    }
-
-    public Settings(long settingsId, Configuration deviceConfiguration, Configuration alarmConfiguration, Configuration temperatureConfiguration, Configuration co2Configuration, Configuration humidityConfiguration) {
-        this.settingsId = settingsId;
-        this.deviceConfiguration = deviceConfiguration;
-        this.alarmConfiguration = alarmConfiguration;
-        this.temperatureConfiguration = temperatureConfiguration;
-        Co2Configuration = co2Configuration;
-        this.humidityConfiguration = humidityConfiguration;
     }
 
     public long getSettingsId() {
@@ -28,55 +21,59 @@ public class Settings {
         this.settingsId = settingsId;
     }
 
-    public Configuration getDeviceConfiguration() {
+    public boolean isDeviceConfiguration() {
         return deviceConfiguration;
     }
 
-    public void setDeviceConfiguration(Configuration deviceConfiguration) {
+    public void setDeviceConfiguration(boolean deviceConfiguration) {
         this.deviceConfiguration = deviceConfiguration;
     }
 
-    public Configuration getAlarmConfiguration() {
-        return alarmConfiguration;
+    public int getMinHumidity() {
+        return minHumidity;
     }
 
-    public void setAlarmConfiguration(Configuration alarmConfiguration) {
-        this.alarmConfiguration = alarmConfiguration;
+    public void setMinHumidity(int minHumidity) {
+        this.minHumidity = minHumidity;
     }
 
-    public Configuration getTemperatureConfiguration() {
-        return temperatureConfiguration;
+    public int getMaxHumidity() {
+        return maxHumidity;
     }
 
-    public void setTemperatureConfiguration(Configuration temperatureConfiguration) {
-        this.temperatureConfiguration = temperatureConfiguration;
+    public void setMaxHumidity(int maxHumidity) {
+        this.maxHumidity = maxHumidity;
     }
 
-    public Configuration getCo2Configuration() {
-        return Co2Configuration;
+    public int getMinTemperature() {
+        return minTemperature;
     }
 
-    public void setCo2Configuration(Configuration co2Configuration) {
-        Co2Configuration = co2Configuration;
+    public void setMinTemperature(int minTemperature) {
+        this.minTemperature = minTemperature;
     }
 
-    public Configuration getHumidityConfiguration() {
-        return humidityConfiguration;
+    public int getMaxTemperature() {
+        return maxTemperature;
     }
 
-    public void setHumidityConfiguration(Configuration humidityConfiguration) {
-        this.humidityConfiguration = humidityConfiguration;
+    public void setMaxTemperature(int maxTemperature) {
+        this.maxTemperature = maxTemperature;
     }
 
-    @Override
-    public String toString() {
-        return "Settings{" +
-                "settingsId=" + settingsId +
-                ", deviceConfiguration=" + deviceConfiguration +
-                ", alarmConfiguration=" + alarmConfiguration +
-                ", temperatureConfiguration=" + temperatureConfiguration +
-                ", Co2Configuration=" + Co2Configuration +
-                ", humidityConfiguration=" + humidityConfiguration +
-                '}';
+    public int getMinCo2() {
+        return minCo2;
+    }
+
+    public void setMinCo2(int minCo2) {
+        this.minCo2 = minCo2;
+    }
+
+    public int getMaxCo2() {
+        return maxCo2;
+    }
+
+    public void setMaxCo2(int maxCo2) {
+        this.maxCo2 = maxCo2;
     }
 }

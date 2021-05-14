@@ -31,8 +31,9 @@ namespace Data
 		{
 			//todo add implementations
 			services.AddScoped<PersistenceRouter>();
+			services.AddScoped<IMeasurementSetService, MeasurementSetImpl>();
 			services.AddScoped<IHardwareService, HardwareServiceImpl>();
-			services.AddScoped<IAlarmService, AlarmServiceImpl>();
+			services.AddScoped<ISoundService, SoundServiceImpl>();
 			services.AddScoped<ICO2Service, CO2ServiceImpl>();
 			services.AddScoped<IHumidityService, HumidityServiceImpl>();
 			services.AddScoped<ITemperatureService, TemperatureServiceImpl>();

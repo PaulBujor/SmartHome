@@ -5,32 +5,32 @@ using Data.Properties.Persistence;
 
 namespace Data.Services.ServicesImpl
 {
-    public class HumidityServiceImpl : IHumidityService
+    public class SoundServiceImpl : ISoundService
     {
         private readonly PersistenceRouter persistenceRouter;
         private readonly IHardwareService hardwareService;
-        public HumidityServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
+        public SoundServiceImpl(PersistenceRouter persistenceRouter, IHardwareService service)
         {
             this.persistenceRouter = persistenceRouter;
             this.hardwareService = service;
         }
 
-        public async Task<IEnumerable<Measurement>> GetAllHumidities(long deviceId)
+        public async Task<IEnumerable<Measurement>> GetAllSounds(long deviceId)
         {
             IEnumerable<MeasurementSet> measurements = await persistenceRouter.getAllMeasurementSets(deviceId);
-            List<Measurement> humidities = new List<Measurement>();
+            List<Measurement> sounds = new List<Measurement>();
             foreach (var measurementSet in measurements)
             {
-                humidities.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.Humidity});
+                sounds.Add(new Measurement{Timestamp=measurementSet.Timestamp, Value=measurementSet.Sound});
             }
-            return humidities;
+            return sounds;
         }
 
-        public async Task<Measurement> GetLastHumidity(long deviceId)
+        public async Task<Measurement> GetLastSound(long deviceId)
         {
             MeasurementSet measurements = await persistenceRouter.getLatestMeasurmentSet(deviceId);
             
-            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.Humidity};
+            return new Measurement{Timestamp=measurements.Timestamp, Value=measurements.Sound};
         }
     }
 }

@@ -4,25 +4,15 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Measurement {
-    private long measurementId;
     private Date timestamp;
     private double value;
 
     public Measurement() {
     }
 
-    public Measurement(long measurementId, Date timestamp, double value) {
-        this.measurementId = measurementId;
+    public Measurement(Date timestamp, double value) {
         this.timestamp = timestamp;
         this.value = value;
-    }
-
-    public long getMeasurementId() {
-        return measurementId;
-    }
-
-    public void setMeasurementId(long measurementId) {
-        this.measurementId = measurementId;
     }
 
     public Date getTimestamp() {
@@ -44,7 +34,6 @@ public class Measurement {
     @Override
     public String toString() {
         return "Measurement{" +
-                "measurementID=" + measurementId +
                 ", timestamp=" + timestamp +
                 ", value=" + value +
                 '}';

@@ -1,5 +1,4 @@
 ﻿using Data.Data;
-using Data.Data.ConcreteMeasurements;
 using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,9 +24,8 @@ namespace Data.Controllers
 		[HttpGet("api/humidity/{id}")]
 		public async Task<ActionResult<Measurement>> Get(long id)
 		{
-			return Ok(new HumidityMeasurement
+			return Ok(new Measurement()
 			{
-				MeasurementID = 0,
 				Timestamp = DateTime.Now,
 				Value = 0
 			});
@@ -68,7 +66,7 @@ namespace Data.Controllers
 		}
 
 		// Adds new humidity measurement to device
-		[HttpPost("api/devices/{id}/humidity")]
+		/*[HttpPost("api/devices/{id}/humidity")]
 		public async Task<ActionResult> Post(long id, [FromBody] Measurement value)
 		{
 			try
@@ -81,7 +79,7 @@ namespace Data.Controllers
 				Console.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
-		}
+		}*/
 
 		// deletes humidity measurement with ID
 		[HttpDelete("api/humidity/{id}")]

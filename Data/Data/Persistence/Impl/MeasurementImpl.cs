@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Data;
-using Data.Data.ConcreteMeasurements;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Properties.Persistence.Impl
@@ -23,7 +22,7 @@ namespace Data.Properties.Persistence.Impl
          * 2. Include array of specific measurement, otherwise it returned NullReferenceException (array was not loaded)
          */
         
-        public async Task AddCO2Measurement(Measurement measurement, long deviceID)
+        /*public async Task AddCO2Measurement(Measurement measurement, long deviceID)
         {
             Device tmpDevice = await _databaseContext.Devices.Include(p => p.CO2).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
             tmpDevice.CO2.Add(new CO2Measurement(measurement));
@@ -49,14 +48,36 @@ namespace Data.Properties.Persistence.Impl
             Device tmpDevice = await _databaseContext.Devices.Include(p=> p.Temperature).FirstOrDefaultAsync(p => p.DeviceID == deviceID);
             tmpDevice.Temperature.Add(new TemperatureMeasurement(measurement));
             await _databaseContext.SaveChangesAsync();
+        }*/
+
+        public async Task addMeasurementSet(MeasurementSet measurementSet, long deviceID)
+        {
+            Device tmpDevice = await _databaseContext.Devices.Include(p => p.Measurements)
+                .FirstOrDefaultAsync(p => p.DeviceID == deviceID);
+            tmpDevice.Measurements.Add(measurementSet);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public async Task<Measurement> GetLatestCO2Measurement(long deviceID)
+        public async Task<MeasurementSet> getLatestMeasurmentSet(long deviceID)
         {
-            Device tmpDevice = await _databaseContext.Devices.Include(p => p.CO2)
+            Device tmpDevice = await _databaseContext.Devices.Include(p => p.Measurements)
                 .FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-            Measurement tmpMeasurement = tmpDevice.CO2.OrderByDescending(p => p.Timestamp).ToArray()[0];
-            return tmpMeasurement;
+            MeasurementSet tmpMeasurementset = tmpDevice.Measurements.OrderByDescending(p => p.Timestamp).ToArray()[0];
+            return tmpMeasurementset;
+        }
+
+        public async Task<IEnumerable<MeasurementSet>> getAllMeasurementSets(long deviceID)
+        {
+            return (await _databaseContext.Devices.Include(p => p.Measurements)
+                .FirstOrDefaultAsync(p => p.DeviceID == deviceID)).Measurements;
+        }
+
+        /*public async Task<Measurement> GetLatestCO2Measurement(long deviceID)
+        {
+           
+
+            
+
         }
 
         public async Task<Measurement> GetLatestAlarmMeasurement(long deviceID)
@@ -81,9 +102,9 @@ namespace Data.Properties.Persistence.Impl
                 .FirstOrDefaultAsync(p => p.DeviceID == deviceID);
             Measurement tmpMeasurement = tmpDevice.Temperature.OrderByDescending(p => p.Timestamp).ToArray()[0];
             return tmpMeasurement;
-        }
+        }*/
 
-        public async Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID)
+        /*public async Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID)
         {
             return (await _databaseContext.Devices.Include(p=>p.Alarm).FirstOrDefaultAsync(p => p.DeviceID == deviceID)).Alarm;
         }
@@ -104,17 +125,18 @@ namespace Data.Properties.Persistence.Impl
         {
             return (await _databaseContext.Devices.Include(p => p.Temperature)
                 .FirstOrDefaultAsync(p => p.DeviceID == deviceID)).Temperature;
-        }
+        }*/
 
         public async Task RemoveMeasurement(long id)
         {
-            Measurement tmpMeasurement =
+            throw new NotImplementedException();
+            /*Measurement tmpMeasurement =
                 await _databaseContext.Measurements.FirstOrDefaultAsync(p => p.MeasurementID == id);
             if (tmpMeasurement != null)
             {
                 _databaseContext.Remove(tmpMeasurement);
                 await _databaseContext.SaveChangesAsync();
-            }
+            }*/
         }
     }
 }

@@ -72,6 +72,7 @@ public class WebsocketClient implements WebSocket.Listener {
         webSocket.request(1);
 
         String dataString = data.toString();
+
         var parser = new JSONParser();
         JSONObject json;
         String hexData = "";
