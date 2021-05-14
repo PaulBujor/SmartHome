@@ -15,17 +15,17 @@ namespace Data.Data
 		[JsonPropertyName("deviceConfiguration")]
 		public bool DeviceConfiguration { get; set; }
 		[JsonPropertyName("minHumidity")]
-		public double MinHumidity { get; set; }
+		public int MinHumidity { get; set; }
 		[JsonPropertyName("maxHumidity")]
-		public double MaxHumidity { get; set; }
+		public int MaxHumidity { get; set; }
 		[JsonPropertyName("minTemperature")]
-		public double MinTemperature { get; set; }
+		public int MinTemperature { get; set; }
 		[JsonPropertyName("maxTemperature")]
-		public double MaxTemperature { get; set; }
+		public int MaxTemperature { get; set; }
 		[JsonPropertyName("minCo2")]
-		public double MinCo2 { get; set; }
+		public int MinCo2 { get; set; }
 		[JsonPropertyName("maxCo2")]
-		public double MaxCo2 { get; set; }
+		public int MaxCo2 { get; set; }
 
 		public static Settings Defaults()
 		{

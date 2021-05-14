@@ -1,6 +1,7 @@
 package remote;
 
 import model.MeasurementSet;
+import model.Settings;
 import remote.api.MeasurementController;
 import remote.api.SettingsController;
 
@@ -19,7 +20,7 @@ public class Manager {
         measurementController.addMeasurement(deviceId,measurementSet);
     }
 
-//    public Settings getSettings(long deviceId) {
-//        return null;
-//    }
+    public Settings getSettings(long deviceId) throws IOException {
+        return settingsController.getDeviceSettings(deviceId);
+    }
 }
