@@ -12,21 +12,9 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
-#include "dataShare.h"
-
-// Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "611AAD47B9E2ED1C"
-#define LORA_appKEY "635966D4505560A6877C9547BA8DF772"
-
-static char _out_buf[100];
-
-void lora_handler_task( void *pvParameters );
-
-static lora_driver_payload_t _uplink_payload;
-
-lora_driver_payload_t downlinkPayload;
-
-static bool onOffSwitch = true;
+#include "../Src/Headers/dataShare.h" 
+#include "../Src/Headers/configuration.h"
+#include "../Src/Headers/Lora.h"
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 {
@@ -204,7 +192,7 @@ void lora_handler_task( void *pvParameters )
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 			if (13 == downlinkPayload.len) // Check that we have got the expected 4 bytes
 			{
-				// decode the payload into our variales
+				// decode the payload into our variables
 				servoMinHumidity = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
 				servoMaxHumidity = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
 				

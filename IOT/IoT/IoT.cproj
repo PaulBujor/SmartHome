@@ -53,16 +53,16 @@
     <avrtoolinterface>JTAG</avrtoolinterface>
     <avrtoolinterfaceclock>200000</avrtoolinterfaceclock>
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
-        </dependencies>
-      </framework-data>
+      <framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.39.0" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -155,9 +155,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="dataShare.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="drivers\display_7seg.h">
       <SubType>compile</SubType>
     </Compile>
@@ -296,6 +293,45 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Src\Headers\CO2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\configuration.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\dataShare.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\downLink.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\Lora.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\Servo.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\Sound.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Headers\TempHum.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Tasks\CO2.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Tasks\LoRaWANHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Tasks\Servo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Tasks\Sound.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Src\Tasks\TempHum.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivers\" />
@@ -303,6 +339,9 @@
     <Folder Include="FreeRTOS\" />
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
+    <Folder Include="Src" />
+    <Folder Include="Src\Headers" />
+    <Folder Include="Src\Tasks" />
   </ItemGroup>
   <ItemGroup>
     <None Include="drivers\.git">
@@ -356,9 +395,6 @@
     <None Include="FreeRTOS\src\LICENSE.md">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="LoRaWANHandler.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

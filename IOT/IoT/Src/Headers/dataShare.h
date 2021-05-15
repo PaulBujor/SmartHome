@@ -25,8 +25,6 @@ extern float servoMaxHumidity;
 extern uint16_t servoMinPPM;
 extern uint16_t servoMaxPPM;
 
-extern MessageBufferHandle_t downLinkMessageBufferHandle;
-
 
 
 
