@@ -32,11 +32,8 @@ import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
  */
 public class HomeFragment extends Fragment {
 
-    private Button temperatureCardButton;
-    private Button humidityCardButton;
-    private Button c02CardButton;
-    private Button motionCardButton;
-    private TextView temperatureTextView;
+    private Button temperatureCardButton,humidityCardButton, c02CardButton, motionCardButton;
+    private TextView temperatureTextView, humidityTextView, cO2TextView,motionTextView;
 
     private TemperatureViewModel temperatureViewModel;
     private HumidityViewModel humidityViewModel;
@@ -77,15 +74,21 @@ public class HomeFragment extends Fragment {
         humidityCardButton.setOnClickListener((v) -> changeFragment("HumidityDetails"));
         motionCardButton.setOnClickListener((v) -> changeFragment("MotionDetails"));
         c02CardButton.setOnClickListener((v)-> changeFragment("C02Details"));
+
         temperatureTextView = view.findViewById(R.id.temperatureCardValue);
+        humidityTextView = view.findViewById(R.id.humidityCardValue);
+        cO2TextView = view.findViewById(R.id.C02CardValue);
+        motionTextView = view.findViewById(R.id.motionCardValue);
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
+        humidityViewModel = new ViewModelProvider(this).get(HumidityViewModel.class);
+        motionViewModel = new ViewModelProvider(this).get(MotionViewModel.class);
 
         temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
-
+        humidityViewModel.getLastMeasurement().observe(getViewLifecycleOwner(), measurement -> humidityTextView.setText(String.format("%.1f", measurement.getValue())));
+        motionViewModel.getLastMotionMeasurement().observe(getViewLifecycleOwner(),measurement -> motionTextView.setText(String.format("%.1f", measurement.getValue())));
         DataRetriever dataRetriever = DataRetriever.getInstance();
         dataRetriever.startRetrievingData(deviceID);
-
         //Retrieving data simulation
 
         /*

@@ -10,5 +10,18 @@
             android:id="@id/temperatureFragment"
             android:title="Temperature"
             android:icon="@drawable/thermometer"/>
+        <item
+            android:id="@id/humidityFragment"
+            android:title="Humidity"
+            android:icon="@drawable/thermometer"/>
+        <item
+            android:id="@id/motionFragment"
+            android:title="Temperature"
+            android:icon="@drawable/thermometer"/>
+        <item
+            android:id="@id/CO2Fragment"
+            android:title="C02"
+            android:icon="@drawable/thermometer"/>
+
     </group>
 </menu>
