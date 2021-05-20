@@ -38,7 +38,7 @@ public class TemperatureRecyclerAdapter extends RecyclerView.Adapter<Temperature
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Measurement measurement = measurements.get(position);
-        holder.id.setText(String.valueOf(measurement.getMeasurementID()));
+        holder.id.setText(String.valueOf(++position));
         Date toFormat = measurement.getTimestamp();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         sdf.applyPattern("yyyy-MM-dd HH:mm");
