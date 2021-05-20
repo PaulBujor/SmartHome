@@ -19,4 +19,6 @@
     <string name="add_device"><![CDATA[Add device >]]></string>
     <string name="temperature">Temperature</string>
     <string name="manage_sensors">Manage thresholds</string>
+    <string name="sound">Sound</string>
+    <string name="remove_device">Remove Device</string>
 </resources>
