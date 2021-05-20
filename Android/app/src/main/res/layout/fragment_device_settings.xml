@@ -1,14 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.DeviceSettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/device_setting_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/device_settings"
+            android:textSize="34sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_devices"
+            android:layout_width="276dp"
+            android:layout_height="181dp"
+            android:layout_marginTop="36dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout_radioButtons"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_setting_textView">
+
+            <TextView
+                android:id="@+id/allDevices_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/all_devices"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/hardware1_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/hardware_1"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/hardware2_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/hardware_2"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/addDevice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/add_device"
+                android:textSize="8sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_radioButtons"
+            android:layout_width="119dp"
+            android:layout_height="181dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="36dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linearLayout_devices"
+            app:layout_constraintTop_toBottomOf="@+id/device_setting_textView">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:gravity="center|right"
+                android:hapticFeedbackEnabled="false"
+                android:paddingRight="12dp"
+                android:text="@string/remove"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center|right"
+                android:paddingRight="12dp"
+                android:text="@string/remove"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_manageSensors"
+            android:layout_width="276dp"
+            android:layout_height="213dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/linearLayout_radioButtons"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_devices">
+
+            <TextView
+                android:id="@+id/manageSensors_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="@string/manage_sensors"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/temperature_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/temperature"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/humidity_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/humidity"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/C02_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/co2_level"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/motion_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/motion_detector"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_switches"
+            android:layout_width="119dp"
+            android:layout_height="213dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linearLayout_manageSensors"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_radioButtons">
+
+            <Switch
+                android:id="@+id/switch_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:layout_marginEnd="12dp"
+                 />
+
+            <Switch
+                android:id="@+id/switch_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="12dp"
+                 />
+
+            <Switch
+                android:id="@+id/switch_c02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="12dp"
+                 />
+
+            <Switch
+                android:id="@+id/switch_motion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="12dp"
+                 />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>
