@@ -20,9 +20,9 @@ namespace Data.Controllers
 			_service = service;
 		}
 
-		// gets settings by device id
-		[HttpGet("api/devices/{id}/settings")]
-		public async Task<ActionResult<Settings>> Get(long id)
+		// gets thresholds by device id
+		[HttpGet("api/devices/{id}/thresholds")]
+		public async Task<ActionResult<Thresholds>> Get(long id)
 		{
 			try
 			{
@@ -35,7 +35,7 @@ namespace Data.Controllers
 				return StatusCode(500, e.Message);
 			}
 
-			//return new Settings
+			//return new Thresholds
 			//{
 			//	SettingsID = 0,
 			//	DeviceConfiguration = new DeviceConfiguration { Active = true},
@@ -46,14 +46,14 @@ namespace Data.Controllers
 			//};
 		}
 
-		//patches all settings
-		[HttpPatch("api/devices/{id}/settings")]
-		public async Task<ActionResult> Patch(long id, [FromBody] Settings settings)
+		//patches all thresholds
+		[HttpPatch("api/devices/{id}/thresholds")]
+		public async Task<ActionResult> Patch(long id, [FromBody] Thresholds thresholds)
 		{
 			try
 			{
 				//todo by device ID, change Add to Set
-				await _service.SetSettings(settings, id);
+				await _service.SetSettings(thresholds, id);
 				return Ok();
 			}
 			catch (Exception e)
@@ -64,8 +64,8 @@ namespace Data.Controllers
 			}
 		}
 
-		// resets settings of device
-		[HttpDelete("api/devices/{id}/settings")]
+		// resets thresholds of device
+		[HttpDelete("api/devices/{id}/thresholds")]
 		public async Task<ActionResult> Delete(long id)
 		{
 			try

@@ -14,20 +14,20 @@ namespace Data.Properties.Persistence.Impl
 			_databaseContext = context;
 		}
 
-		public async Task<Settings> GetSettings(long deviceID)
+		public async Task<Thresholds> GetSettings(long deviceID)
 		{
 			Device tmpDevice = await _databaseContext.Devices
-				.Include(p => p.DeviceSettings)
+				.Include(p => p.DeviceThresholds)
 				.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-			return tmpDevice.DeviceSettings;
+			return tmpDevice.DeviceThresholds;
 		}
 
-		public async Task SetSettings(Settings settings, long deviceID)
+		public async Task SetSettings(Thresholds thresholds, long deviceID)
 		{
 			Device tmpDevice = await _databaseContext.Devices
-				.Include(p => p.DeviceSettings)
+				.Include(p => p.DeviceThresholds)
 				.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-			tmpDevice.DeviceSettings = settings;
+			tmpDevice.DeviceThresholds = thresholds;
 			await _databaseContext.SaveChangesAsync();
 		}
 	}

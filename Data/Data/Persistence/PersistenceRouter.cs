@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Data;
+using Data.Persistence;
+using Data.Persistence.Impl;
 using Data.Properties.Persistence.Impl;
 
 namespace Data.Properties.Persistence
 {
-	public class PersistenceRouter : IDevice, IMeasurement, ISettings
+	public class PersistenceRouter : IDevice, IMeasurement, ISettings, IUser
 	{
 		private IDevice _device;
 		private IMeasurement _measurement;
 		private ISettings _settings;
+		private IUser _users;
 
 		public PersistenceRouter()
 		{
@@ -17,6 +20,7 @@ namespace Data.Properties.Persistence
 			_device = new DeviceImpl(context);
 			_measurement = new MeasurementImpl(context);
 			_settings = new SettingsImpl(context);
+			_users = new UserImpl(context);
 		}
 
 		public async Task AddDevice(Device device)
@@ -44,26 +48,6 @@ namespace Data.Properties.Persistence
 			await _device.RemoveDevice(id);
 		}
 
-		/*public async Task AddCO2Measurement(Measurement measurement, long deviceID)
-		{
-		    await _measurement.AddCO2Measurement(measurement, deviceID);
-		}
-
-		public async Task AddAlarmMeasurement(Measurement measurement, long deviceID)
-		{
-		    await _measurement.AddAlarmMeasurement(measurement, deviceID);
-		}
-
-		public async Task AddHumidityMeasurement(Measurement measurement, long deviceID)
-		{
-		    await _measurement.AddHumidityMeasurement(measurement, deviceID);
-		}
-
-		public async Task AddTemperatureMeasurement(Measurement measurement, long deviceID)
-		{
-		    await _measurement.AddTemperatureMeasurement(measurement, deviceID);
-		}*/
-
 		public async Task addMeasurementSet(MeasurementSet measurementSet, long deviceID)
 		{
 			await _measurement.addMeasurementSet(measurementSet, deviceID);
@@ -79,60 +63,40 @@ namespace Data.Properties.Persistence
 			return await _measurement.getAllMeasurementSets(deviceID);
 		}
 
-		/*public async Task<Measurement> GetLatestCO2Measurement(long deviceID)
-		{
-		    return await _measurement.GetLatestCO2Measurement(deviceID);
-		}
-
-		public async Task<Measurement> GetLatestAlarmMeasurement(long deviceID)
-		{
-		    return await _measurement.GetLatestAlarmMeasurement(deviceID);
-		}
-
-		public async Task<Measurement> GetLatestHumidityMeasurement(long deviceID)
-		{
-		    return await _measurement.GetLatestHumidityMeasurement(deviceID);
-		}
-
-		public async Task<Measurement> GetLatestTemperatureMeasurement(long deviceID)
-		{
-		    return await _measurement.GetLatestTemperatureMeasurement(deviceID);
-		}
-
-		public async Task<IEnumerable<Measurement>> GetAlarmMeasurements(long deviceID)
-		{
-		    return await _measurement.GetAlarmMeasurements(deviceID);
-		}
-
-		public async Task<IEnumerable<Measurement>> GetCO2Measurements(long deviceID)
-		{
-		    return await _measurement.GetCO2Measurements(deviceID);
-		}
-
-		public async Task<IEnumerable<Measurement>> GetHumidityMeasurements(long deviceID)
-		{
-		    return await _measurement.GetHumidityMeasurements(deviceID);
-		}
-
-		public async Task<IEnumerable<Measurement>> GetTemperatureMeasurements(long deviceID)
-		{
-		    return await _measurement.GetTemperatureMeasurements(deviceID);
-		}*/
-
 		public async Task RemoveMeasurement(long id)
 		{
 			await _measurement.RemoveMeasurement(id);
 		}
 
-		public async Task<Settings> GetSettings(long deviceID)
+		public async Task<Thresholds> GetSettings(long deviceID)
 
 		{
 			return await _settings.GetSettings(deviceID);
 		}
 
-		public async Task SetSettings(Settings settings, long deviceID)
+		public async Task SetSettings(Thresholds thresholds, long deviceID)
 		{
-			await _settings.SetSettings(settings, deviceID);
+			await _settings.SetSettings(thresholds, deviceID);
+		}
+
+		public async Task<List<Device>> getDevices(long userId)
+		{
+			return await _users.getDevices(userId);
+		}
+
+		public async Task registerUser(User user)
+		{
+			await _users.registerUser(user);
+		}
+
+		public async Task<User> loginUser(User user)
+		{
+			return await _users.loginUser(user);
+		}
+
+		public async Task addDevice(long userId, long deviceId)
+		{
+			await _users.addDevice(userId, deviceId);
 		}
 	}
 }
