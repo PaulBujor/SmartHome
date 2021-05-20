@@ -33,6 +33,9 @@ import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 public class HomeFragment extends Fragment {
 
     private Button temperatureCardButton;
+    private Button humidityCardButton;
+    private Button c02CardButton;
+    private Button motionCardButton;
     private TextView temperatureTextView;
 
     private TemperatureViewModel temperatureViewModel;
@@ -66,8 +69,14 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         temperatureCardButton = view.findViewById(R.id.temperatureCardButton);
-        temperatureCardButton.setOnClickListener((v) -> temperatureDetails(v));
+        humidityCardButton = view.findViewById(R.id.humidityCardButton);
+        motionCardButton = view.findViewById(R.id.motionCardButton);
+        c02CardButton = view.findViewById(R.id.C02CardButton);
 
+        temperatureCardButton.setOnClickListener((v) -> changeFragment("TemperatureDetails"));
+        humidityCardButton.setOnClickListener((v) -> changeFragment("HumidityDetails"));
+        motionCardButton.setOnClickListener((v) -> changeFragment("MotionDetails"));
+        c02CardButton.setOnClickListener((v)-> changeFragment("C02Details"));
         temperatureTextView = view.findViewById(R.id.temperatureCardValue);
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
@@ -90,7 +99,20 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void temperatureDetails(View v) {
-        NavHostFragment.findNavController(this).navigate(R.id.openTemperatureDetailsAction);
+    private void changeFragment(String fragment){
+        switch (fragment){
+            case "TemperatureDetails":{
+                NavHostFragment.findNavController(this).navigate(R.id.openTemperatureDetailsAction);
+            }break;
+            case "HumidityDetails":{
+                NavHostFragment.findNavController(this).navigate(R.id.openHumidityDetailsAction);
+            }break;
+            case "MotionDetails":{
+                NavHostFragment.findNavController(this).navigate(R.id.openMotionDetailsAction);
+            }break;
+            case "C02Details":{
+                NavHostFragment.findNavController(this).navigate(R.id.openCO2DetailsAction);
+            }break;
+        }
     }
 }
