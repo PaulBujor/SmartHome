@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.myhomeapplication.Local_Persistence.DataRetrieverWorker;
 import com.example.myhomeapplication.R;
@@ -46,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         //Periodic WorkManager Request
-        PeriodicWorkRequest saveRequest =
+        PeriodicWorkRequest latestDataRequest =
                 new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 5, TimeUnit.MINUTES)
                         .build();
+
+        WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
     }
 
     @Override
