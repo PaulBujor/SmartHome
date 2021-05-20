@@ -11,9 +11,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.PeriodicWorkRequest;
 
+import com.example.myhomeapplication.Local_Persistence.DataRetrieverWorker;
 import com.example.myhomeapplication.R;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
         //Allows navigation to destinations when clicking menu items in the navigation drawer
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
+        //Periodic WorkManager Request
+        PeriodicWorkRequest saveRequest =
+                new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 5, TimeUnit.MINUTES)
+                        .build();
     }
 
     @Override
