@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Data.Data
 {
-	public class Settings
+	public class Thresholds
 	{
 		[Key]
-		[JsonPropertyName("settingsId")]
-		public long SettingsID { get; set; }
+		[JsonPropertyName("thresholdsId")]
+		public long ThresholdsID { get; set; }
 		[JsonPropertyName("deviceConfiguration")]
 		public bool DeviceConfiguration { get; set; }
 		[JsonPropertyName("minHumidity")]
@@ -27,9 +27,9 @@ namespace Data.Data
 		[JsonPropertyName("maxCo2")]
 		public int MaxCo2 { get; set; }
 
-		public static Settings Defaults()
+		public static Thresholds Defaults()
 		{
-			return new Settings
+			return new Thresholds
 			{
 				DeviceConfiguration = true,
 				MinHumidity = 30,
@@ -41,12 +41,12 @@ namespace Data.Data
 			};
 		}
 
-		public Settings()
+		public Thresholds()
 		{
 		}
 
-		/* Default settings
-		 * Settings
+		/* Default thresholds
+		 * Thresholds
 			{
 				DeviceConfiguration = new DeviceConfiguration { Active = true},
 				AlarmConfiguration = new AlarmConfiguration { Active = true, MinOrDefault = 0.5},

@@ -87,7 +87,7 @@ public class SettingsController {
     }
 
     public Settings getDeviceSettings(long deviceId) throws IOException {
-        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/settings");
+        HttpGet get = new HttpGet(API_Config.getURI() + "devices/" + deviceId + "/thresholds");
 
         CloseableHttpResponse httpResponse = client.execute(get);
         Settings response = gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), Settings.class);

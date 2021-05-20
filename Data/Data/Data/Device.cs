@@ -15,11 +15,14 @@ namespace Data.Data
 		public long ID { get; set; }
 		[JsonPropertyName("deviceId")]
 		public long DeviceID { get; set; }
-		[JsonPropertyName("deviceSettings")]
-		public Settings DeviceSettings { get; set; }
-		[JsonPropertyName("measurements")]
+		[JsonIgnore]
+		public Thresholds DeviceThresholds { get; set; }
+		[JsonIgnore]
 		public List<MeasurementSet> Measurements { get; set; }
-	
+
+		[JsonIgnore]
+		public List<User> Owners { get; set; }
+
 
 		public Device()
 		{

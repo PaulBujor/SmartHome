@@ -7,8 +7,8 @@ namespace Data.Properties.Persistence
     public interface ISettings
     {
 
-        Task<Settings> GetSettings(long deviceID);
-        Task SetSettings(Settings settings,long deviceID);
+        Task<Thresholds> GetSettings(long deviceID);
+        Task SetSettings(Thresholds thresholds,long deviceID);
   
 
     }

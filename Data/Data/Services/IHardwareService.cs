@@ -7,8 +7,8 @@ namespace Data.Services
     public interface IHardwareService
     {
 
-        Task<Settings> GetSettings(long deviceID);
-        Task SetSettings(Settings settings,long deviceID);
+        Task<Thresholds> GetSettings(long deviceID);
+        Task SetSettings(Thresholds thresholds,long deviceID);
         Task CheckDeviceExists(long deviceId);
         Task Reset(long id);
     }

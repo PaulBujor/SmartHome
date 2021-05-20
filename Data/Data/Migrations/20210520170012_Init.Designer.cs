@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20210513151346_Init")]
+    [Migration("20210520170012_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,12 +31,12 @@ namespace Data.Migrations
                     b.Property<long>("DeviceID")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("DeviceSettingsSettingsID")
+                    b.Property<long?>("DeviceThresholdsThresholdsID")
                         .HasColumnType("bigint");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("DeviceSettingsSettingsID");
+                    b.HasIndex("DeviceThresholdsThresholdsID");
 
                     b.ToTable("Devices");
                 });
@@ -73,9 +73,9 @@ namespace Data.Migrations
                     b.ToTable("Measurements");
                 });
 
-            modelBuilder.Entity("Data.Data.Settings", b =>
+            modelBuilder.Entity("Data.Data.Thresholds", b =>
                 {
-                    b.Property<long>("SettingsID")
+                    b.Property<long>("ThresholdsID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -83,36 +83,69 @@ namespace Data.Migrations
                     b.Property<bool>("DeviceConfiguration")
                         .HasColumnType("bit");
 
-                    b.Property<double>("MaxCo2")
-                        .HasColumnType("float");
+                    b.Property<int>("MaxCo2")
+                        .HasColumnType("int");
 
-                    b.Property<double>("MaxHumidity")
-                        .HasColumnType("float");
+                    b.Property<int>("MaxHumidity")
+                        .HasColumnType("int");
 
-                    b.Property<double>("MaxTemperature")
-                        .HasColumnType("float");
+                    b.Property<int>("MaxTemperature")
+                        .HasColumnType("int");
 
-                    b.Property<double>("MinCo2")
-                        .HasColumnType("float");
+                    b.Property<int>("MinCo2")
+                        .HasColumnType("int");
 
-                    b.Property<double>("MinHumidity")
-                        .HasColumnType("float");
+                    b.Property<int>("MinHumidity")
+                        .HasColumnType("int");
 
-                    b.Property<double>("MinTemperature")
-                        .HasColumnType("float");
+                    b.Property<int>("MinTemperature")
+                        .HasColumnType("int");
 
-                    b.HasKey("SettingsID");
+                    b.HasKey("ThresholdsID");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Thresholds");
+                });
+
+            modelBuilder.Entity("Data.Data.User", b =>
+                {
+                    b.Property<long>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("DeviceUser", b =>
+                {
+                    b.Property<long>("DevicesID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("OwnersUserID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("DevicesID", "OwnersUserID");
+
+                    b.HasIndex("OwnersUserID");
+
+                    b.ToTable("DeviceUser");
                 });
 
             modelBuilder.Entity("Data.Data.Device", b =>
                 {
-                    b.HasOne("Data.Data.Settings", "DeviceSettings")
+                    b.HasOne("Data.Data.Thresholds", "DeviceThresholds")
                         .WithMany()
-                        .HasForeignKey("DeviceSettingsSettingsID");
+                        .HasForeignKey("DeviceThresholdsThresholdsID");
 
-                    b.Navigation("DeviceSettings");
+                    b.Navigation("DeviceThresholds");
                 });
 
             modelBuilder.Entity("Data.Data.MeasurementSet", b =>
@@ -120,6 +153,21 @@ namespace Data.Migrations
                     b.HasOne("Data.Data.Device", null)
                         .WithMany("Measurements")
                         .HasForeignKey("DeviceID");
+                });
+
+            modelBuilder.Entity("DeviceUser", b =>
+                {
+                    b.HasOne("Data.Data.Device", null)
+                        .WithMany()
+                        .HasForeignKey("DevicesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("OwnersUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Data.Device", b =>
