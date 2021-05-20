@@ -58,5 +58,10 @@ dependencies {
     //JodaTime
     implementation 'net.danlew:android.joda:2.10.9.1'
 
+    //Work Manager
+    def work_version = "2.5.0"
+
+    implementation "androidx.work:work-runtime:$work_version"
+
 
 }

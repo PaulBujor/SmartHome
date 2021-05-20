@@ -47,7 +47,6 @@ public class TemperatureRecyclerAdapter extends RecyclerView.Adapter<Temperature
         holder.timestamp.setText(newDate);
         Log.d("Adapter debug", "" + measurement.getValue());
         holder.value.setText(String.valueOf(measurement.getValue()));
-
     }
 
     @Override

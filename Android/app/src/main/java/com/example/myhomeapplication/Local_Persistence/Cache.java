@@ -26,8 +26,8 @@ public class Cache {
     private final MutableLiveData<Measurement> latestAlarmMeasurement;
 
 
+    //TODO avoid public constructor
     public Cache() {
-
         this.latestTemperatureMeasurement = new MutableLiveData<>();
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();

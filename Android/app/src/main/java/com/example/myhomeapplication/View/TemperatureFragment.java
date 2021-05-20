@@ -44,14 +44,12 @@ public class TemperatureFragment extends Fragment {
 
     private TemperatureViewModel temperatureViewModel;
     private RecyclerView recyclerView;
-    private TemperatureRecyclerAdapter temperatureRecyclerAdapter;
     private LineChart temperatureGraph;
-    private int deviceID = 1;
+    private int deviceID = 420;
 
     public TemperatureFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

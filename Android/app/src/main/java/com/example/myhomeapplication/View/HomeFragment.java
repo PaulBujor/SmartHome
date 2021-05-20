@@ -2,11 +2,7 @@ package com.example.myhomeapplication.View;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -16,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.myhomeapplication.Local_Persistence.DataRetriever;
-import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
-import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.CO2ViewModel;
 import com.example.myhomeapplication.ViewModel.HumidityViewModel;
@@ -74,19 +67,10 @@ public class HomeFragment extends Fragment {
 
         temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
 
-        DataRetriever dataRetriever = DataRetriever.getInstance();
-        dataRetriever.startRetrievingData(deviceID);
+        //Obsolete DataRetriever
+        /*DataRetriever dataRetriever = DataRetriever.getInstance();
+        dataRetriever.startRetrievingData(deviceID);*/
 
-        //Retrieving data simulation
-
-        /*
-        temperatureViewModel.getAllTemperatureMeasurements().observe(getViewLifecycleOwner(), measurements -> temperatureTextView.setText(String.format("%.1f", measurements.get(measurements.size()-1).getValue())));
-        try {
-            temperatureViewModel.addDataSimulation();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        */
         return view;
     }
 
