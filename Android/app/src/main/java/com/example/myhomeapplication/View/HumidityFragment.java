@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 
 import com.example.myhomeapplication.Custom.XAxisValueFormatter;
 import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
-import com.example.myhomeapplication.Models.HumidityRecyclerAdapter;
 import com.example.myhomeapplication.Models.Measurement;
+import com.example.myhomeapplication.Models.RecyclerAdapter;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.HumidityViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -61,7 +61,7 @@ public class HumidityFragment extends Fragment {
             humidityGraph.setData(newLineData);
             humidityGraph.invalidate();
 
-            HumidityRecyclerAdapter newAdapter = new HumidityRecyclerAdapter(measurements);
+            RecyclerAdapter newAdapter = new RecyclerAdapter(measurements);
             recyclerView.setAdapter(newAdapter);
         };
         humidityViewModel = new ViewModelProvider(this).get(HumidityViewModel.class);

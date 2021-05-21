@@ -17,8 +17,7 @@ import android.view.ViewGroup;
 import com.example.myhomeapplication.Custom.XAxisValueFormatter;
 import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
-import com.example.myhomeapplication.Models.MotionRecyclerAdapter;
-import com.example.myhomeapplication.Models.TemperatureRecyclerAdapter;
+import com.example.myhomeapplication.Models.RecyclerAdapter;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.MotionViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -61,7 +60,7 @@ public class MotionFragment extends Fragment {
             motionGraph.setData(newLineData);
             motionGraph.invalidate();
 
-            MotionRecyclerAdapter newAdapter = new MotionRecyclerAdapter(measurements);
+            RecyclerAdapter newAdapter = new RecyclerAdapter(measurements);
             recyclerView.setAdapter(newAdapter);
         };
         motionViewModel = new ViewModelProvider(this).get(MotionViewModel.class);

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.example.myhomeapplication.Custom.XAxisValueFormatter;
 import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
-import com.example.myhomeapplication.Models.TemperatureRecyclerAdapter;
+import com.example.myhomeapplication.Models.RecyclerAdapter;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -63,7 +63,7 @@ public class TemperatureFragment extends Fragment {
             temperatureGraph.invalidate(); //refreshes graph
 
             //set newly updated adapter
-            TemperatureRecyclerAdapter newAdapter = new TemperatureRecyclerAdapter(measurements);
+            RecyclerAdapter newAdapter = new RecyclerAdapter(measurements);
             recyclerView.setAdapter(newAdapter);
         };
 
