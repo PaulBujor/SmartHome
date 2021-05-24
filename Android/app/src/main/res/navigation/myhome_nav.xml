@@ -52,5 +52,5 @@
     <fragment
         android:id="@+id/deviceSettingsFragment"
         android:name="com.example.myhomeapplication.View.DeviceSettingsFragment"
-        tools:layout="@layout/fragment_device_settings" />
+        tools:layout="@layout/fragment_device_settings_v2" />
 </navigation>
