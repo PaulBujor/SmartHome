@@ -1,13 +1,17 @@
 package com.example.myhomeapplication.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -52,6 +56,30 @@ public class MainActivity extends AppCompatActivity {
                         .build();
 
         WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
+
+        // Setting toolbar label programmatically
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                int desID = destination.getId();
+                TextView label = findViewById(R.id.toolbarLabel);
+                switch (desID) {
+                    case R.id.homeFragment: label.setText("MyHome");
+                        break;
+                    case R.id.temperatureFragment: label.setText("Temperature");
+                    break;
+                    case R.id.humidityFragment: label.setText("Humidity");
+                        break;
+                    case R.id.CO2Fragment: label.setText("CO2");
+                        break;
+                    case R.id.motionFragment: label.setText("Whatever");
+                        break;
+                    default:
+                        Log.wtf("FRAGMENT_ID_NOT_RECOGNIZED", "onDestinationChangedListener");
+                        break;
+                }
+            }
+        });
     }
 
     @Override
