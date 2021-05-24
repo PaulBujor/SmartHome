@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private NavigationView navigationView;
     private TextView temperatureCardValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,15 +65,26 @@ public class MainActivity extends AppCompatActivity {
                 int desID = destination.getId();
                 TextView label = findViewById(R.id.toolbarLabel);
                 switch (desID) {
-                    case R.id.homeFragment: label.setText("MyHome");
+                    case R.id.homeFragment:
+                        label.setText("My Home");
                         break;
-                    case R.id.temperatureFragment: label.setText("Temperature");
-                    break;
-                    case R.id.humidityFragment: label.setText("Humidity");
+                    case R.id.temperatureFragment:
+                        label.setText("Temperature");
                         break;
-                    case R.id.CO2Fragment: label.setText("CO2");
+                    case R.id.humidityFragment:
+                        label.setText("Humidity");
                         break;
-                    case R.id.motionFragment: label.setText("Whatever");
+                    case R.id.CO2Fragment:
+                        label.setText("CO2");
+                        break;
+                    case R.id.motionFragment:
+                        label.setText("Sound");
+                        break;
+                    case R.id.deviceSettingsFragment:
+                        label.setText("Device Settings");
+                        break;
+                    case R.id.applicationPreferencesFragment:
+                        label.setText("App preferences");
                         break;
                     default:
                         Log.wtf("FRAGMENT_ID_NOT_RECOGNIZED", "onDestinationChangedListener");

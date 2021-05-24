@@ -46,14 +46,16 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         humMax = view.findViewById(R.id.ds_humidity_max);
         cO2min = view.findViewById(R.id.ds_co2_min);
         cO2max = view.findViewById(R.id.ds_co2_max);
-        soundMin = view.findViewById(R.id.ds_sound_min);
-        soundMax = view.findViewById(R.id.ds_sound_max);
+        //soundMin = view.findViewById(R.id.ds_sound_min);
+        //soundMax = view.findViewById(R.id.ds_sound_max);
         addDevice = view.findViewById(R.id.addDevice_button);
         removeDevice = view.findViewById(R.id.removeDevice_button);
 
         addDevice.setOnClickListener(this);
         removeDevice.setOnClickListener(this);
         removeDevice.setVisibility(View.GONE);
+
+        //TODO (from Alex) you can use TextWatcher to activate the button to save threshold changes and also to validate the input
 
         return view;
     }
