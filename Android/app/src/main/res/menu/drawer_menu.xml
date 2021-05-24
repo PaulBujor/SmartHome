@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:id="@+id/grp0">
+        <item
+            android:id="@id/homeFragment"
+            android:icon="@drawable/ic_outline_home_24"
+            android:title="Home" />
+
+    </group>
+
     <group
         android:id="@+id/grp1"
         android:checkableBehavior="single">
         <item
-            android:id="@id/homeFragment"
-            android:title="Home"
-            />
-        <item
             android:id="@id/temperatureFragment"
-            android:title="Temperature"
-            android:icon="@drawable/ic_thermometer"/>
+            android:icon="@drawable/ic_thermometer"
+            android:title="Temperature" />
         <item
             android:id="@id/CO2Fragment"
-            android:title="CO2"
-            android:icon="@drawable/ic_cloud"/>
+            android:icon="@drawable/ic_cloud"
+            android:title="CO2" />
         <item
             android:id="@id/humidityFragment"
-            android:title="Humidity"
-            android:icon="@drawable/ic_humidity"/>
+            android:icon="@drawable/ic_humidity"
+            android:title="Humidity" />
         <item
             android:id="@id/motionFragment"
-            android:title="Sound"
-            android:icon="@drawable/ic_volume"/>
+            android:icon="@drawable/ic_volume"
+            android:title="Sound" />
     </group>
     <group
         android:id="@+id/grp2"
         android:checkableBehavior="single">
         <item
             android:id="@id/deviceSettingsFragment"
-            android:title="Device Settings"
-            android:icon="@drawable/ic_outline_settings_24"/>
+            android:icon="@drawable/ic_outline_settings_24"
+            android:title="Device Settings" />
         <item
             android:id="@id/applicationPreferencesFragment"
-            android:title="Preferences"
-            android:icon="@drawable/ic_outline_phonelink_setup_24"/>
+            android:icon="@drawable/ic_outline_phonelink_setup_24"
+            android:title="Preferences" />
     </group>
     <group
         android:id="@+id/grp3"
         android:checkableBehavior="single">
         <item
             android:id="@+id/logout"
-            android:title="Log out" />
+            android:title="Log out"
+            android:icon="@drawable/ic_outline_logout_24"/>
     </group>
 </menu>
