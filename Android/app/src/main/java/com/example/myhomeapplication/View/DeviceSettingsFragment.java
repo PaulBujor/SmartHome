@@ -3,6 +3,7 @@ package com.example.myhomeapplication.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,12 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.DeviceAdapter;
 import com.example.myhomeapplication.Models.DeviceItem;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.DeviceSettingsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.OnDeviceItemClickedListener, View.OnClickListener {
 
@@ -38,6 +42,12 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         deviceSettingsViewModel = new ViewModelProvider(this).get(DeviceSettingsViewModel.class);
+        deviceSettingsViewModel.getDevicesMutable().observeForever(new Observer<List<Device>>() {
+            @Override
+            public void onChanged(List<Device> devices) {
+           getDevices();
+            }
+        });
         super.onCreate(savedInstanceState);
 
     }
@@ -74,7 +84,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         //TODO (from Alex) you can use TextWatcher to activate the button to save threshold changes and also to validate the input
 
         init();
-      /*  getDevices();*/
+
         return view;
     }
 
@@ -88,15 +98,15 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         deviceItems.add(new DeviceItem("lol","lolz"));
         deviceAdapter = new DeviceAdapter(deviceItems, this);
         recyclerView.setAdapter(deviceAdapter);*/
-        deviceAdapter = new DeviceAdapter(deviceSettingsViewModel.getAllDevices(), this);
+  /*      deviceAdapter = new DeviceAdapter(deviceSettingsViewModel.getAllDevices(), this);*/
         recyclerView.setAdapter(deviceAdapter);
     }
 
- /*   public void getDevices(){
+    public void getDevices(){
 
         deviceAdapter = new DeviceAdapter(deviceSettingsViewModel.getAllDevices(), this);
         recyclerView.setAdapter(deviceAdapter);
-    }*/
+    }
 
 
 
@@ -138,4 +148,8 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
         }
     };
-}
+
+
+
+    }
+

@@ -29,8 +29,7 @@ public class Cache {
     private final MutableLiveData<Measurement> latestHumidityMeasurement;
     private final MutableLiveData<Measurement> latestCO2Measurement;
     private final MutableLiveData<Measurement> latestAlarmMeasurement;
-    private List<Device> devices;
-
+    private final MutableLiveData<List<Device>> devices;
 
 
     //TODO avoid public constructor
@@ -39,7 +38,7 @@ public class Cache {
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();
         this.latestAlarmMeasurement = new MutableLiveData<>();
-        devices = new ArrayList<>();
+        devices = new MutableLiveData<>();
     }
 
     public static synchronized Cache getInstance() {
@@ -136,7 +135,7 @@ public class Cache {
         });
     }
 
-    public List<Device> getAllDevices(long userID) {
+    public MutableLiveData<List<Device>> getAllDevices(long userID) {
 
 
         DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
@@ -148,7 +147,7 @@ public class Cache {
             @Override
             public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
                 if (response.code() == 200) {
-                    devices = response.body();
+                    devices.setValue(response.body());
 
                     Log.i("HTTP_Devices", String.valueOf(response.code()));
 

@@ -16,32 +16,49 @@ public class DeviceSettingsViewModel extends ViewModel {
 
     private Cache repository;
     private List<Device> devices;
+    private MutableLiveData<List<Device>> devicesMutable;
 
-    public DeviceSettingsViewModel(){
+    public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
         devices = new ArrayList<>();
+        devicesMutable = new MutableLiveData<>();
+        init();
     }
 
     public Thresholds getThresholds(String id) {
         return null;
     }
 
-    public ArrayList<DeviceItem> getAllDevices(){
-       devices.clear();
-       devices =  repository.getAllDevices(1);
-       ArrayList<DeviceItem> deviceItems = new ArrayList<>();
-        for (Device item: devices
-             ) {
-            deviceItems.add(new DeviceItem(item.getDeviceName(),String.valueOf(item.getDeviceID())));
+    public void init() {
+        devicesMutable = repository.getAllDevices(1);
+
+    }
+
+    public MutableLiveData<List<Device>> getDevicesMutable() {
+        return devicesMutable;
+    }
+
+    public void setDevicesMutable(MutableLiveData<List<Device>> devicesMutable) {
+        this.devicesMutable = devicesMutable;
+    }
+
+    public ArrayList<DeviceItem> getAllDevices() {
+        ArrayList<DeviceItem> deviceItems = new ArrayList<>();
+        devices.clear();
+        List<Device> devices = devicesMutable.getValue();
+
+        for (Device item : devices
+        ) {
+            deviceItems.add(new DeviceItem(String.valueOf(item.getDeviceID()), item.getDeviceName()));
         }
-    return deviceItems;
+        return deviceItems;
     }
 
-    public void updateThresholds(){
+    public void updateThresholds() {
 
     }
 
-    public void deleteDevice(){
+    public void deleteDevice() {
 
     }
 }
