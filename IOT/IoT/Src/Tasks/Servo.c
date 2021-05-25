@@ -6,20 +6,15 @@
  */ 
 #include <stdio.h>
 #include <stdlib.h>
+#include <rc_servo.h>
 
 #include "../Headers/Servo.h"
 #include "../Headers/dataShare.h"
 
-void servo_turnServoTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
+TickType_t xLastWakeTime;
+TickType_t xFrequency;
 
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
+void servo_taskRun(void) {
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("-getDataFromMotionSensorTask");
 		
@@ -30,9 +25,20 @@ void servo_turnServoTask( void *pvParameters )
 		{
 			rc_servo_setPosition(1, -100); //OPEN
 		}
-		else if(servoMinTemperature > temperature && servoMinPPM >ppm && servoMinHumidity > humidity)
-		rc_servo_setPosition(1, 100); //CLOSE
-		
+		else if(servoMinTemperature > temperature && servoMinPPM > ppm && servoMinHumidity > humidity)
+		rc_servo_setPosition(1, 100); //CLOSE	
+}
+
+void servo_turnServoTask( void *pvParameters )
+{
+	xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
+
+	//Initialise the xLastWakeTime variable with the current time.
+	xLastWakeTime = xTaskGetTickCount();
+
+	for(;;)
+	{
+		servo_taskRun();
 	}
 }
 

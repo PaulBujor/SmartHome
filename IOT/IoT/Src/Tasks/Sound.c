@@ -11,16 +11,10 @@
 #include "../Headers/Sound.h"
 #include "../Headers/dataShare.h"
 
-void sound_getDataFromSoundSensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
+TickType_t xLastWakeTime;
+TickType_t xFrequency;
 
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
+void sound_taskRun(void) {
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("-getDataFromSoundSensorTask");
 		
@@ -31,6 +25,18 @@ void sound_getDataFromSoundSensorTask( void *pvParameters )
 		
 		
 		//PORTA ^= _BV(PA7);
+}
+
+void sound_getDataFromSoundSensorTask( void *pvParameters )
+{
+	xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
+
+	//Initialise the xLastWakeTime variable with the current time.
+	xLastWakeTime = xTaskGetTickCount();
+
+	for(;;)
+	{
+		sound_taskRun();
 	}
 }
 

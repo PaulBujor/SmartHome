@@ -11,18 +11,10 @@
 #include "../Headers/CO2.h"
 #include "../Headers/dataShare.h"
 
+TickType_t xLastWakeTime;
+TickType_t xFrequency;
 
-
-void co2_getDataFromCO2SensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
-
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
+void co2_taskRun(void) {
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("-getDataFromCO2SensorTask");
 		
@@ -44,6 +36,23 @@ void co2_getDataFromCO2SensorTask( void *pvParameters )
 		
 		
 		//PORTA ^= _BV(PA7);
+}
+
+static void delayTask(void) {
+	xFrequency = 5000 / portTICK_PERIOD_MS; // 1000 ms
+
+	//Initialise the xLastWakeTime variable with the current time.
+	xLastWakeTime = xTaskGetTickCount();
+}
+
+
+void co2_getDataFromCO2SensorTask( void *pvParameters )
+{
+	delayTask();
+
+	for(;;)
+	{
+		co2_taskRun();
 	}
 }
 

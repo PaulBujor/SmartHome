@@ -9,5 +9,6 @@
 #include "ATMEGA_FreeRTOS.h"
 #include <stdint.h>
 
+void co2_taskRun(void);
 void co2_getDataFromCO2SensorTask( void *pvParameters );
 void co2_initCO2Sensor();

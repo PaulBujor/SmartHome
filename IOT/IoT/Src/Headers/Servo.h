@@ -8,5 +8,6 @@
 
 #include "ATMEGA_FreeRTOS.h"
 
+void servo_taskRun(void);
 void servo_turnServoTask( void *pvParameters );
 void servo_init();

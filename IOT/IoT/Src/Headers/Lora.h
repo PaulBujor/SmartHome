@@ -12,5 +12,6 @@ static lora_driver_payload_t _uplink_payload;
 lora_driver_payload_t downlinkPayload;
 static bool onOffSwitch = true;
 
+void lora_taskRun(void);
 void lora_handler_task( void *pvParameters );
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);

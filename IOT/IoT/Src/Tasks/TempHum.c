@@ -11,17 +11,10 @@
 #include "../Headers/TempHum.h"
 #include "../Headers/dataShare.h"
 
+TickType_t xLastWakeTime;
+TickType_t xFrequency;
 
-void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
-
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
+void tempHum_taskRun(void) {
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("-getDataFromTempHumSensorTask");
 		
@@ -58,6 +51,18 @@ void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
 		
 		
 		//PORTA ^= _BV(PA7);
+}
+
+void tempHum_getDataFromTempHumSensorTask( void *pvParameters )
+{
+	xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
+
+	//Initialise the xLastWakeTime variable with the current time.
+	xLastWakeTime = xTaskGetTickCount();
+
+	for(;;)
+	{
+		tempHum_taskRun();
 	}
 }
 

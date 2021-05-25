@@ -10,5 +10,6 @@
 #include "ATMEGA_FreeRTOS.h"
 #include <stdint.h>
 
+void sound_taskRun(void);
 void sound_getDataFromSoundSensorTask( void *pvParameters );
 void sound_init();
