@@ -58,7 +58,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                 humMax.setText(String.valueOf(thresholds.getMaxHumidity()));
                 cO2min.setText(String.valueOf(thresholds.getMinCO2()));
                 cO2max.setText(String.valueOf(thresholds.getMaxCO2()));
-                soundMin.setText(String.valueOf(thresholds.));
+               /* soundMin.setText(String.valueOf(thresholds.));*/
             }
         });
 
