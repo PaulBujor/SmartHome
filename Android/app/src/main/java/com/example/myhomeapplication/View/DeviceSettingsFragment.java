@@ -20,6 +20,7 @@ import android.widget.EditText;
 import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.DeviceAdapter;
 import com.example.myhomeapplication.Models.DeviceItem;
+import com.example.myhomeapplication.Models.Thresholds;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.DeviceSettingsViewModel;
 
@@ -47,15 +48,22 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         deviceSettingsViewModel.getDevicesMutable().observe(this,devices -> {
             deviceAdapter.updateAdapter(deviceSettingsViewModel.getAllDevices());
         });
-   
+
         deviceSettingsViewModel.getThresholdsMutable().observe(this, thresholds -> {
-            tempMin.setText(thresholds.getMinTemperature());
-            tempMax.setText(thresholds.getMaxTemperature());
-            humMin.setText(thresholds.getMinHumidity());
-            humMax.setText(thresholds.getMaxHumidity());
-            cO2min.setText(thresholds.getMinCO2());
-            cO2max.setText(thresholds.getMaxCO2());
+
+            if(thresholds!=null) {
+                tempMin.setText(String.valueOf(thresholds.getMinTemperature()));
+                tempMax.setText(String.valueOf(thresholds.getMaxTemperature()));;
+                humMin.setText(String.valueOf(thresholds.getMinHumidity()));
+                humMax.setText(String.valueOf(thresholds.getMaxHumidity()));
+                cO2min.setText(String.valueOf(thresholds.getMinCO2()));
+                cO2max.setText(String.valueOf(thresholds.getMaxCO2()));
+                soundMin.setText(String.valueOf(thresholds.));
+            }
         });
+
+
+
         super.onCreate(savedInstanceState);
 
     }
@@ -70,8 +78,8 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         humMax = view.findViewById(R.id.ds_humidity_max);
         cO2min = view.findViewById(R.id.ds_co2_min);
         cO2max = view.findViewById(R.id.ds_co2_max);
-        //soundMin = view.findViewById(R.id.ds_sound_min);
-        //soundMax = view.findViewById(R.id.ds_sound_max);
+        soundMin = view.findViewById(R.id.ds_sound_min_edit);
+        soundMax = view.findViewById(R.id.ds_sound_max_edit);
         addDevice = view.findViewById(R.id.addDevice_button);
         removeDevice = view.findViewById(R.id.removeDevice_button);
         recyclerView = view.findViewById(R.id.ds_recycler_view);

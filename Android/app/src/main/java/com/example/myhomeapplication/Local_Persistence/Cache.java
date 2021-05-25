@@ -16,6 +16,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -151,6 +153,7 @@ public class Cache {
                 if (response.code() == 200) {
                     devices.setValue(response.body());
 
+
                     Log.i("HTTP_Devices", String.valueOf(response.code()));
 
                 } else
@@ -171,7 +174,7 @@ public class Cache {
        return devices;
     }
 
-    public MutableLiveData<Thresholds> getTresholds(long deviceID){
+    public MutableLiveData<Thresholds> getThresholdsByDevice(long deviceID){
         DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
         Call<Thresholds> call = deviceAPI.getThresholdsByDevice(deviceID);
         call.enqueue(new Callback<Thresholds>() {
@@ -180,6 +183,7 @@ public class Cache {
             public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
                 if(response.code() == 200){
                     thresholds.setValue(response.body());
+                    Log.i("TESTING","MIN TEMPERATURE ::: " + String.valueOf(thresholds.getValue().getMinTemperature()));
                 }
                 else Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + "\n" + response.message()));
             }

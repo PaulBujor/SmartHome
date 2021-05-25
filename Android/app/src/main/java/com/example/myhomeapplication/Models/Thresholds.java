@@ -7,6 +7,9 @@ public class Thresholds {
     @JsonProperty("thresholdsId")
     private long thresholdsID;
 
+    @JsonProperty("deviceConfiguration")
+    private boolean deviceConfiguration;
+
     @JsonProperty("minHumidity")
     private int minHumidity;
 
@@ -29,7 +32,7 @@ public class Thresholds {
 
     }
 
-    public Thresholds(long thresholdsID, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature, int minCO2, int maxCO2) {
+    public Thresholds(long thresholdsID,boolean deviceConfiguration, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature, int minCO2, int maxCO2) {
         this.thresholdsID = thresholdsID;
         this.minHumidity = minHumidity;
         this.maxHumidity = maxHumidity;
@@ -37,6 +40,7 @@ public class Thresholds {
         this.maxTemperature = maxTemperature;
         this.minCO2 = minCO2;
         this.maxCO2 = maxCO2;
+        this.deviceConfiguration = deviceConfiguration;
     }
 
     public long getThresholdsID() {
@@ -93,5 +97,12 @@ public class Thresholds {
 
     public void setMaxCO2(int maxCO2) {
         this.maxCO2 = maxCO2;
+    }
+    public boolean getDeviceConfiguration(){
+        return deviceConfiguration;
+    }
+
+    public void setDeviceConfiguration(boolean deviceConfiguration){
+        this.deviceConfiguration = deviceConfiguration;
     }
 }
