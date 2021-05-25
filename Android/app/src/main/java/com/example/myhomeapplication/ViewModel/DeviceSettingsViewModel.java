@@ -17,17 +17,25 @@ public class DeviceSettingsViewModel extends ViewModel {
     private Cache repository;
     private List<Device> devices;
     private MutableLiveData<List<Device>> devicesMutable;
+    private MutableLiveData<Thresholds> thresholdsMutable;
 
     public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
         devices = new ArrayList<>();
         devicesMutable = new MutableLiveData<>();
+        thresholdsMutable = new MutableLiveData<>();
         init();
     }
 
-    public Thresholds getThresholds(String id) {
-        return null;
+    public void getThresholds(String id) {
+        thresholdsMutable  = repository.getTresholds(Long.parseLong(id));
     }
+
+    public MutableLiveData<Thresholds> getThresholdsMutable(){
+        return thresholdsMutable;
+    }
+
+
 
     public void init() {
         devicesMutable = repository.getAllDevices(1);

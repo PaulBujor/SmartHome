@@ -42,6 +42,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
         return deviceItems.size();
     }
 
+    public void updateAdapter(ArrayList<DeviceItem> deviceItems){
+        this.deviceItems = deviceItems;
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView id;

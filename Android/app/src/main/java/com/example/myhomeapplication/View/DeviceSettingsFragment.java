@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,19 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         deviceSettingsViewModel = new ViewModelProvider(this).get(DeviceSettingsViewModel.class);
-        deviceSettingsViewModel.getDevicesMutable().observeForever(new Observer<List<Device>>() {
-            @Override
-            public void onChanged(List<Device> devices) {
-           getDevices();
-            }
+        deviceSettingsViewModel.getDevicesMutable().observe(this,devices -> {
+            deviceAdapter.updateAdapter(deviceSettingsViewModel.getAllDevices());
+        });
+   
+        deviceSettingsViewModel.getThresholdsMutable().observe(this, thresholds -> {
+            tempMin.setText(thresholds.getMinTemperature());
+            tempMax.setText(thresholds.getMaxTemperature());
+            humMin.setText(thresholds.getMinHumidity());
+            humMax.setText(thresholds.getMaxHumidity());
+            cO2min.setText(thresholds.getMinCO2());
+            cO2max.setText(thresholds.getMaxCO2());
         });
         super.onCreate(savedInstanceState);
 
@@ -67,10 +75,16 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         addDevice = view.findViewById(R.id.addDevice_button);
         removeDevice = view.findViewById(R.id.removeDevice_button);
         recyclerView = view.findViewById(R.id.ds_recycler_view);
+        recyclerView.hasFixedSize();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         addDevice.setOnClickListener(this);
         removeDevice.setOnClickListener(this);
         removeDevice.setVisibility(View.GONE);
+
+        ArrayList<DeviceItem> tmp = new ArrayList<>();
+        deviceAdapter = new DeviceAdapter(tmp,this);
+        recyclerView.setAdapter(deviceAdapter);
 
        /* tempMin.addTextChangedListener(thresholdWatcher);
         tempMax.addTextChangedListener(thresholdWatcher);
@@ -83,30 +97,12 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
         //TODO (from Alex) you can use TextWatcher to activate the button to save threshold changes and also to validate the input
 
-        init();
+
 
         return view;
     }
 
-    //TODO to be called in OnCreate
-    public void init() {
-        recyclerView.hasFixedSize();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //TODO get this from repository instead
-    /*    ArrayList<DeviceItem> deviceItems = new ArrayList<>();
-        deviceItems.add(new DeviceItem("lol","lolz"));
-        deviceAdapter = new DeviceAdapter(deviceItems, this);
-        recyclerView.setAdapter(deviceAdapter);*/
-  /*      deviceAdapter = new DeviceAdapter(deviceSettingsViewModel.getAllDevices(), this);*/
-        recyclerView.setAdapter(deviceAdapter);
-    }
-
-    public void getDevices(){
-
-        deviceAdapter = new DeviceAdapter(deviceSettingsViewModel.getAllDevices(), this);
-        recyclerView.setAdapter(deviceAdapter);
-    }
 
 
 
@@ -127,7 +123,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     public void onItemClicked(String id) {
 
         removeDevice.setVisibility(View.VISIBLE);
-
+        Log.d("TESTLISTENER", "onItemClicked: "+id);
         deviceSettingsViewModel.getThresholds(id);
         //TODO get settings from repository by device ID and set editfields to the values and maybe add a button to save changes
     }

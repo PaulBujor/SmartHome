@@ -30,6 +30,7 @@ public class Cache {
     private final MutableLiveData<Measurement> latestCO2Measurement;
     private final MutableLiveData<Measurement> latestAlarmMeasurement;
     private final MutableLiveData<List<Device>> devices;
+    private final MutableLiveData<Thresholds> thresholds;
 
 
     //TODO avoid public constructor
@@ -39,6 +40,7 @@ public class Cache {
         this.latestCO2Measurement = new MutableLiveData<>();
         this.latestAlarmMeasurement = new MutableLiveData<>();
         devices = new MutableLiveData<>();
+        thresholds = new MutableLiveData<>();
     }
 
     public static synchronized Cache getInstance() {
@@ -169,7 +171,7 @@ public class Cache {
        return devices;
     }
 
-   /* public LiveData<Thresholds> getTresholds(long deviceID){
+    public MutableLiveData<Thresholds> getTresholds(long deviceID){
         DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
         Call<Thresholds> call = deviceAPI.getThresholdsByDevice(deviceID);
         call.enqueue(new Callback<Thresholds>() {
@@ -191,7 +193,7 @@ public class Cache {
             }
         });
         return thresholds;
-    }*/
+    }
 
  /*   public MutableLiveData<List<Device>> getDevices() {
         return devices;
