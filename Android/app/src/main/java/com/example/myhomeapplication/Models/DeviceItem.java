@@ -6,9 +6,11 @@ public class DeviceItem {
 
 
     private String ID;
+    private String name;
 
-    public DeviceItem(String ID) {
+    public DeviceItem(String ID,String name) {
         this.ID = ID;
+        this.name= name;
     }
 
     public String getID() {
@@ -17,5 +19,13 @@ public class DeviceItem {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

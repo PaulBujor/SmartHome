@@ -3,12 +3,17 @@ package com.example.myhomeapplication.Local_Persistence;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.Measurement;
+import com.example.myhomeapplication.Models.Thresholds;
+import com.example.myhomeapplication.Remote.DeviceAPI;
+import com.example.myhomeapplication.Remote.DeviceServiceGenerator;
 import com.example.myhomeapplication.Remote.MeasurementAPI;
 import com.example.myhomeapplication.Remote.TemperatureServiceGenerator;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,6 +29,8 @@ public class Cache {
     private final MutableLiveData<Measurement> latestHumidityMeasurement;
     private final MutableLiveData<Measurement> latestCO2Measurement;
     private final MutableLiveData<Measurement> latestAlarmMeasurement;
+    private List<Device> devices;
+
 
 
     //TODO avoid public constructor
@@ -32,6 +39,7 @@ public class Cache {
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();
         this.latestAlarmMeasurement = new MutableLiveData<>();
+        devices = new ArrayList<>();
     }
 
     public static synchronized Cache getInstance() {
@@ -128,5 +136,69 @@ public class Cache {
         });
     }
 
+    public List<Device> getAllDevices(long userID) {
 
+
+        DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
+        Call<List<Device>> call = deviceAPI.getAllDevices(userID);
+
+
+        call.enqueue(new Callback<List<Device>>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
+                if (response.code() == 200) {
+                    devices = response.body();
+
+                    Log.i("HTTP_Devices", String.valueOf(response.code()));
+
+                } else
+                    Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + "\n" + response.message()));
+
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<List<Device>> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+                Log.i("Retrofit", t.getMessage());
+                t.printStackTrace();
+
+            }
+        });
+
+       return devices;
+    }
+
+   /* public LiveData<Thresholds> getTresholds(long deviceID){
+        DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
+        Call<Thresholds> call = deviceAPI.getThresholdsByDevice(deviceID);
+        call.enqueue(new Callback<Thresholds>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
+                if(response.code() == 200){
+                    thresholds.setValue(response.body());
+                }
+                else Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + "\n" + response.message()));
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<Thresholds> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+                Log.i("Retrofit", t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return thresholds;
+    }*/
+
+ /*   public MutableLiveData<List<Device>> getDevices() {
+        return devices;
+    }
+
+    public MutableLiveData<Thresholds> getThresholds() {
+        return thresholds;
+    }*/
 }
