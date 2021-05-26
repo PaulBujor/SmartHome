@@ -22,6 +22,9 @@
     <string name="sound">Sound</string>
     <string name="remove_device">Remove Device</string>
     <string name="home_card_sound_title">Sound</string>
-    <string name="device_name">Device name</string>
+    <string name="device_name">Device name (Optional)</string>
     <string name="device_id">Device ID</string>
+    <string name="save">Save</string>
+    <string name="On">ON</string>
+    <string name="Off">OFF</string>
 </resources>

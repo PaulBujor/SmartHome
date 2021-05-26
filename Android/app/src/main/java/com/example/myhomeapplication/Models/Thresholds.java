@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Thresholds {
 
+    
     @JsonProperty("thresholdsId")
     private long thresholdsID;
 
@@ -98,11 +99,12 @@ public class Thresholds {
     public void setMaxCO2(int maxCO2) {
         this.maxCO2 = maxCO2;
     }
-    public boolean getDeviceConfiguration(){
-        return deviceConfiguration;
-    }
 
     public void setDeviceConfiguration(boolean deviceConfiguration){
         this.deviceConfiguration = deviceConfiguration;
+    }
+
+    public boolean isDeviceConfiguration() {
+        return deviceConfiguration;
     }
 }

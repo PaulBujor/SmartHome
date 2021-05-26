@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.myhomeapplication.Models.Device;
+import com.example.myhomeapplication.Models.EUser;
 import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.Models.Thresholds;
+import com.example.myhomeapplication.Models.User;
 import com.example.myhomeapplication.Remote.DeviceAPI;
 import com.example.myhomeapplication.Remote.MeasurementAPI;
 import com.example.myhomeapplication.Remote.ServiceGenerator;
@@ -205,5 +207,28 @@ public class Cache {
 */
     public MutableLiveData<Thresholds> getThresholds() {
         return thresholds;
+    }
+
+    public void addDevice( Device tmpDevice) {
+    DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
+
+    //TODO get current user information
+/*    EUser tmpEUser = new EUser(tmpDevice.getDeviceName(),getCurrentUserID(),getCurrentUserEmail(),getCurrentUserPassword(),getCurrentDevices());
+    Call<EUser> call = deviceAPI.addDevice(tmpEUser.getUserID(),tmpDevice.getDeviceID(),tmpEUser);
+    call.enqueue(new Callback<EUser>() {
+        @Override
+        public void onResponse(Call<EUser> call, Response<EUser> response) {
+
+        }
+
+        @Override
+        public void onFailure(Call<EUser> call, Throwable t) {
+            Log.i("Retrofit", "Something went wrong :(");
+            Log.i("Retrofit", t.getMessage());
+            t.printStackTrace();
+        }
+    });
+
+ */
     }
 }

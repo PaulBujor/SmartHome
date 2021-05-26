@@ -1,5 +1,6 @@
 package com.example.myhomeapplication.View;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.DeviceAdapter;
@@ -25,6 +28,7 @@ import com.example.myhomeapplication.Models.DeviceItem;
 import com.example.myhomeapplication.Models.Thresholds;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.DeviceSettingsViewModel;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +41,12 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     private View view;
     private RecyclerView recyclerView;
     private DeviceAdapter deviceAdapter;
-    private EditText tempMin, tempMax, humMin, humMax, cO2min, cO2max, soundMin, soundMax;
-    private Button addDevice, removeDevice, cancelAddDevice, confirmAddDevice;
+    private EditText tempMin, tempMax, humMin, humMax, cO2min, cO2max;
+    private Button addDevice, removeDevice, cancelAddDevice, confirmAddDevice, saveChanges;
+    private Switch activeSwitch;
     private DeviceSettingsViewModel deviceSettingsViewModel;
     private ConstraintLayout addDeviceConstraintLayout, deviceSettingsConstraintLayout;
+    private TextInputEditText deviceNameInput, deviceIDInput;
 
     public DeviceSettingsFragment() {
         // Required empty public constructor
@@ -63,7 +69,14 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                 humMax.setText(String.valueOf(thresholds.getMaxHumidity()));
                 cO2min.setText(String.valueOf(thresholds.getMinCO2()));
                 cO2max.setText(String.valueOf(thresholds.getMaxCO2()));
-               /* soundMin.setText(String.valueOf(thresholds.));*/
+                if(thresholds.isDeviceConfiguration()){
+                    activeSwitch.setChecked(true);
+                    activeSwitch.setText(R.string.On);
+                }else if(!thresholds.isDeviceConfiguration()){
+                    activeSwitch.setChecked(false);
+                    activeSwitch.setText(R.string.Off);
+                }
+
             }
         });
 
@@ -81,15 +94,23 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         humMax = view.findViewById(R.id.ds_humidity_max);
         cO2min = view.findViewById(R.id.ds_co2_min);
         cO2max = view.findViewById(R.id.ds_co2_max);
-        soundMin = view.findViewById(R.id.ds_sound_min_edit);
-        soundMax = view.findViewById(R.id.ds_sound_max_edit);
         addDevice = view.findViewById(R.id.addDevice_button);
         removeDevice = view.findViewById(R.id.removeDevice_button);
         recyclerView = view.findViewById(R.id.ds_recycler_view);
         addDeviceConstraintLayout = view.findViewById(R.id.addDeviceConstraintLayout);
         deviceSettingsConstraintLayout = view.findViewById(R.id.deviceSettingsConstraintLayout);
+        activeSwitch = view.findViewById(R.id.ds_switch);
+
+        saveChanges = view.findViewById(R.id.ds_save_changes_button);
+        saveChanges.setVisibility(GONE);
+
+        //Add device
         confirmAddDevice = view.findViewById(R.id.confirmAddDevice);
         cancelAddDevice = view.findViewById(R.id.cancelAddDevice);
+        deviceNameInput = view.findViewById(R.id.deviceNameEditInput);
+        deviceIDInput = view.findViewById(R.id.deviceIDEditInput);
+
+
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -110,6 +131,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             constraintSet.clone(deviceSettingsConstraintLayout);
             constraintSet.connect(R.id.manageSensors_textView, ConstraintSet.TOP, R.id.addDeviceConstraintLayout, ConstraintSet.BOTTOM);
             constraintSet.applyTo(deviceSettingsConstraintLayout);
+
         });
 
         cancelAddDevice.setOnClickListener(v -> {
@@ -121,19 +143,16 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             constraintSet.applyTo(deviceSettingsConstraintLayout);
         });
 
-       /* tempMin.addTextChangedListener(thresholdWatcher);
+        confirmAddDevice.setOnClickListener(this);
+        saveChanges.setOnClickListener(this);
+
+        //TextWatcher
+        tempMin.addTextChangedListener(thresholdWatcher);
         tempMax.addTextChangedListener(thresholdWatcher);
         humMin.addTextChangedListener(thresholdWatcher);
         humMax.addTextChangedListener(thresholdWatcher);
         cO2min.addTextChangedListener(thresholdWatcher);
         cO2max.addTextChangedListener(thresholdWatcher);
-        soundMin.addTextChangedListener(thresholdWatcher);
-        soundMax.addTextChangedListener(thresholdWatcher);*/
-
-        //TODO (from Alex) you can use TextWatcher to activate the button to save threshold changes and also to validate the input
-
-
-
         return view;
     }
 
@@ -144,14 +163,27 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.addDevice_button:
-                //TODO open a smaller window to add ID or to make a editfield visible to add ID and the change the button to save
-                return;
+
             case R.id.removeDevice_button:
                 //TODO delete device
                 return;
+            case R.id.confirmAddDevice:
+                if(deviceIDInput.getText().toString().isEmpty()) {
+                    Context context = getContext();
+                    Toast toast =Toast.makeText(context,"Empty field for device ID is not allowed.",Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+                    else {
+                        Device tmpDevice = new Device(Long.parseLong(deviceIDInput.getText().toString()),deviceNameInput.getText().toString());
+                    deviceSettingsViewModel.addDevice(tmpDevice);
+
+                    }
+            case R.id.ds_save_changes_button:
+                Thresholds tmpThreshold = new Thresholds()
+                }
         }
-    }
+
 
     //On recyclerView item clicked listener
     @Override
@@ -160,7 +192,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         removeDevice.setVisibility(View.VISIBLE);
         Log.d("TESTLISTENER", "onItemClicked: "+id);
         deviceSettingsViewModel.getThresholds(id);
-        //TODO get settings from repository by device ID and set editfields to the values and maybe add a button to save changes
+
     }
 
     private TextWatcher thresholdWatcher = new TextWatcher() {
@@ -171,6 +203,18 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String tMin = tempMin.getText().toString();
+            String tMax = tempMax.getText().toString();
+            String hMin = humMin.getText().toString();
+            String hMax = humMax.getText().toString();
+            String cMin = cO2min.getText().toString();
+            String cMax = cO2max.getText().toString();
+
+            if (tMin.isEmpty()||tMax.isEmpty()||hMin.isEmpty()||hMax.isEmpty()||cMin.isEmpty()||cMax.isEmpty()){
+                saveChanges.setVisibility(GONE);
+
+            }else
+        saveChanges.setVisibility(View.VISIBLE);
 
         }
 
@@ -179,6 +223,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
         }
     };
+
 
 
 

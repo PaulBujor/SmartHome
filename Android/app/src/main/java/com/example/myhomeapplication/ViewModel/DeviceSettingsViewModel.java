@@ -75,4 +75,8 @@ public class DeviceSettingsViewModel extends ViewModel {
     public void deleteDevice() {
 
     }
+
+    public void addDevice(Device tmpDevice) {
+        repository.addDevice (tmpDevice);
+    }
 }
