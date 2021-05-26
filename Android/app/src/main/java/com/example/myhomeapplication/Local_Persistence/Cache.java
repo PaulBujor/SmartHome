@@ -12,6 +12,8 @@ import com.example.myhomeapplication.Remote.ServiceGenerator;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -75,7 +77,9 @@ public class Cache {
             @Override
             public void onResponse(Call<List<Measurement>> call, Response<List<Measurement>> response) {
                 if (response.code() == 200) {
-                    allMeasurements.setValue(response.body());
+                    List<Measurement> sortedMeasurements = response.body();
+                    Collections.sort(sortedMeasurements);
+                    allMeasurements.setValue(sortedMeasurements);
                     Log.i("HTTPResponseCode", String.valueOf(response.code()) + " " + measurementType);
                 } else {
                     Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + " " + measurementType + "\n" + response.message()));
