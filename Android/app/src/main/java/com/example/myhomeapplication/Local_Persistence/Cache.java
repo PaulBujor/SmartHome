@@ -174,7 +174,7 @@ public class Cache {
        return devices;
     }
 
-    public MutableLiveData<Thresholds> getThresholdsByDevice(long deviceID){
+    public void getThresholdsByDevice(long deviceID){
         DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
         Call<Thresholds> call = deviceAPI.getThresholdsByDevice(deviceID);
         call.enqueue(new Callback<Thresholds>() {
@@ -196,14 +196,14 @@ public class Cache {
                 t.printStackTrace();
             }
         });
-        return thresholds;
+
     }
 
  /*   public MutableLiveData<List<Device>> getDevices() {
         return devices;
     }
-
+*/
     public MutableLiveData<Thresholds> getThresholds() {
         return thresholds;
-    }*/
+    }
 }
