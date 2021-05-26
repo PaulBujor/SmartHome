@@ -14,5 +14,12 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/made_tommy_regular</item>
         <item name="colorControlNormal">@color/green_pale</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+    <!-- This is the Global style for the NavigationDrawer toggle -->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="barLength">22dp</item>
+        <item name="thickness">3dp</item>
+        <item name="arrowShaftLength">22dp</item>
     </style>
 </resources>

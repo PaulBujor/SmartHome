@@ -26,11 +26,11 @@
                 android:id="@+id/toolbarLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/made_tommy_extrabold"
                 android:textColor="@color/black"
-                android:layout_gravity="end"
-                android:layout_marginEnd="20dp"/>
+                android:textSize="28sp" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -54,7 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemIconSize="18dp"
+        app:itemIconSize="22dp"
+        app:itemIconTint="#808080"
+        app:itemTextAppearance="@style/menu_text_style"
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

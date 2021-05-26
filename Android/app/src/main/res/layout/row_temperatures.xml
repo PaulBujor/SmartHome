@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/constraintLayoutRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayoutRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
-        <RelativeLayout
-            android:id="@+id/temperatureLogId"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/temperature_bg"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/prefix_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/a"
-                android:textColor="@color/headerColor" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/temperatureLogId"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/temperature_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/temperatureTimeStamp"
+            android:id="@+id/prefix_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/time_stamp"
-            android:textColor="@color/headerColor"
-            app:layout_constraintStart_toEndOf="@id/temperatureLogId"
-            app:layout_constraintTop_toTopOf="@id/temperatureLogId"
-            app:layout_constraintBottom_toBottomOf="@id/temperatureLogId"
-            android:layout_marginEnd="10dp"/>
+            android:layout_centerInParent="true"
+            android:text="@string/a"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/temperatureTimeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/time_stamp"
+        app:layout_constraintBottom_toBottomOf="@id/temperatureLogId"
+        app:layout_constraintStart_toEndOf="@id/temperatureLogId"
+        app:layout_constraintTop_toTopOf="@id/temperatureLogId" />
 
     <TextView
         android:id="@+id/temperatureValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/value"
-        android:textColor="@color/headerColor"
         app:layout_constraintBottom_toBottomOf="@id/temperatureLogId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/temperatureLogId" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
