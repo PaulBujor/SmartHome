@@ -10,7 +10,7 @@ namespace Data.Data
 	public class Thresholds
 	{
 		[Key]
-		[JsonPropertyName("thresholdsId")]
+		[JsonPropertyName("thresholdsId"), JsonIgnore]
 		public long ThresholdsID { get; set; }
 		[JsonPropertyName("deviceConfiguration")]
 		public bool DeviceConfiguration { get; set; }
