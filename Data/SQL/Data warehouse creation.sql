@@ -26,6 +26,7 @@ ALTER TABLE edw.DimDevice ADD CONSTRAINT PK_edwDimDevice PRIMARY KEY (Dev_ID);
 
 CREATE TABLE edw.DimThresholds (
  S_ID INT IDENTITY,
+ ThresholdsID INT,
  minHumidity INT,
  maxHumidity INT,
  minTemperature INT,
@@ -85,8 +86,10 @@ CREATE TABLE stage.DimUser (
 
 ALTER TABLE stage.DimUser ADD CONSTRAINT PK_stageDimUser PRIMARY KEY (userId);
 
+DROP TABLE edw.DeviceFact
 
 CREATE TABLE edw.DeviceFact (
+ F_ID INT IDENTITY,
  D_ID INT NOT NULL,
  S_ID INT NOT NULL,
  T_ID INT NOT NULL,
@@ -98,7 +101,7 @@ CREATE TABLE edw.DeviceFact (
  soundMeasurement INT
 );
 
-ALTER TABLE edw.DeviceFact ADD CONSTRAINT PK_edwDeviceFact PRIMARY KEY (D_ID,S_ID,T_ID,Dev_ID);
+ALTER TABLE edw.DeviceFact ADD CONSTRAINT PK_edwDeviceFact PRIMARY KEY (F_ID,D_ID,S_ID,T_ID,Dev_ID);
 
 
 CREATE TABLE stage.UserGroup (
@@ -151,6 +154,63 @@ ALTER TABLE stage.DeviceFact ADD CONSTRAINT FK_stageDeviceFact_1 FOREIGN KEY (de
 
 
 ALTER TABLE edw.UserGroup ADD CONSTRAINT FK_edwBridgeUserDevice_0 FOREIGN KEY (U_ID) REFERENCES edw.DimUser (U_ID);
+
+--dim date generate
+declare @StartDate DATE;
+declare @EndDate DATE;
+
+set @StartDate = '2021-01-01';
+set @EndDate = DATEADD(year, 1, getdate());
+
+
+while @StartDate <= @EndDate
+	BEGIN
+		SET IDENTITY_INSERT edw.DimDate ON
+		INSERT INTO [edw].[DimDate]
+				   ([D_ID]
+				   ,[Date]
+				   ,[Day]
+				   ,[Month]
+				   ,[Year])
+			 SELECT
+					CONVERT(CHAR(8), @StartDate, 112) as D_ID,
+					@StartDate as Date,
+					DATEPART(day, @StartDate) as Day,
+					DATEPART(month, @StartDate) as Month,
+					DATEPART(year, @StartDate) as Year
+
+		SET @StartDate = DATEADD(day, 1, @StartDate);
+		
+		SET IDENTITY_INSERT edw.DimDate OFF
+	END
+
+
+--dim time generate
+declare @StartTime TIME;
+declare @EndTime TIME;
+
+set @StartTime = '14:30';
+set @EndTime = '23:55';
+
+while @StartTime < @EndTime
+	BEGIN
+		SET IDENTITY_INSERT edw.DimTime ON
+		INSERT INTO [edw].[DimTime]
+				   ([T_ID]
+				   ,[Time]
+				   ,[Hour]
+				   ,[Minutes])
+			 SELECT
+					FORMAT(@StartTime, 'hhmm') as T_ID,
+					@StartTime as Time,
+					DATEPART(HOUR, @StartTime) as Hour,
+					DATEPART(MINUTE, @StartTime) as Minutes
+
+		SET @StartTime = DATEADD(MINUTE, 5, @StartTime);
+		
+		SET IDENTITY_INSERT edw.DimTime OFF
+	END
+
 
 /*
 DROP TABLE stage.DeviceFact

@@ -62,8 +62,10 @@ namespace Data.Properties.Persistence.Impl
         {
             Device tmpDevice = await _databaseContext.Devices.Include(p => p.Measurements)
                 .FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-            MeasurementSet tmpMeasurementset = tmpDevice.Measurements.OrderByDescending(p => p.Timestamp).ToArray()[0];
-            return tmpMeasurementset;
+            // MeasurementSet tmpMeasurementset = tmpDevice.Measurements.OrderByDescending(p => p.Timestamp).ToArray()[0];
+            //lazy fix due to performance, theoretically the last added measurement in the database should be the last in the list
+            var tmpMeasurementset = tmpDevice.Measurements;
+            return tmpMeasurementset.ToArray()[tmpMeasurementset.Count - 1];
         }
 
         public async Task<IEnumerable<MeasurementSet>> getAllMeasurementSets(long deviceID)
