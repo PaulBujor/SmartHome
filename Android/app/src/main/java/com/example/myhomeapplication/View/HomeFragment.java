@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
         co2ViewModel = new ViewModelProvider(this).get(CO2ViewModel.class);
 
         temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
-        co2ViewModel.getLatestCO2Measurement().observe(getViewLifecycleOwner(), measurement -> cO2TextView.setText(String.format("%.1f", measurement.getValue())));
+        co2ViewModel.getLatestCO2Measurement().observe(getViewLifecycleOwner(), measurement -> cO2TextView.setText(String.valueOf((int) measurement.getValue())));
         humidityViewModel.getLatestHumidityMeasurement().observe(getViewLifecycleOwner(), measurement -> humidityTextView.setText(String.format("%.1f", measurement.getValue())));
         soundViewModel.getLatestSoundMeasurement().observe(getViewLifecycleOwner(), measurement -> soundTextView.setText(String.format("%.1f", measurement.getValue())));
 

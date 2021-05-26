@@ -29,7 +29,7 @@ public class CustomMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         DateTime d = new DateTime((long) e.getX());
-        markerTextView.setText("" + (String.format("%.1f", e.getY()) ) + ", " + d.toString("MMM d"));
+        markerTextView.setText("" + (String.format("%.1f", e.getY()) ) + ", " + d.toString("MMM d HH:mm"));
 
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
