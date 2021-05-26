@@ -65,7 +65,7 @@ public class HumidityFragment extends Fragment {
             recyclerView.setAdapter(newAdapter);
         };
         humidityViewModel = new ViewModelProvider(this).get(HumidityViewModel.class);
-        humidityViewModel.getAlMeasurements(deviceId, MeasurementTypes.TYPE_HUMIDITY).observe(getViewLifecycleOwner(), allMeasurementsObserver);
+        humidityViewModel.getAllMeasurements(deviceId, MeasurementTypes.TYPE_HUMIDITY).observe(getViewLifecycleOwner(), allMeasurementsObserver);
 
         humidityGraph = view.findViewById(R.id.humidityDetailsGraph);
         LineDataSet lineDataSet = new LineDataSet(null,"Humidity Measurement Set");
@@ -100,7 +100,7 @@ public class HumidityFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         
-        humidityViewModel.getAlMeasurements(deviceId,MeasurementTypes.TYPE_HUMIDITY).observe(getViewLifecycleOwner(),measurements -> {
+        humidityViewModel.getAllMeasurements(deviceId,MeasurementTypes.TYPE_HUMIDITY).observe(getViewLifecycleOwner(), measurements -> {
             for (Measurement m : measurements){
                 Log.d("TestingMeasurements",String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp() + " " + String.valueOf(m.getValue())));
             }

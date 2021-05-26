@@ -14,11 +14,11 @@ public class HumidityViewModel extends ViewModel {
         repository = Cache.getInstance();
     }
 
-    public LiveData<List<Measurement>> getAlMeasurements(int deviceID,String measurementType){
+    public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType){
         return repository.getAllMeasurements(deviceID,measurementType);
     }
 
-    public LiveData<Measurement> getLastMeasurement(){
+    public LiveData<Measurement> getLatestHumidityMeasurement(){
         return repository.getLatestHumidityMeasurement();
     }
 }

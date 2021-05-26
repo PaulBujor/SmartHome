@@ -19,7 +19,7 @@ import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.Models.RecyclerAdapter;
 import com.example.myhomeapplication.R;
-import com.example.myhomeapplication.ViewModel.MotionViewModel;
+import com.example.myhomeapplication.ViewModel.SoundViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -34,13 +34,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MotionFragment extends Fragment {
-    private MotionViewModel motionViewModel;
+public class SoundFragment extends Fragment {
+    private SoundViewModel soundViewModel;
     private RecyclerView recyclerView;
     private LineChart motionGraph;
     private int deviceID = 420;
 
-    public MotionFragment() {
+    public SoundFragment() {
         // Required empty public constructor
     }
 
@@ -63,8 +63,8 @@ public class MotionFragment extends Fragment {
             RecyclerAdapter newAdapter = new RecyclerAdapter(measurements);
             recyclerView.setAdapter(newAdapter);
         };
-        motionViewModel = new ViewModelProvider(this).get(MotionViewModel.class);
-        motionViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALARM).observe(getViewLifecycleOwner(),allMeasurementsObserver);
+        soundViewModel = new ViewModelProvider(this).get(SoundViewModel.class);
+        soundViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(),allMeasurementsObserver);
 
         motionGraph = view.findViewById(R.id.motionDetailsGraph);
         LineDataSet lineDataSet = new LineDataSet(null, "Motion Measurements Set");
@@ -101,7 +101,7 @@ public class MotionFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        motionViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALARM).observe(getViewLifecycleOwner(),measurements -> {
+        soundViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(), measurements -> {
             for(Measurement m : measurements){
                 Log.d("TestingMeasurements",String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + " "+ String.valueOf(m.getValue()));
             }

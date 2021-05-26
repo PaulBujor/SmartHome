@@ -24,7 +24,7 @@ public class DataRetrieverWorker extends Worker {
             repository.receiveLatestMeasurement(420, MeasurementTypes.TYPE_TEMPERATURE);
             repository.receiveLatestMeasurement(420, MeasurementTypes.TYPE_HUMIDITY);
             repository.receiveLatestMeasurement(420, MeasurementTypes.TYPE_CO2);
-            repository.receiveLatestMeasurement(420, MeasurementTypes.TYPE_ALARM);
+            repository.receiveLatestMeasurement(420, MeasurementTypes.TYPE_SOUND);
         }
         catch (Exception e) {
             Log.d("DATA_RETRIEVER_WORKER", e.getMessage());

@@ -43,7 +43,7 @@
         tools:layout="@layout/fragment_c_o2" />
     <fragment
         android:id="@+id/motionFragment"
-        android:name="com.example.myhomeapplication.View.MotionFragment"
+        android:name="com.example.myhomeapplication.View.SoundFragment"
         tools:layout="@layout/fragment_motion" />
     <fragment
         android:id="@+id/applicationPreferencesFragment"

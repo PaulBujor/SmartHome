@@ -8,17 +8,17 @@ import com.example.myhomeapplication.Models.Measurement;
 
 import java.util.List;
 
-public class MotionViewModel extends ViewModel {
+public class SoundViewModel extends ViewModel {
     private Cache repository;
 
-    public MotionViewModel(){
+    public SoundViewModel(){
         repository = Cache.getInstance();
     }
     public LiveData<List<Measurement>>getAllMeasurements(int deviceID, String measurementType){
         return repository.getAllMeasurements(deviceID, measurementType);
     }
 
-    public LiveData<Measurement> getLastMotionMeasurement(){
-        return repository.getLatestAlarmMeasurement();
+    public LiveData<Measurement> getLatestSoundMeasurement(){
+        return repository.getLatestSoundMeasurement();
     }
 }

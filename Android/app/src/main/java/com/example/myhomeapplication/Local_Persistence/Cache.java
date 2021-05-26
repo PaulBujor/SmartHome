@@ -26,7 +26,7 @@ public class Cache {
     private final MutableLiveData<Measurement> latestTemperatureMeasurement;
     private final MutableLiveData<Measurement> latestHumidityMeasurement;
     private final MutableLiveData<Measurement> latestCO2Measurement;
-    private final MutableLiveData<Measurement> latestAlarmMeasurement;
+    private final MutableLiveData<Measurement> latestSoundMeasurement;
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
 
@@ -36,7 +36,7 @@ public class Cache {
         this.latestTemperatureMeasurement = new MutableLiveData<>();
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();
-        this.latestAlarmMeasurement = new MutableLiveData<>();
+        this.latestSoundMeasurement = new MutableLiveData<>();
         devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
     }
@@ -59,8 +59,8 @@ public class Cache {
         return latestCO2Measurement;
     }
 
-    public LiveData<Measurement> getLatestAlarmMeasurement() {
-        return latestAlarmMeasurement;
+    public LiveData<Measurement> getLatestSoundMeasurement() {
+        return latestSoundMeasurement;
     }
 
 
@@ -113,8 +113,8 @@ public class Cache {
                         case MeasurementTypes.TYPE_CO2:
                             latestCO2Measurement.setValue(response.body());
                             break;
-                        case MeasurementTypes.TYPE_ALARM:
-                            latestAlarmMeasurement.setValue(response.body());
+                        case MeasurementTypes.TYPE_SOUND:
+                            latestSoundMeasurement.setValue(response.body());
                             break;
                         default:
                             Log.wtf("Repository", "Wrong measurement type");
