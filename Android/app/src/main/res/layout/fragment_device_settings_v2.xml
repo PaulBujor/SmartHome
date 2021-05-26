@@ -158,6 +158,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/allDevices_textView" />
 
+    <include layout="@layout/add_device"/>
+
 
     <Button
         android:id="@+id/addDevice_button"
