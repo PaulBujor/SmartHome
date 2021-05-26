@@ -1,8 +1,10 @@
 package com.example.myhomeapplication.View;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -141,11 +143,16 @@ public class TemperatureFragment extends Fragment {
         set1.setColor(Color.parseColor("#4B6C53"));
         set1.setCircleColor(Color.WHITE);
         set1.setCircleHoleColor(Color.parseColor("#4B6C53"));
-        set1.setHighLightColor(Color.parseColor("#48B864"));
+        set1.setHighLightColor(Color.parseColor("#577d61"));
         set1.setHighlightLineWidth(2f);
         set1.setDrawHorizontalHighlightIndicator(false);
         set1.setDrawValues(true);
+        set1.setDrawFilled(true);
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
+        drawable.setAlpha(128);
+        set1.setFillDrawable(drawable);
+
 
         return new LineData(set1);
     }
