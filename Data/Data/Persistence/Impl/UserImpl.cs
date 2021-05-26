@@ -18,13 +18,13 @@ namespace Data.Persistence.Impl
 			this.dbContext = dbContext;
 		}
 
-		public async Task<List<Device>> getDevices(long userId)
+		public async Task<List<Device>> GetDevices(long userId)
 		{
 			var user = await dbContext.Users.Include(u => u.Devices).FirstOrDefaultAsync(u => u.UserID == userId);
 			return user.Devices;
 		}
 
-		public async Task registerUser(User user)
+		public async Task RegisterUser(User user)
 		{
 			if ((await dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(user.Email))) != null)
 				throw new ArgumentException("User already exists");
@@ -32,7 +32,7 @@ namespace Data.Persistence.Impl
 			await dbContext.SaveChangesAsync();
 		}
 
-		public async Task<User> loginUser(User user)
+		public async Task<User> LoginUser(User user)
 		{
 			var dbUser = await dbContext.Users
 				.Include(u => u.Devices)
@@ -42,7 +42,7 @@ namespace Data.Persistence.Impl
 			return dbUser;
 		}
 
-		public async Task addDevice(long userId, long deviceId)
+		public async Task AddDevice(long userId, long deviceId)
 		{
 			var dbUser = await dbContext.Users
 				.Include(u => u.Devices)
@@ -53,6 +53,18 @@ namespace Data.Persistence.Impl
 			dbUser.Devices.Add(dbDevice);
 			await dbContext.SaveChangesAsync();
 
+		}
+
+		public async Task RemoveDevice(long id, long deviceId)
+		{
+			var dbUser = await dbContext.Users
+				.Include(u => u.Devices)
+				.FirstOrDefaultAsync(u => u.UserID == id);
+			var dbDevice = await dbContext.Devices.FirstOrDefaultAsync(d => d.DeviceID == deviceId);
+			if (dbDevice == null)
+				throw new ArgumentException("Device does not exist, please turn on your device before using it, or check that the entered device id is correct");
+			dbUser.Devices.Remove(dbDevice);
+			await dbContext.SaveChangesAsync();
 		}
 	}
 }

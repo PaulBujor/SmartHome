@@ -21,11 +21,11 @@ namespace Data.Controllers
 
 		//this is a rather naive apporach, anyone can see what devices you have if they know your id, but it's ok for our scope
 		[HttpGet("api/users/{id}/devices")]
-		public async Task<ActionResult<List<Device>>> getDevices(long id)
+		public async Task<ActionResult<List<Device>>> GetDevices(long id)
 		{
 			try
 			{
-				return Ok(await userService.getDevices(id));
+				return Ok(await userService.GetDevices(id));
 			}
 			catch (Exception e)
 			{
@@ -35,16 +35,36 @@ namespace Data.Controllers
 			}
 		}
 
-		[HttpPost("api/users/{id}/device/{deviceId}")]
-		public async Task<ActionResult> addDevice(long id, long deviceId, [FromBody] User user)
+		[HttpPost("api/users/{id}/devices/{deviceId}")]
+		public async Task<ActionResult> AddDevice(long id, long deviceId, [FromBody] User user)
 		{
 			try
 			{
-				var myUser = await userService.loginUser(user);
+				var myUser = await userService.LoginUser(user);
 				if (myUser.UserID != id)
 					throw new ArgumentException("User id does not match actual user");
 
-				await userService.addDevice(id, deviceId);
+				await userService.AddDevice(id, deviceId);
+				return Ok();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
+		}
+
+		[HttpDelete("api/users/{id}/devices/{deviceId}")]
+		public async Task<ActionResult> RemoveDevice(long id, long deviceId, [FromBody] User user)
+		{
+			try
+			{
+				var myUser = await userService.LoginUser(user);
+				if (myUser.UserID != id)
+					throw new ArgumentException("User id does not match actual user");
+
+				await userService.RemoveDevice(id, deviceId);
 				return Ok();
 			}
 			catch (Exception e)
@@ -56,11 +76,11 @@ namespace Data.Controllers
 		}
 
 		[HttpPost("api/users/register")]
-		public async Task<ActionResult<User>> register([FromBody] User user)
+		public async Task<ActionResult> Register([FromBody] User user)
 		{
 			try
 			{
-				await userService.registerUser(user);
+				await userService.RegisterUser(user);
 				return Ok();
 			}
 			catch (Exception e)
@@ -72,11 +92,11 @@ namespace Data.Controllers
 		}
 
 		[HttpPost("api/users/login")]
-		public async Task<ActionResult<User>> login([FromBody] User user)
+		public async Task<ActionResult<User>> Login([FromBody] User user)
 		{
 			try
 			{
-				return Ok(await userService.loginUser(user));
+				return Ok(await userService.LoginUser(user));
 			}
 			catch (Exception e)
 			{

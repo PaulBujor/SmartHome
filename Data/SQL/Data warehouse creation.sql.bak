@@ -1,0 +1,146 @@
+CREATE TABLE edw.DimDate (
+ D_ID INT NOT NULL,
+ Date DATE,
+ Year INT,
+ Month INT,
+ Day INT
+);
+
+ALTER TABLE edw.DimDate ADD CONSTRAINT PK_edw.DimDate PRIMARY KEY (D_ID);
+
+
+CREATE TABLE edw.DimDevice (
+ Dev_ID INT NOT NULL,
+ deviceID CHAR(10) NOT NULL,
+ roomName NCHAR VARYING(30),
+ deviceName NCHAR VARYING(50)
+);
+
+ALTER TABLE edw.DimDevice ADD CONSTRAINT PK_edw.DimDevice PRIMARY KEY (Dev_ID);
+
+
+CREATE TABLE edw.DimSettings (
+ S_ID INT NOT NULL,
+ minHumidity INT,
+ maxHumidity INT,
+ minTemperature INT,
+ maxTemperature INT,
+ minCo2 INT,
+ maxCo2 INT,
+ validFrom DATE,
+ validTo DATE
+);
+
+ALTER TABLE edw.DimSettings ADD CONSTRAINT PK_edw.DimSettings PRIMARY KEY (S_ID);
+
+
+CREATE TABLE edw.DimTime (
+ T_ID INT NOT NULL,
+ Time TIME(10),
+ Hour INT,
+ Minutes INT
+);
+
+ALTER TABLE edw.DimTime ADD CONSTRAINT PK_edw.DimTime PRIMARY KEY (T_ID);
+
+
+CREATE TABLE edw.DimUser (
+ U_ID INT NOT NULL,
+ userId INT,
+ email NCHAR VARYING(50)
+);
+
+ALTER TABLE edw.DimUser ADD CONSTRAINT PK_edw.DimUser PRIMARY KEY (U_ID);
+
+
+CREATE TABLE stage.DimDevice (
+ deviceID INT NOT NULL,
+ roomName NCHAR VARYING(30),
+ deviceName CHAR(10)
+);
+
+ALTER TABLE stage.DimDevice ADD CONSTRAINT PK_stage.DimDevice PRIMARY KEY (deviceID);
+
+
+CREATE TABLE stage.DimSettings (
+ settingsID INT NOT NULL,
+ minHumidity INT,
+ maxHumidity INT,
+ minTemperature INT,
+ maxTemperature INT,
+ minCo2 INT,
+ maxCo2 INT
+);
+
+ALTER TABLE stage.DimSettings ADD CONSTRAINT PK_stage.DimSettings PRIMARY KEY (settingsID);
+
+
+CREATE TABLE stage.DimUser (
+ userId INT NOT NULL,
+ email NCHAR VARYING(50)
+);
+
+ALTER TABLE stage.DimUser ADD CONSTRAINT PK_stage.DimUser PRIMARY KEY (userId);
+
+
+CREATE TABLE edw.DeviceFact (
+ D_ID INT NOT NULL,
+ S_ID INT NOT NULL,
+ T_ID INT NOT NULL,
+ Dev_ID INT NOT NULL,
+ UG_ID (FK) INT NOT NULL,
+ co2Measurement INT,
+ temperatureMeasurement INT,
+ humidityMeasurement INT,
+ soundMeasurement INT
+);
+
+ALTER TABLE edw.DeviceFact ADD CONSTRAINT PK_edw.DeviceFact PRIMARY KEY (D_ID,S_ID,T_ID,Dev_ID,UG_ID (FK));
+
+
+CREATE TABLE stage.BridgeUserDevice (
+ userGroupId INT NOT NULL,
+ userId INT NOT NULL
+);
+
+ALTER TABLE stage.BridgeUserDevice ADD CONSTRAINT PK_stage.BridgeUserDevice PRIMARY KEY (userGroupId,userId);
+
+
+CREATE TABLE stage.DeviceFact (
+ settingsID INT NOT NULL,
+ userGroupId (FK) INT NOT NULL,
+ deviceID INT NOT NULL,
+ timestamp DATE,
+ co2Measurement INT,
+ temperatureMeasurement INT,
+ humidityMeasurement INT,
+ soundMeasurement INT
+);
+
+ALTER TABLE stage.DeviceFact ADD CONSTRAINT PK_stage.DeviceFact PRIMARY KEY (settingsID,userGroupId (FK),deviceID);
+
+
+CREATE TABLE edw.BridgeUserDevice (
+ UG_ID INT NOT NULL,
+ U_ID INT NOT NULL
+);
+
+ALTER TABLE edw.BridgeUserDevice ADD CONSTRAINT PK_edw.BridgeUserDevice PRIMARY KEY (UG_ID,U_ID);
+
+
+ALTER TABLE edw.DeviceFact ADD CONSTRAINT FK_edw.DeviceFact_0 FOREIGN KEY (D_ID) REFERENCES edw.DimDate (D_ID);
+ALTER TABLE edw.DeviceFact ADD CONSTRAINT FK_edw.DeviceFact_1 FOREIGN KEY (S_ID) REFERENCES edw.DimSettings (S_ID);
+ALTER TABLE edw.DeviceFact ADD CONSTRAINT FK_edw.DeviceFact_2 FOREIGN KEY (T_ID) REFERENCES edw.DimTime (T_ID);
+ALTER TABLE edw.DeviceFact ADD CONSTRAINT FK_edw.DeviceFact_3 FOREIGN KEY (Dev_ID) REFERENCES edw.DimDevice (Dev_ID);
+
+
+ALTER TABLE stage.BridgeUserDevice ADD CONSTRAINT FK_stage.BridgeUserDevice_0 FOREIGN KEY (userId) REFERENCES stage.DimUser (userId);
+
+
+ALTER TABLE stage.DeviceFact ADD CONSTRAINT FK_stage.DeviceFact_0 FOREIGN KEY (settingsID) REFERENCES stage.DimSettings (settingsID);
+ALTER TABLE stage.DeviceFact ADD CONSTRAINT FK_stage.DeviceFact_1 FOREIGN KEY (deviceID) REFERENCES stage.DimDevice (deviceID);
+
+
+ALTER TABLE edw.BridgeUserDevice ADD CONSTRAINT FK_edw.BridgeUserDevice_0 FOREIGN KEY (U_ID) REFERENCES edw.DimUser (U_ID);
+
+

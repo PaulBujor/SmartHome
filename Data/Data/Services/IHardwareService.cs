@@ -11,5 +11,6 @@ namespace Data.Services
         Task SetSettings(Thresholds thresholds,long deviceID);
         Task CheckDeviceExists(long deviceId);
         Task Reset(long id);
+        Task ChangeDeviceName(long id, string newDeviceName);
     }
 }

@@ -11,5 +11,6 @@ namespace Data.Properties.Persistence
         Task<List<Device>> GetDevices();
         Task UpdateDevice(Device device);
         Task RemoveDevice(long id);
+        Task ChangeDeviceName(long id, string newDeviceName);
     }
 }

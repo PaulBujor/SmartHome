@@ -15,6 +15,8 @@ namespace Data.Data
 		public long ID { get; set; }
 		[JsonPropertyName("deviceId")]
 		public long DeviceID { get; set; }
+		[JsonPropertyName("deviceName")]
+		public string DeviceName { get; set; }
 		[JsonIgnore]
 		public Thresholds DeviceThresholds { get; set; }
 		[JsonIgnore]
