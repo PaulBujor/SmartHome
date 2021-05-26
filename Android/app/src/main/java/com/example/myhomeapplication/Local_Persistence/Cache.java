@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -187,6 +188,7 @@ public class Cache {
             public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
                 if(response.code() == 200){
                     thresholds.setValue(response.body());
+                    responseInformation.setValue("Thresholds displayed for device : "+deviceID);
                     Log.i("TESTING","MIN TEMPERATURE ::: " + String.valueOf(thresholds.getValue().getMinTemperature()));
                 }
                 else Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + "\n" + response.message()));
@@ -198,6 +200,7 @@ public class Cache {
                 Log.i("Retrofit", "Something went wrong :(");
                 Log.i("Retrofit", t.getMessage());
                 t.printStackTrace();
+                responseInformation.setValue("Encountered an error while getting thresholds.");
             }
         });
 
@@ -216,55 +219,58 @@ public class Cache {
 
         //TODO getting current USER
 /*    EUser tmpEUser = new EUser(tmpDevice.getDeviceName(),getCurrentUserID(),getCurrentUserEmail(),getCurrentUserPassword(),getCurrentDevices());
-    Call<EUser> call = deviceAPI.addDevice(tmpEUser.getUserID(),tmpDevice.getDeviceID(),tmpEUser);
-    call.enqueue(new Callback<EUser>() {
+    Call<ResponseBody> call = deviceAPI.addDevice(tmpEUser.getUserID(),tmpDevice.getDeviceID(),tmpEUser);
+    call.enqueue(new Callback<ResponseBody>() {
         @Override
-        public void onResponse(Call<EUser> call, Response<EUser> response) {
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        responseInformation.setValue("Device added successfully.");
 
         }
 
         @Override
-        public void onFailure(Call<EUser> call, Throwable t) {
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
             Log.i("Retrofit", "Something went wrong :(");
             Log.i("Retrofit", t.getMessage());
             t.printStackTrace();
+            responseInformation.setValue("Encountered an error while adding a device.");
         }
-    });
+    });*/
 
- */
     }
 
     public void updateThresholds(long deviceId, Thresholds thresholds) {
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
-        Call<Thresholds> call = deviceAPI.updateThresholds(deviceId,thresholds);
-        call.enqueue(new Callback<Thresholds>() {
+        Call<ResponseBody> call = deviceAPI.updateThresholds(deviceId,thresholds);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
-            responseInformation.setValue("Thresholds updated successfully.");
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                responseInformation.setValue("Thresholds updated successfully.");
             }
 
             @Override
-            public void onFailure(Call<Thresholds> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.i("Retrofit", "Something went wrong :(");
                 Log.i("Retrofit", t.getMessage());
                 t.printStackTrace();
-                responseInformation.setValue("Threshold update failed.");
+                responseInformation.setValue("Threshold update failed");
             }
         });
+
+
     }
 
     public void deleteDevice(long deviceID) {
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         //TODO getting current USER
-    /*    Call<Device> call = deviceAPI.deleteDevice(getCurrentUserID(),deviceID);
-        call.enqueue(new Callback<Device>() {
+    /*    Call<ResponseBody> call = deviceAPI.deleteDevice(getCurrentUserID(),deviceID);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Device> call, Response<Device> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 responseInformation.setValue("Device deleted successfully.");
             }
 
             @Override
-            public void onFailure(Call<Device> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.i("Retrofit", "Something went wrong :(");
                 Log.i("Retrofit", t.getMessage());
                 t.printStackTrace();

@@ -6,6 +6,7 @@ import com.example.myhomeapplication.Models.Thresholds;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -24,13 +25,13 @@ public interface DeviceAPI {
     Call<Thresholds> getThresholdsByDevice(@Path("id") long deviceID);
 
     @POST("api/users/{id}/devices/{deviceId}")
-    Call<EUser> addDevice(@Path("id") long userID, @Path("deviceId") long deviceID, @Body EUser eUser);
+    Call<ResponseBody> addDevice(@Path("id") long userID, @Path("deviceId") long deviceID, @Body EUser eUser);
 
     @PATCH("api/devices/{id}/thresholds")
-    Call<Thresholds> updateThresholds(@Path("id") long deviceID,@Body Thresholds thresholds);
+    Call<ResponseBody> updateThresholds(@Path("id") long deviceID, @Body Thresholds thresholds);
 
     @DELETE("api/users/{id}/devices/{deviceId}")
-    Call<Device> deleteDevice(@Path("id") long userID,@Path("deviceId") long deviceID);
+    Call<ResponseBody> deleteDevice(@Path("id") long userID,@Path("deviceId") long deviceID);
     //TODO implement
     /*
     @DELETE("api/devices/{id}/thresholds")

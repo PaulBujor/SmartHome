@@ -66,7 +66,6 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             if (thresholds != null) {
                 tempMin.setText(String.valueOf(thresholds.getMinTemperature()));
                 tempMax.setText(String.valueOf(thresholds.getMaxTemperature()));
-                ;
                 humMin.setText(String.valueOf(thresholds.getMinHumidity()));
                 humMax.setText(String.valueOf(thresholds.getMaxHumidity()));
                 cO2min.setText(String.valueOf(thresholds.getMinCO2()));
