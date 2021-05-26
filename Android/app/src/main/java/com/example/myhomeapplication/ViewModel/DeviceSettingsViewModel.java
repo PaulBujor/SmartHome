@@ -18,12 +18,14 @@ public class DeviceSettingsViewModel extends ViewModel {
     private List<Device> devices;
     private MutableLiveData<List<Device>> devicesMutable;
     private MutableLiveData<Thresholds> thresholdsMutable;
+    private MutableLiveData<Long> deviceIDMutable;
 
     public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
         devices = new ArrayList<>();
         devicesMutable = new MutableLiveData<>();
         thresholdsMutable = new MutableLiveData<>();
+        deviceIDMutable= new MutableLiveData<>();
 
         repository.getThresholds().observeForever(thresholds -> {
             thresholdsMutable.setValue(thresholds);
@@ -68,8 +70,16 @@ public class DeviceSettingsViewModel extends ViewModel {
         return deviceItems;
     }
 
-    public void updateThresholds() {
+    public void updateThresholds(long deviceId, Thresholds thresholds) {
+        repository.updateThresholds(deviceId, thresholds);
+    }
 
+    public MutableLiveData<Long> getDeviceIDMutable() {
+        return deviceIDMutable;
+    }
+
+    public void setDeviceIDMutable(long deviceId) {
+        this.deviceIDMutable.setValue(deviceId);
     }
 
     public void deleteDevice() {

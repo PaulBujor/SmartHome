@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,23 +57,24 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     public void onCreate(Bundle savedInstanceState) {
 
         deviceSettingsViewModel = new ViewModelProvider(this).get(DeviceSettingsViewModel.class);
-        deviceSettingsViewModel.getDevicesMutable().observe(this,devices -> {
+        deviceSettingsViewModel.getDevicesMutable().observe(this, devices -> {
             deviceAdapter.updateAdapter(deviceSettingsViewModel.getAllDevices());
         });
 
         deviceSettingsViewModel.getThresholdsMutable().observe(this, thresholds -> {
 
-            if(thresholds!=null) {
+            if (thresholds != null) {
                 tempMin.setText(String.valueOf(thresholds.getMinTemperature()));
-                tempMax.setText(String.valueOf(thresholds.getMaxTemperature()));;
+                tempMax.setText(String.valueOf(thresholds.getMaxTemperature()));
+                ;
                 humMin.setText(String.valueOf(thresholds.getMinHumidity()));
                 humMax.setText(String.valueOf(thresholds.getMaxHumidity()));
                 cO2min.setText(String.valueOf(thresholds.getMinCO2()));
                 cO2max.setText(String.valueOf(thresholds.getMaxCO2()));
-                if(thresholds.isDeviceConfiguration()){
+                if (thresholds.isDeviceConfiguration()) {
                     activeSwitch.setChecked(true);
                     activeSwitch.setText(R.string.On);
-                }else if(!thresholds.isDeviceConfiguration()){
+                } else if (!thresholds.isDeviceConfiguration()) {
                     activeSwitch.setChecked(false);
                     activeSwitch.setText(R.string.Off);
                 }
@@ -119,7 +121,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         removeDevice.setVisibility(GONE);
 
         ArrayList<DeviceItem> tmp = new ArrayList<>();
-        deviceAdapter = new DeviceAdapter(tmp,this);
+        deviceAdapter = new DeviceAdapter(tmp, this);
         recyclerView.setAdapter(deviceAdapter);
 
         addDeviceConstraintLayout.setVisibility(GONE);
@@ -157,32 +159,47 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     }
 
 
-
-
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.removeDevice_button:
                 //TODO delete device
                 return;
             case R.id.confirmAddDevice:
-                if(deviceIDInput.getText().toString().isEmpty()) {
+                if (deviceIDInput.getText().toString().isEmpty()) {
                     Context context = getContext();
-                    Toast toast =Toast.makeText(context,"Empty field for device ID is not allowed.",Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, "Empty field for device ID is not allowed.", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
-                }
-                    else {
-                        Device tmpDevice = new Device(Long.parseLong(deviceIDInput.getText().toString()),deviceNameInput.getText().toString());
+                } else {
+                    Device tmpDevice = new Device(Long.parseLong(deviceIDInput.getText().toString()), deviceNameInput.getText().toString());
                     deviceSettingsViewModel.addDevice(tmpDevice);
 
-                    }
+                }
             case R.id.ds_save_changes_button:
-                Thresholds tmpThreshold = new Thresholds()
+
+                //Not the most elegant implementation
+                try {
+                    Thresholds tmpThresholdsForID = deviceSettingsViewModel.getThresholdsMutable().getValue();
+
+                    Thresholds tmpThreshold = new Thresholds(tmpThresholdsForID.getThresholdsID()
+                            , activeSwitch.isChecked()
+                            , Integer.parseInt(humMin.getText().toString())
+                            , Integer.parseInt(humMax.getText().toString())
+                            , Integer.parseInt(tempMin.getText().toString())
+                            , Integer.parseInt(tempMax.getText().toString())
+                            , Integer.parseInt(cO2min.getText().toString())
+                            , Integer.parseInt(cO2max.getText().toString())
+                    );
+                    deviceSettingsViewModel.updateThresholds(deviceSettingsViewModel.getDeviceIDMutable().getValue(), tmpThreshold);
+                } catch (Exception e) {
+                    Log.i("UpdateThresholds", "Something went wrong :(");
+                    Log.i("UpdateThresholds", e.getMessage());
+                    e.printStackTrace();
                 }
         }
+    }
 
 
     //On recyclerView item clicked listener
@@ -190,9 +207,9 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     public void onItemClicked(String id) {
 
         removeDevice.setVisibility(View.VISIBLE);
-        Log.d("TESTLISTENER", "onItemClicked: "+id);
+        Log.d("TESTLISTENER", "onItemClicked: " + id);
         deviceSettingsViewModel.getThresholds(id);
-
+        deviceSettingsViewModel.setDeviceIDMutable(Long.parseLong(id));
     }
 
     private TextWatcher thresholdWatcher = new TextWatcher() {
@@ -210,11 +227,11 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             String cMin = cO2min.getText().toString();
             String cMax = cO2max.getText().toString();
 
-            if (tMin.isEmpty()||tMax.isEmpty()||hMin.isEmpty()||hMax.isEmpty()||cMin.isEmpty()||cMax.isEmpty()){
+            if (tMin.isEmpty() || tMax.isEmpty() || hMin.isEmpty() || hMax.isEmpty() || cMin.isEmpty() || cMax.isEmpty()) {
                 saveChanges.setVisibility(GONE);
 
-            }else
-        saveChanges.setVisibility(View.VISIBLE);
+            } else
+                saveChanges.setVisibility(View.VISIBLE);
 
         }
 
@@ -225,7 +242,5 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     };
 
 
-
-
-    }
+}
 

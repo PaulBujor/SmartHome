@@ -26,10 +26,11 @@ public interface DeviceAPI {
     @POST("api/users/{id}/devices/{deviceId}")
     Call<EUser> addDevice(@Path("id") long userID, @Path("deviceId") long deviceID, @Body EUser eUser);
 
+    @PATCH("api/devices/{id}/thresholds")
+    Call<Thresholds> updateThresholds(@Path("id") long deviceID,@Body Thresholds thresholds);
 
     //TODO implement
-    /*@PATCH("api/devices/{id}/thresholds")
-
+    /*
     @DELETE("api/devices/{id}/thresholds")
 
     @PATCH("api/devices/{id}/name")*/

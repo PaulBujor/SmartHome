@@ -231,4 +231,22 @@ public class Cache {
 
  */
     }
+
+    public void updateThresholds(long deviceId, Thresholds thresholds) {
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
+        Call<Thresholds> call = deviceAPI.updateThresholds(deviceId,thresholds);
+        call.enqueue(new Callback<Thresholds>() {
+            @Override
+            public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Thresholds> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+                Log.i("Retrofit", t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
 }
