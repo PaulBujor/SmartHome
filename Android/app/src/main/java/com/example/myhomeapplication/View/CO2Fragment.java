@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.myhomeapplication.Custom.CustomMarkerView;
 import com.example.myhomeapplication.Custom.XAxisValueFormatter;
 import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
@@ -23,6 +24,7 @@ import com.example.myhomeapplication.Models.RecyclerAdapter;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.CO2ViewModel;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -94,6 +96,10 @@ public class CO2Fragment extends Fragment {
 
         YAxis yl = cO2Graph.getAxisLeft();
         yl.setSpaceTop(30);
+
+        //Marker
+        IMarker marker = new CustomMarkerView(getContext(), R.layout.graph_marker);
+        cO2Graph.setMarker(marker);
 
         recyclerView = view.findViewById(R.id.recyclerViewCO2Details);
         recyclerView.hasFixedSize();
