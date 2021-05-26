@@ -127,6 +127,7 @@ public class SoundFragment extends Fragment {
         set1.setDrawCircles(false);
         set1.setDrawHorizontalHighlightIndicator(false);
         set1.setDrawValues(false);
+        set1.setDrawFilled(true);
         set1.setColor(Color.parseColor("#4B6C53"));
         set1.setHighLightColor(Color.parseColor("#577d61"));
         set1.setHighlightLineWidth(2f);
