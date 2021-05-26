@@ -27,7 +27,8 @@
             android:elevation="100dp"
             android:text="@string/home_card_temperature_title"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:fontFamily="@font/made_tommy_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,11 +42,12 @@
 
         <ImageView
             android:id="@+id/temperatureCardIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:elevation="100dp"
-            android:src="@drawable/thermometer"
+            android:src="@drawable/ic_thermometer"
+            app:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,6 +59,8 @@
             android:text="20"
             android:textColor="#FFFFFF"
             android:textSize="56sp"
+            android:maxLines="1"
+            android:maxLength="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,8 +74,8 @@
             android:text="°C"
             android:textColor="#FFFFFF"
             android:textSize="25sp"
-            app:layout_constraintStart_toEndOf="@+id/temperatureCardValue"
-            app:layout_constraintTop_toTopOf="@+id/temperatureCardValue" />
+            app:layout_constraintStart_toEndOf="@id/temperatureCardValue"
+            app:layout_constraintTop_toTopOf="@id/temperatureCardValue" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -95,7 +99,8 @@
             android:elevation="100dp"
             android:text="@string/home_card_co2_title"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:fontFamily="@font/made_tommy_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,7 +118,10 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:elevation="100dp"
-            android:src="@drawable/thermometer"
+            android:layout_marginStart="8dp"
+            android:translationY="-8dp"
+            android:src="@drawable/ic_cloud"
+            app:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -122,7 +130,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="100dp"
-            android:text="700"
+            android:text="700.9"
+            android:maxLines="1"
+            android:maxLength="5"
             android:textColor="#FFFFFF"
             android:textSize="56sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -134,14 +144,14 @@
             android:id="@+id/C02CardUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="72dp"
             android:elevation="100dp"
             android:text="ppm"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/C02CardValue"
-            app:layout_constraintTop_toTopOf="@+id/C02CardValue" />
+            android:translationY="-10dp"
+            android:translationX="10dp"
+            app:layout_constraintEnd_toEndOf="@id/C02CardValue"
+            app:layout_constraintTop_toBottomOf="@id/C02CardValue" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,9 +173,10 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:elevation="100dp"
-            android:text="@string/home_card_motion_title"
+            android:text="@string/home_card_sound_title"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:fontFamily="@font/made_tommy_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,11 +190,13 @@
 
         <ImageView
             android:id="@+id/motionCardIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:elevation="100dp"
-            android:src="@drawable/thermometer"
+             android:layout_marginStart="8dp"
+            android:src="@drawable/ic_volume"
+            app:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -192,29 +205,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="100dp"
-            android:text="12:29"
+            android:text="50"
             android:textColor="#FFFFFF"
             android:textSize="56sp"
+            android:maxLines="1"
+            android:maxLength="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.652" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/motionCardUnit"
+            android:id="@+id/SoundCardUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="16dp"
             android:elevation="100dp"
-            android:text="Detected at"
+            android:text="isu"
             android:textColor="#FFFFFF"
-            android:textSize="10sp"
+            android:textSize="15sp"
+            android:translationY="-10dp"
+            android:translationX="10dp"
+            app:layout_constraintEnd_toEndOf="@id/motionCardValue"
+            app:layout_constraintTop_toBottomOf="@id/motionCardValue" />
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -238,7 +252,8 @@
             android:elevation="100dp"
             android:text="@string/home_card_humidity_title"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:fontFamily="@font/made_tommy_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -252,11 +267,13 @@
 
         <ImageView
             android:id="@+id/humidityCardIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:elevation="100dp"
-            android:src="@drawable/thermometer"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_humidity"
+            app:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -268,12 +285,12 @@
             android:text="32"
             android:textColor="#FFFFFF"
             android:textSize="56sp"
+            android:maxLines="1"
+            android:maxLength="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.652" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/humidityCardUnit"
@@ -283,8 +300,8 @@
             android:text="%"
             android:textColor="#FFFFFF"
             android:textSize="25sp"
-            app:layout_constraintStart_toEndOf="@+id/humidityCardValue"
-            app:layout_constraintTop_toTopOf="@+id/humidityCardValue" />
+            app:layout_constraintStart_toEndOf="@id/humidityCardValue"
+            app:layout_constraintTop_toTopOf="@id/humidityCardValue" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,4 +21,5 @@
     <string name="manage_sensors">Manage thresholds</string>
     <string name="sound">Sound</string>
     <string name="remove_device">Remove Device</string>
+    <string name="home_card_sound_title">Sound</string>
 </resources>
