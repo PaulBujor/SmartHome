@@ -33,6 +33,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class TemperatureFragment extends Fragment {
@@ -57,8 +58,11 @@ public class TemperatureFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_temperature, container, false);
 
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
+            // take first 100
+            List<Measurement> limitedList = measurements.stream().limit(100).collect(Collectors.toList());
+
             // update graph
-            LineData newLineData = getLineData(measurements);
+            LineData newLineData = getLineData(limitedList);
             temperatureGraph.setData(newLineData); //might need to do .clearData() for lineData from onCreateView
             temperatureGraph.invalidate(); //refreshes graph
 
@@ -132,6 +136,7 @@ public class TemperatureFragment extends Fragment {
         LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
         set1.setLineWidth(4f);
         set1.setCircleRadius(5f);
+        set1.setDrawCircles(false);
         set1.setCircleHoleRadius(2.5f);
         set1.setColor(Color.parseColor("#4B6C53"));
         set1.setCircleColor(Color.WHITE);
