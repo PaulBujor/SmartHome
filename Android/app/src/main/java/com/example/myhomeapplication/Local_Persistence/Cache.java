@@ -7,16 +7,12 @@ import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.Models.Thresholds;
 import com.example.myhomeapplication.Remote.DeviceAPI;
-import com.example.myhomeapplication.Remote.DeviceServiceGenerator;
 import com.example.myhomeapplication.Remote.MeasurementAPI;
-import com.example.myhomeapplication.Remote.TemperatureServiceGenerator;
+import com.example.myhomeapplication.Remote.ServiceGenerator;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +67,7 @@ public class Cache {
     public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType) {
         MutableLiveData<List<Measurement>> allMeasurements = new MutableLiveData<>();
 
-        MeasurementAPI measurementAPI = TemperatureServiceGenerator.getMeasurementAPI();
+        MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<List<Measurement>> call = measurementAPI.getMeasurements(deviceID, measurementType);
         call.enqueue(new Callback<List<Measurement>>() {
 
@@ -99,7 +95,7 @@ public class Cache {
     }
 
     public void receiveLatestMeasurement(int deviceID, String measurementType) {
-        MeasurementAPI measurementAPI = TemperatureServiceGenerator.getMeasurementAPI();
+        MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<Measurement> call = measurementAPI.getLatestMeasurement(deviceID, measurementType);
         call.enqueue(new Callback<Measurement>() {
 
@@ -142,7 +138,7 @@ public class Cache {
     public MutableLiveData<List<Device>> getAllDevices(long userID) {
 
 
-        DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         Call<List<Device>> call = deviceAPI.getAllDevices(userID);
 
 
@@ -175,7 +171,7 @@ public class Cache {
     }
 
     public MutableLiveData<Thresholds> getThresholdsByDevice(long deviceID){
-        DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         Call<Thresholds> call = deviceAPI.getThresholdsByDevice(deviceID);
         call.enqueue(new Callback<Thresholds>() {
             @EverythingIsNonNull

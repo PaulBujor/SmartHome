@@ -62,8 +62,6 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             }
         });
 
-
-
         super.onCreate(savedInstanceState);
 
     }
