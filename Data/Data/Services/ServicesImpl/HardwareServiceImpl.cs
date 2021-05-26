@@ -17,7 +17,7 @@ namespace Data.Services.ServicesImpl
 		{
 			if ((await persistenceRouter.GetDevice(deviceId)) == null)
 			{
-				Device device = new Device { DeviceID = deviceId, DeviceThresholds = Thresholds.Defaults() };
+				Device device = new Device { DeviceID = deviceId, DeviceThresholds = Thresholds.Defaults(), DeviceName = "Device " + deviceId.ToString() };
 				await persistenceRouter.AddDevice(device);
 			}
 		}
@@ -38,6 +38,11 @@ namespace Data.Services.ServicesImpl
 		public async Task Reset(long id)
 		{
 			await SetSettings(Thresholds.Defaults(), id);
+		}
+
+		public async Task ChangeDeviceName(long id, string newDeviceName)
+		{
+			await persistenceRouter.ChangeDeviceName(id, newDeviceName);
 		}
 	}
 }

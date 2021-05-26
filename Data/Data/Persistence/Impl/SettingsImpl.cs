@@ -27,7 +27,19 @@ namespace Data.Properties.Persistence.Impl
 			Device tmpDevice = await _databaseContext.Devices
 				.Include(p => p.DeviceThresholds)
 				.FirstOrDefaultAsync(p => p.DeviceID == deviceID);
-			tmpDevice.DeviceThresholds = thresholds;
+
+			//THIS FIXES bug where updating settings creates a new settings row in db
+			tmpDevice.DeviceThresholds.DeviceConfiguration = thresholds.DeviceConfiguration;
+
+			tmpDevice.DeviceThresholds.MinTemperature = thresholds.MinTemperature;
+			tmpDevice.DeviceThresholds.MaxTemperature = thresholds.MaxTemperature;
+
+			tmpDevice.DeviceThresholds.MinHumidity = thresholds.MinHumidity;
+			tmpDevice.DeviceThresholds.MaxHumidity = thresholds.MaxHumidity;
+
+			tmpDevice.DeviceThresholds.MinCo2 = thresholds.MinCo2;
+			tmpDevice.DeviceThresholds.MaxCo2 = thresholds.MaxCo2;
+
 			await _databaseContext.SaveChangesAsync();
 		}
 	}

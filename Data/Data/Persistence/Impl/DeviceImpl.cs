@@ -47,5 +47,15 @@ namespace Data.Properties.Persistence.Impl
                 await _databaseContext.SaveChangesAsync();
             }
         }
+
+        public async Task ChangeDeviceName(long id, string newDeviceName)
+        {
+	        Device tmpDevice = await _databaseContext.Devices.FirstOrDefaultAsync(p => p.DeviceID == id);
+	        if (tmpDevice != null)
+	        {
+		        tmpDevice.DeviceName = newDeviceName;
+		        await _databaseContext.SaveChangesAsync();
+	        }
+        }
     }
 }

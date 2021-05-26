@@ -79,24 +79,34 @@ namespace Data.Properties.Persistence
 			await _settings.SetSettings(thresholds, deviceID);
 		}
 
-		public async Task<List<Device>> getDevices(long userId)
+		public async Task<List<Device>> GetDevices(long userId)
 		{
-			return await _users.getDevices(userId);
+			return await _users.GetDevices(userId);
 		}
 
-		public async Task registerUser(User user)
+		public async Task RegisterUser(User user)
 		{
-			await _users.registerUser(user);
+			await _users.RegisterUser(user);
 		}
 
-		public async Task<User> loginUser(User user)
+		public async Task<User> LoginUser(User user)
 		{
-			return await _users.loginUser(user);
+			return await _users.LoginUser(user);
 		}
 
-		public async Task addDevice(long userId, long deviceId)
+		public async Task AddDevice(long userId, long deviceId)
 		{
-			await _users.addDevice(userId, deviceId);
+			await _users.AddDevice(userId, deviceId);
+		}
+
+		public async Task ChangeDeviceName(long id, string newDeviceName)
+		{
+			await _device.ChangeDeviceName(id, newDeviceName);
+		}
+
+		public async Task RemoveDevice(long id, long deviceId)
+		{
+			await _users.RemoveDevice(id, deviceId);
 		}
 	}
 }

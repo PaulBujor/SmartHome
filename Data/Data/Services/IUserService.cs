@@ -8,9 +8,10 @@ namespace Data.Services
 {
 	public interface IUserService
 	{
-		Task<List<Device>> getDevices(long userId);
-		Task registerUser(User user);
-		Task<User> loginUser(User user);
-		Task addDevice(long userId, long deviceId);
+		Task<List<Device>> GetDevices(long userId);
+		Task RegisterUser(User user);
+		Task<User> LoginUser(User user);
+		Task AddDevice(long userId, long deviceId);
+		Task RemoveDevice(long id, long deviceId);
 	}
 }

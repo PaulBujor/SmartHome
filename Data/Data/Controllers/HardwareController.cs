@@ -14,10 +14,12 @@ namespace Data.Controllers
 	public class HardwareController : ControllerBase
 	{
 		private readonly IHardwareService _service;
+		private readonly IUserService _user;
 
-		public HardwareController(IHardwareService service)
+		public HardwareController(IHardwareService service, IUserService user)
 		{
 			_service = service;
+			_user = user;
 		}
 
 		// gets thresholds by device id
@@ -70,8 +72,24 @@ namespace Data.Controllers
 		{
 			try
 			{
-				//todo Remove -> Reset, remove cast
 				await _service.Reset(id);
+				return Ok();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
+				return StatusCode(500, e.Message);
+			}
+		}
+
+		[HttpPatch("api/devices/{id}/name")]
+		public async Task<ActionResult> UpdateDeviceName([FromBody] EUser userAndDeviceName, long id)
+		{
+			try
+			{
+				var myUser = await _user.LoginUser(userAndDeviceName);
+				await _service.ChangeDeviceName(id, userAndDeviceName.NewDeviceName);
 				return Ok();
 			}
 			catch (Exception e)
