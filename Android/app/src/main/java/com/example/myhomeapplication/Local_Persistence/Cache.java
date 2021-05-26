@@ -144,7 +144,7 @@ public class Cache {
         });
     }
 
-    public MutableLiveData<List<Device>> getAllDevices(long userID) {
+    public void getAllDevices(long userID) {
 
 
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
@@ -176,7 +176,7 @@ public class Cache {
             }
         });
 
-       return devices;
+
     }
 
     public void getThresholdsByDevice(long deviceID){
@@ -206,10 +206,10 @@ public class Cache {
 
     }
 
- /*   public MutableLiveData<List<Device>> getDevices() {
+    public MutableLiveData<List<Device>> getDevices() {
         return devices;
     }
-*/
+
     public MutableLiveData<Thresholds> getThresholds() {
         return thresholds;
     }

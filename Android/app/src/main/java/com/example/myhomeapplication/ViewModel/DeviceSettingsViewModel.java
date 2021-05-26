@@ -37,8 +37,14 @@ public class DeviceSettingsViewModel extends ViewModel {
         repository.getResponseInformation().observeForever(message->{
             responseInformation.setValue(message);
         });
+        //TODO temporary solution, should get current user ID from repository
+        repository.getAllDevices(1);
 
-        init();
+        repository.getDevices().observeForever(list->{
+            devicesMutable.setValue(list);
+        });
+
+
     }
 
     public void getThresholds(String id) {
@@ -52,10 +58,7 @@ public class DeviceSettingsViewModel extends ViewModel {
 
 
 
-    public void init() {
-        devicesMutable = repository.getAllDevices(1);
 
-    }
 
     public MutableLiveData<List<Device>> getDevicesMutable() {
         return devicesMutable;
