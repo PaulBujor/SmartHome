@@ -2,56 +2,58 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deviceSettingsConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
+    android:animateLayoutChanges="true"
     tools:context=".View.DeviceSettingsFragment">
 
 
-   <!--<EditText
-        android:id="@+id/ds_sound_min"
-        android:layout_width="62dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView7"
-        app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/textView7" />
+    <!--<EditText
+         android:id="@+id/ds_sound_min"
+         android:layout_width="62dp"
+         android:layout_height="wrap_content"
+         android:ems="10"
+         android:inputType="number"
+         android:textSize="12sp"
+         app:layout_constraintBottom_toBottomOf="@+id/textView7"
+         app:layout_constraintStart_toEndOf="@+id/textView7"
+         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
-    <EditText
-        android:id="@+id/ds_sound_max"
-        android:layout_width="62dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView8"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/textView8" />
+     <EditText
+         android:id="@+id/ds_sound_max"
+         android:layout_width="62dp"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="10dp"
+         android:ems="10"
+         android:inputType="number"
+         android:textSize="12sp"
+         app:layout_constraintBottom_toBottomOf="@+id/textView8"
+         app:layout_constraintStart_toEndOf="@+id/textView8"
+         app:layout_constraintTop_toTopOf="@+id/textView8" />
 
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:text="Max"
-        app:layout_constraintBottom_toBottomOf="@+id/textView7"
-        app:layout_constraintStart_toEndOf="@+id/ds_sound_min"
-        app:layout_constraintTop_toTopOf="@+id/textView7" />
+     <TextView
+         android:id="@+id/textView8"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="6dp"
+         android:text="Max"
+         app:layout_constraintBottom_toBottomOf="@+id/textView7"
+         app:layout_constraintStart_toEndOf="@+id/ds_sound_min"
+         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="Min"
-        app:layout_constraintBottom_toBottomOf="@+id/sound_textView"
-        app:layout_constraintStart_toEndOf="@+id/sound_textView"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/sound_textView" />-->
+     <TextView
+         android:id="@+id/textView7"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="3dp"
+         android:text="Min"
+         app:layout_constraintBottom_toBottomOf="@+id/sound_textView"
+         app:layout_constraintStart_toEndOf="@+id/sound_textView"
+         app:layout_constraintStart_toStartOf="@+id/textView5"
+         app:layout_constraintTop_toTopOf="@+id/sound_textView" />-->
 
 
     <EditText
@@ -157,8 +159,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/allDevices_textView" />
-
-    <!--<include layout="@layout/add_device"/>-->
 
 
     <Button
@@ -326,6 +326,8 @@
             android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <include layout="@layout/add_device" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

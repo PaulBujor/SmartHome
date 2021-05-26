@@ -2,6 +2,8 @@ package com.example.myhomeapplication.View;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,14 +30,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static android.view.View.GONE;
+
 public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.OnDeviceItemClickedListener, View.OnClickListener {
 
     private View view;
     private RecyclerView recyclerView;
     private DeviceAdapter deviceAdapter;
     private EditText tempMin, tempMax, humMin, humMax, cO2min, cO2max, soundMin, soundMax;
-    private Button addDevice, removeDevice;
+    private Button addDevice, removeDevice, cancelAddDevice, confirmAddDevice;
     private DeviceSettingsViewModel deviceSettingsViewModel;
+    private ConstraintLayout addDeviceConstraintLayout, deviceSettingsConstraintLayout;
 
     public DeviceSettingsFragment() {
         // Required empty public constructor
@@ -81,16 +86,40 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         addDevice = view.findViewById(R.id.addDevice_button);
         removeDevice = view.findViewById(R.id.removeDevice_button);
         recyclerView = view.findViewById(R.id.ds_recycler_view);
+        addDeviceConstraintLayout = view.findViewById(R.id.addDeviceConstraintLayout);
+        deviceSettingsConstraintLayout = view.findViewById(R.id.deviceSettingsConstraintLayout);
+        confirmAddDevice = view.findViewById(R.id.confirmAddDevice);
+        cancelAddDevice = view.findViewById(R.id.cancelAddDevice);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         addDevice.setOnClickListener(this);
         removeDevice.setOnClickListener(this);
-        removeDevice.setVisibility(View.GONE);
+        removeDevice.setVisibility(GONE);
 
         ArrayList<DeviceItem> tmp = new ArrayList<>();
         deviceAdapter = new DeviceAdapter(tmp,this);
         recyclerView.setAdapter(deviceAdapter);
+
+        addDeviceConstraintLayout.setVisibility(GONE);
+
+        addDevice.setOnClickListener(v -> {
+            addDevice.setVisibility(GONE);
+            addDeviceConstraintLayout.setVisibility(View.VISIBLE);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(deviceSettingsConstraintLayout);
+            constraintSet.connect(R.id.manageSensors_textView, ConstraintSet.TOP, R.id.addDeviceConstraintLayout, ConstraintSet.BOTTOM);
+            constraintSet.applyTo(deviceSettingsConstraintLayout);
+        });
+
+        cancelAddDevice.setOnClickListener(v -> {
+            addDeviceConstraintLayout.setVisibility(View.GONE);
+            addDevice.setVisibility(View.VISIBLE);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(deviceSettingsConstraintLayout);
+            constraintSet.connect(R.id.manageSensors_textView, ConstraintSet.TOP, R.id.addDevice_button, ConstraintSet.BOTTOM);
+            constraintSet.applyTo(deviceSettingsConstraintLayout);
+        });
 
        /* tempMin.addTextChangedListener(thresholdWatcher);
         tempMax.addTextChangedListener(thresholdWatcher);
