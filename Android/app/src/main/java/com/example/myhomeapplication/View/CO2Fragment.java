@@ -1,8 +1,10 @@
 package com.example.myhomeapplication.View;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -75,7 +77,7 @@ public class CO2Fragment extends Fragment {
         cO2Graph.setDrawBorders(false);
         cO2Graph.setDescription(null);
         cO2Graph.getLegend().setEnabled(false);
-
+        cO2Graph.setScaleYEnabled(false);
         cO2Graph.setExtraLeftOffset(10);
         cO2Graph.setExtraRightOffset(30);
 
@@ -113,16 +115,16 @@ public class CO2Fragment extends Fragment {
 
         LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
         set1.setLineWidth(4f);
-        set1.setCircleRadius(5f);
-        set1.setCircleHoleRadius(2.5f);
-        set1.setColor(Color.parseColor("#4B6C53"));
-        set1.setCircleColor(Color.WHITE);
-        set1.setCircleHoleColor(Color.parseColor("#4B6C53"));
-        set1.setHighLightColor(Color.parseColor("#48B864"));
-        set1.setHighlightLineWidth(2f);
+        set1.setDrawCircles(false);
         set1.setDrawHorizontalHighlightIndicator(false);
-        set1.setDrawValues(true);
+        set1.setDrawValues(false);
+        set1.setColor(Color.parseColor("#4B6C53"));
+        set1.setHighLightColor(Color.parseColor("#577d61"));
+        set1.setHighlightLineWidth(2f);
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
+        drawable.setAlpha(128);
+        set1.setFillDrawable(drawable);
 
         return new LineData(set1);
     }

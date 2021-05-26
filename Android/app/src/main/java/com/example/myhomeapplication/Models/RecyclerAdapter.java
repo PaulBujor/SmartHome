@@ -15,12 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private List<Measurement> measurements;
 
-    public RecyclerAdapter(List<Measurement> measurements){
+    public RecyclerAdapter(List<Measurement> measurements) {
         this.measurements = measurements;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,6 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Measurement measurement = measurements.get(position);
@@ -37,20 +39,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         sdf.applyPattern("yyyy-MM-dd HH:mm");
         String newDate = sdf.format(toFormat);
-
         holder.timeStamp.setText(newDate);
         Log.d("Adapter debug", "" + measurement.getValue());
-        holder.value.setText(String.valueOf(measurement.getValue()));
+        holder.value.setText(String.format("%.2f", measurement.getValue()));
+
+
     }
+
     @Override
     public int getItemCount() {
 
         return measurements.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView id;
         TextView value;
         TextView timeStamp;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.id = itemView.findViewById(R.id.prefix_temperature);

@@ -1,8 +1,10 @@
 package com.example.myhomeapplication.View;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,6 +35,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SoundFragment extends Fragment {
     private SoundViewModel soundViewModel;
@@ -56,6 +59,9 @@ public class SoundFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_motion, container, false);
 
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
+            // take last 100
+            List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
+
             LineData newLineData = getLineData(measurements);
             motionGraph.setData(newLineData);
             motionGraph.invalidate();
@@ -64,7 +70,7 @@ public class SoundFragment extends Fragment {
             recyclerView.setAdapter(newAdapter);
         };
         soundViewModel = new ViewModelProvider(this).get(SoundViewModel.class);
-        soundViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(),allMeasurementsObserver);
+        soundViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(), allMeasurementsObserver);
 
         motionGraph = view.findViewById(R.id.motionDetailsGraph);
         LineDataSet lineDataSet = new LineDataSet(null, "Motion Measurements Set");
@@ -77,7 +83,7 @@ public class SoundFragment extends Fragment {
         motionGraph.setDrawBorders(false);
         motionGraph.setDescription(null);
         motionGraph.getLegend().setEnabled(false);
-
+        motionGraph.setScaleYEnabled(false);
         motionGraph.setExtraLeftOffset(10);
         motionGraph.setExtraRightOffset(30);
 
@@ -101,13 +107,14 @@ public class SoundFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        soundViewModel.getAllMeasurements(deviceID,MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(), measurements -> {
-            for(Measurement m : measurements){
-                Log.d("TestingMeasurements",String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + " "+ String.valueOf(m.getValue()));
+        soundViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(), measurements -> {
+            for (Measurement m : measurements) {
+                Log.d("TestingMeasurements", String.valueOf(m.getMeasurementID()) + String.valueOf(m.getTimestamp()) + " " + String.valueOf(m.getValue()));
             }
         });
         return view;
     }
+
     private LineData getLineData(List<Measurement> measurements) {
         ArrayList<Entry> values = new ArrayList<>();
 
@@ -117,16 +124,16 @@ public class SoundFragment extends Fragment {
 
         LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
         set1.setLineWidth(4f);
-        set1.setCircleRadius(5f);
-        set1.setCircleHoleRadius(2.5f);
-        set1.setColor(Color.parseColor("#4B6C53"));
-        set1.setCircleColor(Color.WHITE);
-        set1.setCircleHoleColor(Color.parseColor("#4B6C53"));
-        set1.setHighLightColor(Color.parseColor("#48B864"));
-        set1.setHighlightLineWidth(2f);
+        set1.setDrawCircles(false);
         set1.setDrawHorizontalHighlightIndicator(false);
-        set1.setDrawValues(true);
+        set1.setDrawValues(false);
+        set1.setColor(Color.parseColor("#4B6C53"));
+        set1.setHighLightColor(Color.parseColor("#577d61"));
+        set1.setHighlightLineWidth(2f);
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
+        drawable.setAlpha(128);
+        set1.setFillDrawable(drawable);
 
         return new LineData(set1);
     }

@@ -90,6 +90,7 @@ public class TemperatureFragment extends Fragment {
         temperatureGraph.setDrawBorders(false);
         temperatureGraph.setDescription(null);
         temperatureGraph.getLegend().setEnabled(false);
+        temperatureGraph.setScaleYEnabled(false);
         //To fix labels going off the screen
         temperatureGraph.setExtraLeftOffset(5);
         temperatureGraph.setExtraRightOffset(30);
@@ -140,8 +141,25 @@ public class TemperatureFragment extends Fragment {
 
         LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
         set1.setLineWidth(4f);
-        set1.setCircleRadius(5f);
         set1.setDrawCircles(false);
+        set1.setDrawHorizontalHighlightIndicator(false);
+        set1.setDrawValues(false);
+        set1.setColor(Color.parseColor("#4B6C53"));
+        set1.setHighLightColor(Color.parseColor("#577d61"));
+        set1.setHighlightLineWidth(2f);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
+        drawable.setAlpha(128);
+        set1.setFillDrawable(drawable);
+
+
+
+
+        // Obsolete
+        /*LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
+        set1.setLineWidth(4f);
+        set1.setCircleRadius(5f);
+        set1.setDrawCircles(true);
         set1.setCircleHoleRadius(2.5f);
         set1.setColor(Color.parseColor("#4B6C53"));
         set1.setCircleColor(Color.WHITE);
@@ -149,12 +167,12 @@ public class TemperatureFragment extends Fragment {
         set1.setHighLightColor(Color.parseColor("#577d61"));
         set1.setHighlightLineWidth(2f);
         set1.setDrawHorizontalHighlightIndicator(false);
-        set1.setDrawValues(true);
+        set1.setDrawValues(false);
         set1.setDrawFilled(true);
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
         drawable.setAlpha(128);
-        set1.setFillDrawable(drawable);
+        set1.setFillDrawable(drawable);*/
 
 
         return new LineData(set1);
