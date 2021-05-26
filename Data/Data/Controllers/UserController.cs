@@ -13,10 +13,12 @@ namespace Data.Controllers
 	public class UserController : ControllerBase
 	{
 		private IUserService userService;
+		private IHardwareService hardwareService;
 
-		public UserController(IUserService userService)
+		public UserController(IUserService userService, IHardwareService hardwareService)
 		{
 			this.userService = userService;
+			this.hardwareService = hardwareService;
 		}
 
 		//this is a rather naive apporach, anyone can see what devices you have if they know your id, but it's ok for our scope
@@ -36,7 +38,7 @@ namespace Data.Controllers
 		}
 
 		[HttpPost("api/users/{id}/devices/{deviceId}")]
-		public async Task<ActionResult> AddDevice(long id, long deviceId, [FromBody] User user)
+		public async Task<ActionResult> AddDevice(long id, long deviceId, [FromBody] EUser user)
 		{
 			try
 			{
@@ -45,6 +47,9 @@ namespace Data.Controllers
 					throw new ArgumentException("User id does not match actual user");
 
 				await userService.AddDevice(id, deviceId);
+				if (user.NewDeviceName != null)
+					if (!user.NewDeviceName.Equals(""))
+						await hardwareService.ChangeDeviceName(deviceId, user.NewDeviceName);
 				return Ok();
 			}
 			catch (Exception e)
