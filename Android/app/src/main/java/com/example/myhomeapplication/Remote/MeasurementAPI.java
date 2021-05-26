@@ -12,10 +12,10 @@ import retrofit2.http.Path;
 
 public interface MeasurementAPI {
 
-    @GET("api/devices/{id}/last-{type}")
+    @GET("api/devices/{id}/measurements/last-{type}")
     Call<Measurement> getLatestMeasurement(@Path("id") int deviceID, @Path("type") String measurementType);
 
-    @GET("api/devices/{id}/{type}")
+    @GET("api/devices/{id}/measurements/{type}")
     Call<List<Measurement>> getMeasurements(@Path("id") int deviceID, @Path("type") String measurementType);
 
     @GET("api/{type}/{id}")

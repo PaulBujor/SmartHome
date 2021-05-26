@@ -7,16 +7,12 @@ import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.Models.Thresholds;
 import com.example.myhomeapplication.Remote.DeviceAPI;
-import com.example.myhomeapplication.Remote.DeviceServiceGenerator;
 import com.example.myhomeapplication.Remote.MeasurementAPI;
-import com.example.myhomeapplication.Remote.TemperatureServiceGenerator;
+import com.example.myhomeapplication.Remote.ServiceGenerator;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +26,7 @@ public class Cache {
     private final MutableLiveData<Measurement> latestTemperatureMeasurement;
     private final MutableLiveData<Measurement> latestHumidityMeasurement;
     private final MutableLiveData<Measurement> latestCO2Measurement;
-    private final MutableLiveData<Measurement> latestAlarmMeasurement;
+    private final MutableLiveData<Measurement> latestSoundMeasurement;
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
 
@@ -40,7 +36,7 @@ public class Cache {
         this.latestTemperatureMeasurement = new MutableLiveData<>();
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();
-        this.latestAlarmMeasurement = new MutableLiveData<>();
+        this.latestSoundMeasurement = new MutableLiveData<>();
         devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
     }
@@ -63,15 +59,15 @@ public class Cache {
         return latestCO2Measurement;
     }
 
-    public LiveData<Measurement> getLatestAlarmMeasurement() {
-        return latestAlarmMeasurement;
+    public LiveData<Measurement> getLatestSoundMeasurement() {
+        return latestSoundMeasurement;
     }
 
 
     public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType) {
         MutableLiveData<List<Measurement>> allMeasurements = new MutableLiveData<>();
 
-        MeasurementAPI measurementAPI = TemperatureServiceGenerator.getMeasurementAPI();
+        MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<List<Measurement>> call = measurementAPI.getMeasurements(deviceID, measurementType);
         call.enqueue(new Callback<List<Measurement>>() {
 
@@ -99,7 +95,7 @@ public class Cache {
     }
 
     public void receiveLatestMeasurement(int deviceID, String measurementType) {
-        MeasurementAPI measurementAPI = TemperatureServiceGenerator.getMeasurementAPI();
+        MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<Measurement> call = measurementAPI.getLatestMeasurement(deviceID, measurementType);
         call.enqueue(new Callback<Measurement>() {
 
@@ -117,8 +113,8 @@ public class Cache {
                         case MeasurementTypes.TYPE_CO2:
                             latestCO2Measurement.setValue(response.body());
                             break;
-                        case MeasurementTypes.TYPE_ALARM:
-                            latestAlarmMeasurement.setValue(response.body());
+                        case MeasurementTypes.TYPE_SOUND:
+                            latestSoundMeasurement.setValue(response.body());
                             break;
                         default:
                             Log.wtf("Repository", "Wrong measurement type");
@@ -142,7 +138,7 @@ public class Cache {
     public MutableLiveData<List<Device>> getAllDevices(long userID) {
 
 
-        DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         Call<List<Device>> call = deviceAPI.getAllDevices(userID);
 
 
@@ -174,8 +170,8 @@ public class Cache {
        return devices;
     }
 
-    public void getThresholdsByDevice(long deviceID){
-        DeviceAPI deviceAPI = DeviceServiceGenerator.getDeviceAPI();
+    public MutableLiveData<Thresholds> getThresholdsByDevice(long deviceID){
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         Call<Thresholds> call = deviceAPI.getThresholdsByDevice(deviceID);
         call.enqueue(new Callback<Thresholds>() {
             @EverythingIsNonNull

@@ -26,26 +26,4 @@ public class TemperatureViewModel extends ViewModel {
         return repository.getLatestTemperatureMeasurement();
     }
 
-
-
-
-
-/*    public void addDataSimulation() throws InterruptedException {
-
-        new Thread(() -> {
-        while (true)
-        {
-            List<Measurement> currentMeasurements;
-            currentMeasurements = temperatureMeasurements.getValue();
-            currentMeasurements.add(new Measurement(++i, new Date(), Math.random() * (35 - 15 + 1) + 15));
-            temperatureMeasurements.postValue(currentMeasurements);
-            try {
-                TimeUnit.SECONDS.sleep(3);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        }).start();
-    }*/
-
 }

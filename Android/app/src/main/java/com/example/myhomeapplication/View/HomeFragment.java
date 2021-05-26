@@ -2,12 +2,8 @@ package com.example.myhomeapplication.View;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -19,7 +15,7 @@ import android.widget.TextView;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.CO2ViewModel;
 import com.example.myhomeapplication.ViewModel.HumidityViewModel;
-import com.example.myhomeapplication.ViewModel.MotionViewModel;
+import com.example.myhomeapplication.ViewModel.SoundViewModel;
 import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 
 /**
@@ -29,13 +25,13 @@ import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
  */
 public class HomeFragment extends Fragment {
 
-    private Button temperatureCardButton,humidityCardButton, c02CardButton, motionCardButton;
-    private TextView temperatureTextView, humidityTextView, cO2TextView,motionTextView;
+    private Button temperatureCardButton, humidityCardButton, c02CardButton, motionCardButton;
+    private TextView temperatureTextView, humidityTextView, cO2TextView, soundTextView;
 
     private TemperatureViewModel temperatureViewModel;
     private HumidityViewModel humidityViewModel;
-    private CO2ViewModel CO2ViewModel;
-    private MotionViewModel motionViewModel;
+    private CO2ViewModel co2ViewModel;
+    private SoundViewModel soundViewModel;
 
     private int deviceID = 1;
 
@@ -70,20 +66,22 @@ public class HomeFragment extends Fragment {
         temperatureCardButton.setOnClickListener((v) -> changeFragment("TemperatureDetails"));
         humidityCardButton.setOnClickListener((v) -> changeFragment("HumidityDetails"));
         motionCardButton.setOnClickListener((v) -> changeFragment("MotionDetails"));
-        c02CardButton.setOnClickListener((v)-> changeFragment("C02Details"));
+        c02CardButton.setOnClickListener((v) -> changeFragment("C02Details"));
 
         temperatureTextView = view.findViewById(R.id.temperatureCardValue);
         humidityTextView = view.findViewById(R.id.humidityCardValue);
         cO2TextView = view.findViewById(R.id.C02CardValue);
-        motionTextView = view.findViewById(R.id.motionCardValue);
+        soundTextView = view.findViewById(R.id.motionCardValue);
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
         humidityViewModel = new ViewModelProvider(this).get(HumidityViewModel.class);
-        motionViewModel = new ViewModelProvider(this).get(MotionViewModel.class);
+        soundViewModel = new ViewModelProvider(this).get(SoundViewModel.class);
+        co2ViewModel = new ViewModelProvider(this).get(CO2ViewModel.class);
 
         temperatureViewModel.getLatestTemperatureMeasurement().observe(getViewLifecycleOwner(), measurement -> temperatureTextView.setText(String.format("%.1f", measurement.getValue())));
-        humidityViewModel.getLastMeasurement().observe(getViewLifecycleOwner(), measurement -> humidityTextView.setText(String.format("%.1f", measurement.getValue())));
-        motionViewModel.getLastMotionMeasurement().observe(getViewLifecycleOwner(),measurement -> motionTextView.setText(String.format("%.1f", measurement.getValue())));
+        co2ViewModel.getLatestCO2Measurement().observe(getViewLifecycleOwner(), measurement -> cO2TextView.setText(String.format("%.1f", measurement.getValue())));
+        humidityViewModel.getLatestHumidityMeasurement().observe(getViewLifecycleOwner(), measurement -> humidityTextView.setText(String.format("%.1f", measurement.getValue())));
+        soundViewModel.getLatestSoundMeasurement().observe(getViewLifecycleOwner(), measurement -> soundTextView.setText(String.format("%.1f", measurement.getValue())));
 
         //Obsolete DataRetriever
         /*DataRetriever dataRetriever = DataRetriever.getInstance();
@@ -92,20 +90,24 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void changeFragment(String fragment){
-        switch (fragment){
-            case "TemperatureDetails":{
+    private void changeFragment(String fragment) {
+        switch (fragment) {
+            case "TemperatureDetails": {
                 NavHostFragment.findNavController(this).navigate(R.id.openTemperatureDetailsAction);
-            }break;
-            case "HumidityDetails":{
+            }
+            break;
+            case "HumidityDetails": {
                 NavHostFragment.findNavController(this).navigate(R.id.openHumidityDetailsAction);
-            }break;
-            case "MotionDetails":{
+            }
+            break;
+            case "MotionDetails": {
                 NavHostFragment.findNavController(this).navigate(R.id.openMotionDetailsAction);
-            }break;
-            case "C02Details":{
+            }
+            break;
+            case "C02Details": {
                 NavHostFragment.findNavController(this).navigate(R.id.openCO2DetailsAction);
-            }break;
+            }
+            break;
         }
     }
 }
