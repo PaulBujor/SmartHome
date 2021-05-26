@@ -24,19 +24,20 @@ public class DeviceSettingsViewModel extends ViewModel {
         devices = new ArrayList<>();
         devicesMutable = new MutableLiveData<>();
         thresholdsMutable = new MutableLiveData<>();
+
+        repository.getThresholds().observeForever(thresholds -> {
+            thresholdsMutable.setValue(thresholds);
+        });
+
         init();
     }
 
     public void getThresholds(String id) {
-        MutableLiveData<Thresholds> tmpThreshold = new MutableLiveData<>();
-        tmpThreshold = repository.getThresholdsByDevice(Long.parseLong(id));
 
-        thresholdsMutable.setValue(tmpThreshold.getValue());
-        /*thresholdsMutable  = repository.getThresholdsByDevice(Long.parseLong(id));*/
-       /* thresholdsMutable.setValue(repository.getThresholdsByDevice(Long.parseLong(id)).getValue());*/
+        repository.getThresholdsByDevice(Long.parseLong(id));
     }
 
-    public MutableLiveData<Thresholds> getThresholdsMutable(){
+    public LiveData<Thresholds> getThresholdsMutable(){
         return thresholdsMutable;
     }
 
