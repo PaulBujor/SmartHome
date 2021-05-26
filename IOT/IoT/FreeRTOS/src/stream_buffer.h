@@ -51,7 +51,7 @@
 #define STREAM_BUFFER_H
 
 #ifndef INC_ATMEGA_FREERTOS_H
-#error "include ATMEGA_FreeRTOS.h must appear in source files before include stream_buffer.h"
+//#error "include ATMEGA_FreeRTOS.h must appear in source files before include stream_buffer.h"
 #endif
 
 /* *INDENT-OFF* */

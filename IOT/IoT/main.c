@@ -19,20 +19,17 @@
 // Needed for LoRaWAN
 #include <lora_driver.h>
 #include <status_leds.h>
+MessageBufferHandle_t downLinkMessageBufferHandle;
 
-//Sensor drivers
-#include <hih8120.h>
-#include <mh_z19.h>
-#include <sen14262.h>
-#include <hcsr501.h>
+//for sensor data readings in datashare
+#include <stdint.h>
 
-
-
-// define the Tasks
-void getDataFromTempHumSensorTask( void *pvParameters );
-void getDataFromCO2SensorTask( void *pvParameters );
-void getDataFromSoundSensorTask( void *pvParameters );
-void getDataFromMotionSensorTask( void *pvParameters );
+//task headers
+#include "../Src/Headers/CO2.h"
+#include "../Src/Headers/Sound.h"
+#include "../Src/Headers/TempHum.h"
+#include "../Src/Headers/Servo.h"
+#include "../Src/Headers/Lora.h"
 
 //define sensor data
 
@@ -43,17 +40,19 @@ uint16_t ppm;
 
 uint16_t lastSoundValue;
 
-hcsr501_p hcsr501Inst = NULL;
+//servo thresholds
 
-bool motion = false;
+float servoMinTemperature = 20;
+float servoMaxTemperature = 30;
 
+float servoMinHumidity = 10;
+float servoMaxHumidity = 300;
 
+uint16_t servoMinPPM = 30;
+uint16_t servoMaxPPM = 3900;
 
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
-
-// Prototype for LoRaWAN handler
-void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
 /*-----------------------------------------------------------*/
 void create_tasks_and_semaphores(void)
@@ -71,7 +70,7 @@ void create_tasks_and_semaphores(void)
 	}
 	
 	xTaskCreate(
-	getDataFromTempHumSensorTask
+	tempHum_getDataFromTempHumSensorTask
 	,  "getDataFromTempHumSensorTask"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
@@ -80,7 +79,7 @@ void create_tasks_and_semaphores(void)
 	
 	
 	xTaskCreate(
-	getDataFromCO2SensorTask
+	co2_getDataFromCO2SensorTask
 	,  "getDataFromCO2SensorTask"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
@@ -89,7 +88,7 @@ void create_tasks_and_semaphores(void)
 	
 	
 	xTaskCreate(
-	getDataFromSoundSensorTask
+	sound_getDataFromSoundSensorTask
 	,  "getDataFromSoundSensorTask"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
@@ -97,8 +96,8 @@ void create_tasks_and_semaphores(void)
 	,  NULL );
 	
 	xTaskCreate(
-	getDataFromMotionSensorTask
-	,  "getDataFromMotionSensorTask"  // A name just for humans
+	servo_turnServoTask
+	,  "turnServoTask"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
@@ -106,166 +105,24 @@ void create_tasks_and_semaphores(void)
 }
 
 
-void getDataFromTempHumSensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
-
-	 //Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("-getDataFromTempHumSensorTask"); 
-		
-		if (HIH8120_OK != hih8120_wakeup())
-		{
-			vTaskDelay(pdMS_TO_TICKS(100));
-			printf("-Temp/humidity sensor couldn't wake up trying again");
-			while(HIH8120_OK != hih8120_wakeup())
-			{
-				vTaskDelay(pdMS_TO_TICKS(100));
-			}
-		}
-		
-		vTaskDelay(pdMS_TO_TICKS(50));
-		
-		if (HIH8120_OK !=  hih8120_measure() )
-		{
-			vTaskDelay(pdMS_TO_TICKS(100));
-			printf("-Temp/humidity sensor couldn't measure trying again");
-			while(HIH8120_OK !=  hih8120_measure())
-			{
-				vTaskDelay(pdMS_TO_TICKS(100));
-			}
-		}
-		
-		vTaskDelay(pdMS_TO_TICKS(500));
-		
-		
-		humidity =  hih8120_getHumidity();
-		temperature = hih8120_getTemperature();
-		
-		
-		//printf("------VALUES FOUND TEMP: %d  ----- HUM: %d\n", (int)temperature, (int)humidity );
-		
-		
-		//PORTA ^= _BV(PA7);
-	}
-}
 
 /*-----------------------------------------------------------*/
 
-void getDataFromCO2SensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
-
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("-getDataFromCO2SensorTask");
-		
-		mh_z19_returnCode_t rc;
-		
-		rc = mh_z19_takeMeassuring();
-		
-		vTaskDelay(pdMS_TO_TICKS(1000));
-		
-		if (rc != MHZ19_OK)
-		{
-			printf("Something went wrong with the CO2 sensor");
-		}
-		
-		mh_z19_getCo2Ppm(&ppm);
-		
-		
-		//printf("------CO2 ----%u \n", (unsigned int)ppm);
-		
-		
-		//PORTA ^= _BV(PA7);
-	}
-}
-
-void getDataFromSoundSensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
-
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("-getDataFromSoundSensorTask");
-		
-		lastSoundValue = sen14262_envelope();
-		
-		
-		//printf("------Sound ----%u \n", (unsigned int)lastSoundValue);
-		
-		
-		//PORTA ^= _BV(PA7);
-	}
-}
-
-void getDataFromMotionSensorTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 1000 ms
-
-	//Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("-getDataFromMotionSensorTask");
-		
-		if ( hcsr501_isDetecting(hcsr501Inst))
-		{
-			motion = true;
-		}
-		else
-		{
-			motion = false;
-		}
-		
-		vTaskDelay(pdMS_TO_TICKS(1000));
-		
-		//if(motion == true)
-			//printf("---------------SOMETHING IS MOVING RUN-----------\n");
-		
-		//PORTA ^= _BV(PA7);
-	}
-}
 
 /*-----------------------------------------------------------*/
 void initialiseSystem()
 {
 	//Initialise sensor drivers
 	
-	if ( HIH8120_OK == hih8120_initialise() )
-	{
-		// Driver initialised OK
-		// Always check what hih8120_initialise() returns
-	}	else printf("Driver doesn't start");
+	tempHum_init();
+	 
+	co2_initCO2Sensor();
 	
-	mh_z19_initialise(ser_USART3); 
+	sound_init();
 	
-	sen14262_initialise();
+	servo_init();
 	
-	hcsr501Inst = hcsr501_create(&PORTE, PE5);
-	if ( NULL != hcsr501Inst )
-	{
-		// Driver created OK
-		// If NULL is returned the driver is not created!!!
-	}	
+	
 	
 	
 	// Set output ports for leds used in the example
@@ -280,7 +137,12 @@ void initialiseSystem()
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
-	lora_driver_initialise(1, NULL);
+	//lora_driver_initialise(1, NULL);
+	
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2); // Here I make room for two downlink messages in the message buffer
+	lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
+	
+	
 	// Create LoRaWAN task and start it up with priority 3
 	lora_handler_initialise(3);
 	

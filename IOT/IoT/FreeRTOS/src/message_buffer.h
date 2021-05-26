@@ -62,7 +62,7 @@
 #define FREERTOS_MESSAGE_BUFFER_H
 
 #ifndef INC_ATMEGA_FREERTOS_H
-#error "include ATMEGA_FreeRTOS.h must appear in source files before include message_buffer.h"
+//#error "include ATMEGA_FreeRTOS.h must appear in source files before include message_buffer.h"
 #endif
 
 /* Message buffers are built onto of stream buffers. */

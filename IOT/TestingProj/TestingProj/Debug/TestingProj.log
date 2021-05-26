@@ -1,0 +1,5 @@
+﻿  productionTest.cpp
+C:\Users\vasil\Projects\SmartHome\IOT\TestingProj\TestingProj\productionTest.cpp(348,16): warning C4244: '=': conversion from 'double' to 'uint16_t', possible loss of data
+C:\Users\vasil\Projects\SmartHome\IOT\TestingProj\TestingProj\productionTest.cpp(352,16): warning C4244: '=': conversion from 'double' to 'uint16_t', possible loss of data
+C:\Users\vasil\Projects\SmartHome\IOT\TestingProj\TestingProj\productionTest.cpp(356,8): warning C4244: '=': conversion from 'double' to 'uint16_t', possible loss of data
+  TestingProj.vcxproj -> C:\Users\vasil\Projects\SmartHome\IOT\TestingProj\Debug\TestingProj.exe
