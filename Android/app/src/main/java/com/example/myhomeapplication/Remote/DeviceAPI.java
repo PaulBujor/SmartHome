@@ -29,6 +29,8 @@ public interface DeviceAPI {
     @PATCH("api/devices/{id}/thresholds")
     Call<Thresholds> updateThresholds(@Path("id") long deviceID,@Body Thresholds thresholds);
 
+    @DELETE("api/users/{id}/devices/{deviceId}")
+    Call<Device> deleteDevice(@Path("id") long userID,@Path("deviceId") long deviceID);
     //TODO implement
     /*
     @DELETE("api/devices/{id}/thresholds")

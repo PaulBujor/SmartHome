@@ -82,6 +82,14 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             }
         });
 
+        deviceSettingsViewModel.getResponseInformation().observe(this, message->{
+            if(!message.isEmpty()){
+                Context context = getContext();
+                Toast toast = Toast.makeText(context,message,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
         super.onCreate(savedInstanceState);
 
     }
@@ -164,7 +172,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         switch (v.getId()) {
 
             case R.id.removeDevice_button:
-                //TODO delete device
+                deviceSettingsViewModel.deleteDevice(deviceSettingsViewModel.getDeviceIDMutable().getValue());
                 return;
             case R.id.confirmAddDevice:
                 if (deviceIDInput.getText().toString().isEmpty()) {
@@ -179,9 +187,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                 }
             case R.id.ds_save_changes_button:
 
-                //Not the most elegant implementation
                 try {
-                    Thresholds tmpThresholdsForID = deviceSettingsViewModel.getThresholdsMutable().getValue();
 
                     Thresholds tmpThreshold = new Thresholds(
                              activeSwitch.isChecked()

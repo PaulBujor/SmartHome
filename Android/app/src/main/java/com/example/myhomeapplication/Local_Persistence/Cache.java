@@ -33,6 +33,7 @@ public class Cache {
     private final MutableLiveData<Measurement> latestSoundMeasurement;
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
+    private MutableLiveData<String> responseInformation;
 
 
     //TODO avoid public constructor
@@ -43,6 +44,7 @@ public class Cache {
         this.latestSoundMeasurement = new MutableLiveData<>();
         devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
+        responseInformation = new MutableLiveData<>();
     }
 
     public static synchronized Cache getInstance() {
@@ -212,7 +214,7 @@ public class Cache {
     public void addDevice( Device tmpDevice) {
     DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
 
-    //TODO get current user information
+        //TODO getting current USER
 /*    EUser tmpEUser = new EUser(tmpDevice.getDeviceName(),getCurrentUserID(),getCurrentUserEmail(),getCurrentUserPassword(),getCurrentDevices());
     Call<EUser> call = deviceAPI.addDevice(tmpEUser.getUserID(),tmpDevice.getDeviceID(),tmpEUser);
     call.enqueue(new Callback<EUser>() {
@@ -238,7 +240,7 @@ public class Cache {
         call.enqueue(new Callback<Thresholds>() {
             @Override
             public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
-
+            responseInformation.setValue("Thresholds updated successfully.");
             }
 
             @Override
@@ -246,7 +248,36 @@ public class Cache {
                 Log.i("Retrofit", "Something went wrong :(");
                 Log.i("Retrofit", t.getMessage());
                 t.printStackTrace();
+                responseInformation.setValue("Threshold update failed.");
             }
         });
+    }
+
+    public void deleteDevice(long deviceID) {
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
+        //TODO getting current USER
+    /*    Call<Device> call = deviceAPI.deleteDevice(getCurrentUserID(),deviceID);
+        call.enqueue(new Callback<Device>() {
+            @Override
+            public void onResponse(Call<Device> call, Response<Device> response) {
+                responseInformation.setValue("Device deleted successfully.");
+            }
+
+            @Override
+            public void onFailure(Call<Device> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+                Log.i("Retrofit", t.getMessage());
+                t.printStackTrace();
+                responseInformation.setValue("Encountered an error trying to delete device.");
+            }
+        });*/
+    }
+
+    public MutableLiveData<String> getResponseInformation() {
+        return responseInformation;
+    }
+
+    public void setResponseInformation(MutableLiveData<String> responseInformation) {
+        this.responseInformation = responseInformation;
     }
 }

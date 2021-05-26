@@ -19,6 +19,7 @@ public class DeviceSettingsViewModel extends ViewModel {
     private MutableLiveData<List<Device>> devicesMutable;
     private MutableLiveData<Thresholds> thresholdsMutable;
     private MutableLiveData<Long> deviceIDMutable;
+    private MutableLiveData<String> responseInformation;
 
     public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
@@ -26,9 +27,15 @@ public class DeviceSettingsViewModel extends ViewModel {
         devicesMutable = new MutableLiveData<>();
         thresholdsMutable = new MutableLiveData<>();
         deviceIDMutable= new MutableLiveData<>();
+        responseInformation = new MutableLiveData<>();
+        //TODO add observer to get all devices
 
         repository.getThresholds().observeForever(thresholds -> {
             thresholdsMutable.setValue(thresholds);
+        });
+
+        repository.getResponseInformation().observeForever(message->{
+            responseInformation.setValue(message);
         });
 
         init();
@@ -82,11 +89,19 @@ public class DeviceSettingsViewModel extends ViewModel {
         this.deviceIDMutable.setValue(deviceId);
     }
 
-    public void deleteDevice() {
-
+    public void deleteDevice(long deviceID) {
+    repository.deleteDevice(deviceID);
     }
 
     public void addDevice(Device tmpDevice) {
         repository.addDevice (tmpDevice);
+    }
+
+    public MutableLiveData<String> getResponseInformation() {
+        return responseInformation;
+    }
+
+    public void setResponseInformation(MutableLiveData<String> responseInformation) {
+        this.responseInformation = responseInformation;
     }
 }
