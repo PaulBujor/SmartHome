@@ -183,8 +183,8 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                 try {
                     Thresholds tmpThresholdsForID = deviceSettingsViewModel.getThresholdsMutable().getValue();
 
-                    Thresholds tmpThreshold = new Thresholds(tmpThresholdsForID.getThresholdsID()
-                            , activeSwitch.isChecked()
+                    Thresholds tmpThreshold = new Thresholds(
+                             activeSwitch.isChecked()
                             , Integer.parseInt(humMin.getText().toString())
                             , Integer.parseInt(humMax.getText().toString())
                             , Integer.parseInt(tempMin.getText().toString())

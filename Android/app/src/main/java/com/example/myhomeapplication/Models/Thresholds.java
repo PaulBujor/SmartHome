@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Thresholds {
 
-    
-    @JsonProperty("thresholdsId")
-    private long thresholdsID;
+
 
     @JsonProperty("deviceConfiguration")
     private boolean deviceConfiguration;
@@ -33,8 +31,8 @@ public class Thresholds {
 
     }
 
-    public Thresholds(long thresholdsID,boolean deviceConfiguration, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature, int minCO2, int maxCO2) {
-        this.thresholdsID = thresholdsID;
+    public Thresholds(boolean deviceConfiguration, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature, int minCO2, int maxCO2) {
+
         this.minHumidity = minHumidity;
         this.maxHumidity = maxHumidity;
         this.minTemperature = minTemperature;
@@ -44,13 +42,7 @@ public class Thresholds {
         this.deviceConfiguration = deviceConfiguration;
     }
 
-    public long getThresholdsID() {
-        return thresholdsID;
-    }
 
-    public void setThresholdsID(long thresholdsID) {
-        this.thresholdsID = thresholdsID;
-    }
 
     public int getMinHumidity() {
         return minHumidity;
