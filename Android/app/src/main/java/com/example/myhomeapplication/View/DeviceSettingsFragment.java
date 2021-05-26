@@ -135,6 +135,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
         addDevice.setOnClickListener(v -> {
             addDevice.setVisibility(GONE);
+            removeDevice.setVisibility(GONE);
             addDeviceConstraintLayout.setVisibility(View.VISIBLE);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(deviceSettingsConstraintLayout);
@@ -146,6 +147,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         cancelAddDevice.setOnClickListener(v -> {
             addDeviceConstraintLayout.setVisibility(View.GONE);
             addDevice.setVisibility(View.VISIBLE);
+            removeDevice.setVisibility(View.VISIBLE);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(deviceSettingsConstraintLayout);
             constraintSet.connect(R.id.manageSensors_textView, ConstraintSet.TOP, R.id.addDevice_button, ConstraintSet.BOTTOM);
