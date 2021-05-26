@@ -61,7 +61,10 @@ public class TemperatureFragment extends Fragment {
 
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
             // take first 100
-            List<Measurement> limitedList = measurements.stream().limit(100).collect(Collectors.toList());
+            // List<Measurement> limitedList = measurements.stream().limit(100).collect(Collectors.toList());
+
+            // take last 100
+            List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
 
             // update graph
             LineData newLineData = getLineData(limitedList);
@@ -88,7 +91,7 @@ public class TemperatureFragment extends Fragment {
         temperatureGraph.setDescription(null);
         temperatureGraph.getLegend().setEnabled(false);
         //To fix labels going off the screen
-        temperatureGraph.setExtraLeftOffset(10);
+        temperatureGraph.setExtraLeftOffset(5);
         temperatureGraph.setExtraRightOffset(30);
 
         //XAxis
