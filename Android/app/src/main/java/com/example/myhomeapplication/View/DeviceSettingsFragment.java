@@ -204,6 +204,9 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                     Log.i("UpdateThresholds", "Something went wrong :(");
                     Log.i("UpdateThresholds", e.getMessage());
                     e.printStackTrace();
+                    Context context = getContext();
+                    Toast toast = Toast.makeText(context, "No device selected.", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
         }
     }
