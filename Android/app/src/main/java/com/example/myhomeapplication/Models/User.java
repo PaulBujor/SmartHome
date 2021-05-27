@@ -17,17 +17,20 @@ public class User {
 
     private List<Device> devices;
 
- /*   public User(){
+    public User() {
 
-    }*/
-
-
+    }
 
     public User(long userID, String email, String password, List<Device> devices) {
         this.userID = userID;
         this.email = email;
         Password = password;
         this.devices = devices;
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        Password = password;
     }
 
     public long getUserID() {

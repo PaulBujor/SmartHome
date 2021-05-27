@@ -1,8 +1,9 @@
-package com.example.myhomeapplication.View;
+package com.example.myhomeapplication.View.auth;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.Editable;
@@ -12,15 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.myhomeapplication.Models.User;
 import com.example.myhomeapplication.R;
+import com.example.myhomeapplication.ViewModel.CO2ViewModel;
+import com.example.myhomeapplication.ViewModel.auth.RegisterViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class LoginFragment extends Fragment {
+public class RegisterFragment extends Fragment {
+    private RegisterViewModel viewModel;
 
-    private Button loginButton, registerButtonForward;
     private TextInputEditText emailInput, passwordInput;
+    private Button registerButton, backToLoginButton;
 
-    public LoginFragment() {
+    public RegisterFragment() {
         // Required empty public constructor
     }
 
@@ -34,16 +39,17 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        loginButton = view.findViewById(R.id.loginButton);
-        registerButtonForward = view.findViewById(R.id.registerButtonForward);
-        emailInput = view.findViewById(R.id.loginEmailEditInput);
-        passwordInput = view.findViewById(R.id.loginPasswordEditInput);
+        emailInput = view.findViewById(R.id.registerEmailEditInput);
+        passwordInput = view.findViewById(R.id.registerPasswordEditInput);
+        registerButton = view.findViewById(R.id.registerButton);
+        backToLoginButton = view.findViewById(R.id.goBackToLoginButton);
 
-        loginButton.setOnClickListener(v -> login());
-        registerButtonForward.setOnClickListener(v -> registerForward());
+        registerButton.setOnClickListener(v -> register());
+        backToLoginButton.setOnClickListener(v -> backToLogin());
 
+        viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         //Validating input
         TextWatcher textWatcher = new TextWatcher() {
@@ -57,7 +63,7 @@ public class LoginFragment extends Fragment {
                 boolean isFilledEmail = !emailInput.getText().toString().isEmpty();
                 boolean isFilledPassword = !passwordInput.getText().toString().isEmpty();
                 boolean setEnabled = isFilledEmail && isFilledPassword;
-                loginButton.setEnabled(setEnabled);
+                registerButton.setEnabled(setEnabled);
             }
 
             @Override
@@ -72,11 +78,12 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void login() {
-
+    private void register() {
+        User user = new User(emailInput.getText().toString(), passwordInput.getText().toString());
+        viewModel.register(user);
     }
 
-    private void registerForward() {
-        NavHostFragment.findNavController(this).navigate(R.id.openRegisterFragmentAction);
+    private void backToLogin() {
+        NavHostFragment.findNavController(this).popBackStack();
     }
 }

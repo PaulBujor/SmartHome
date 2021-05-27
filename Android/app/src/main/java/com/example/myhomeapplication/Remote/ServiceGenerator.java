@@ -10,6 +10,7 @@ public class ServiceGenerator {
     private static final String BASE_URL = "https://sep4.azurewebsites.net/";
     private static MeasurementAPI measurementAPI;
     private static DeviceAPI deviceAPI;
+    private static UserAPI userAPI;
     private static OkHttpClient client = new OkHttpClient.Builder()
             .readTimeout(120, TimeUnit.SECONDS)
             .connectTimeout(120, TimeUnit.SECONDS)
@@ -41,5 +42,17 @@ public class ServiceGenerator {
         return deviceAPI;
     }
 
-
+    public static UserAPI getUserAPI()
+    {
+        if (userAPI == null)
+        {
+            userAPI = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(JacksonConverterFactory.create())
+                    .client(client)
+                    .build()
+                    .create(UserAPI.class);
+        }
+        return userAPI;
+    }
 }
