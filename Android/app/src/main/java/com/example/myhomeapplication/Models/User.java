@@ -30,6 +30,11 @@ public class User {
         this.devices = devices;
     }
 
+    public User(String email, String password) {
+        this.email = email;
+        Password = password;
+    }
+
     public long getUserID() {
         return userID;
     }
