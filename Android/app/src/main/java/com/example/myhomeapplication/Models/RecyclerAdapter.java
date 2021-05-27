@@ -40,7 +40,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         sdf.applyPattern("yyyy-MM-dd HH:mm");
         String newDate = sdf.format(toFormat);
         holder.timeStamp.setText(newDate);
-        Log.d("Adapter debug", "" + measurement.getValue());
         holder.value.setText(String.format("%.2f", measurement.getValue()));
 
 
