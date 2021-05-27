@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.myhomeapplication.Models.Device;
+import com.example.myhomeapplication.Models.EUser;
 import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.Models.Thresholds;
+import com.example.myhomeapplication.Models.User;
 import com.example.myhomeapplication.Remote.DeviceAPI;
 import com.example.myhomeapplication.Remote.MeasurementAPI;
 import com.example.myhomeapplication.Remote.ServiceGenerator;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +34,7 @@ public class Cache {
     private final MutableLiveData<Measurement> latestSoundMeasurement;
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
+    private MutableLiveData<String> responseInformation;
 
 
     //TODO avoid public constructor
@@ -41,6 +45,7 @@ public class Cache {
         this.latestSoundMeasurement = new MutableLiveData<>();
         devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
+        responseInformation = new MutableLiveData<>();
     }
 
     public static synchronized Cache getInstance() {
@@ -139,7 +144,7 @@ public class Cache {
         });
     }
 
-    public MutableLiveData<List<Device>> getAllDevices(long userID) {
+    public void getAllDevices(long userID) {
 
 
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
@@ -171,7 +176,7 @@ public class Cache {
             }
         });
 
-       return devices;
+
     }
 
     public void getThresholdsByDevice(long deviceID){
@@ -183,6 +188,7 @@ public class Cache {
             public void onResponse(Call<Thresholds> call, Response<Thresholds> response) {
                 if(response.code() == 200){
                     thresholds.setValue(response.body());
+                    responseInformation.setValue("Thresholds displayed for device : "+deviceID);
                     Log.i("TESTING","MIN TEMPERATURE ::: " + String.valueOf(thresholds.getValue().getMinTemperature()));
                 }
                 else Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + "\n" + response.message()));
@@ -194,16 +200,90 @@ public class Cache {
                 Log.i("Retrofit", "Something went wrong :(");
                 Log.i("Retrofit", t.getMessage());
                 t.printStackTrace();
+                responseInformation.setValue("Encountered an error while getting thresholds.");
             }
         });
 
     }
 
- /*   public MutableLiveData<List<Device>> getDevices() {
+    public MutableLiveData<List<Device>> getDevices() {
         return devices;
     }
-*/
+
     public MutableLiveData<Thresholds> getThresholds() {
         return thresholds;
+    }
+
+    public void addDevice( Device tmpDevice) {
+    DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
+
+        //TODO getting current USER
+/*    EUser tmpEUser = new EUser(tmpDevice.getDeviceName(),getCurrentUserID(),getCurrentUserEmail(),getCurrentUserPassword(),getCurrentDevices());
+    Call<ResponseBody> call = deviceAPI.addDevice(tmpEUser.getUserID(),tmpDevice.getDeviceID(),tmpEUser);
+    call.enqueue(new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        responseInformation.setValue("Device added successfully.");
+
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+            Log.i("Retrofit", "Something went wrong :(");
+            Log.i("Retrofit", t.getMessage());
+            t.printStackTrace();
+            responseInformation.setValue("Encountered an error while adding a device.");
+        }
+    });*/
+
+    }
+
+    public void updateThresholds(long deviceId, Thresholds thresholds) {
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
+        Call<ResponseBody> call = deviceAPI.updateThresholds(deviceId,thresholds);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                responseInformation.setValue("Thresholds updated successfully.");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+                Log.i("Retrofit", t.getMessage());
+                t.printStackTrace();
+                responseInformation.setValue("Threshold update failed");
+            }
+        });
+
+
+    }
+
+    public void deleteDevice(long deviceID) {
+        DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
+        //TODO getting current USER
+    /*    Call<ResponseBody> call = deviceAPI.deleteDevice(getCurrentUserID(),deviceID);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                responseInformation.setValue("Device deleted successfully.");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
+                Log.i("Retrofit", t.getMessage());
+                t.printStackTrace();
+                responseInformation.setValue("Encountered an error trying to delete device.");
+            }
+        });*/
+    }
+
+    public MutableLiveData<String> getResponseInformation() {
+        return responseInformation;
+    }
+
+    public void setResponseInformation(MutableLiveData<String> responseInformation) {
+        this.responseInformation = responseInformation;
     }
 }

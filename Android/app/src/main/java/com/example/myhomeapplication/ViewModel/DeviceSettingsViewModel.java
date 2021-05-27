@@ -18,18 +18,33 @@ public class DeviceSettingsViewModel extends ViewModel {
     private List<Device> devices;
     private MutableLiveData<List<Device>> devicesMutable;
     private MutableLiveData<Thresholds> thresholdsMutable;
+    private MutableLiveData<Long> deviceIDMutable;
+    private MutableLiveData<String> responseInformation;
 
     public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
         devices = new ArrayList<>();
         devicesMutable = new MutableLiveData<>();
         thresholdsMutable = new MutableLiveData<>();
+        deviceIDMutable= new MutableLiveData<>();
+        responseInformation = new MutableLiveData<>();
+        //TODO add observer to get all devices
 
         repository.getThresholds().observeForever(thresholds -> {
             thresholdsMutable.setValue(thresholds);
         });
 
-        init();
+        repository.getResponseInformation().observeForever(message->{
+            responseInformation.setValue(message);
+        });
+        //TODO temporary solution, should get current user ID from repository
+        repository.getAllDevices(1);
+
+        repository.getDevices().observeForever(list->{
+            devicesMutable.setValue(list);
+        });
+
+
     }
 
     public void getThresholds(String id) {
@@ -43,10 +58,7 @@ public class DeviceSettingsViewModel extends ViewModel {
 
 
 
-    public void init() {
-        devicesMutable = repository.getAllDevices(1);
 
-    }
 
     public MutableLiveData<List<Device>> getDevicesMutable() {
         return devicesMutable;
@@ -68,11 +80,31 @@ public class DeviceSettingsViewModel extends ViewModel {
         return deviceItems;
     }
 
-    public void updateThresholds() {
-
+    public void updateThresholds(long deviceId, Thresholds thresholds) {
+        repository.updateThresholds(deviceId, thresholds);
     }
 
-    public void deleteDevice() {
+    public MutableLiveData<Long> getDeviceIDMutable() {
+        return deviceIDMutable;
+    }
 
+    public void setDeviceIDMutable(long deviceId) {
+        this.deviceIDMutable.setValue(deviceId);
+    }
+
+    public void deleteDevice(long deviceID) {
+    repository.deleteDevice(deviceID);
+    }
+
+    public void addDevice(Device tmpDevice) {
+        repository.addDevice (tmpDevice);
+    }
+
+    public MutableLiveData<String> getResponseInformation() {
+        return responseInformation;
+    }
+
+    public void setResponseInformation(MutableLiveData<String> responseInformation) {
+        this.responseInformation = responseInformation;
     }
 }
