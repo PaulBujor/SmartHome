@@ -355,9 +355,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OFF"
+        android:translationX="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/device_running_textview"
-        app:layout_constraintStart_toEndOf="@+id/device_running_textview"
-        app:layout_constraintStart_toStartOf="@+id/ds_co2_max"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/device_running_textview" />
 
 
