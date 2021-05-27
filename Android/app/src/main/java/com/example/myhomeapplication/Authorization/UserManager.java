@@ -38,6 +38,7 @@ public class UserManager {
 
     private UserManager() {
         user = new MutableLiveData<>();
+        user.setValue(null);
 
         sharedPreferences = MainActivity.sharedPreferences;
         userAPI = ServiceGenerator.getUserAPI();
@@ -61,8 +62,8 @@ public class UserManager {
 
     private void setUser(User user) {
         this.user.setValue(user);
-        sharedPreferences.edit().putString("sh-email", user.getEmail());
-        sharedPreferences.edit().putString("sh-password", user.getPassword());
+        sharedPreferences.edit().putString("sh-email", user.getEmail()).apply();
+        sharedPreferences.edit().putString("sh-password", user.getPassword()).apply();
     }
 
     public void logIn(User user) {
@@ -71,7 +72,7 @@ public class UserManager {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.code()==200)
-                    setUser(user);
+                    setUser(response.body());
             }
 
             @Override
@@ -99,5 +100,11 @@ public class UserManager {
                 t.printStackTrace();
             }
         });
+    }
+
+    public void logout() {
+        user.setValue(null);
+        sharedPreferences.edit().putString("sh-email", "").apply();
+        sharedPreferences.edit().putString("sh-password", "").apply();
     }
 }
