@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@string/device_settings"
-            android:textSize="34sp"
             android:textColor="@color/black"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -181,32 +181,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="43dp"
-                android:layout_marginEnd="12dp"
-                 />
+                android:layout_marginEnd="12dp" />
 
             <Switch
                 android:id="@+id/switch_humidity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:layout_marginRight="12dp"
-                 />
+                android:layout_marginRight="12dp" />
 
             <Switch
                 android:id="@+id/switch_c02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:layout_marginRight="12dp"
-                 />
+                android:layout_marginRight="12dp" />
 
             <Switch
                 android:id="@+id/switch_motion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:layout_marginRight="12dp"
-                 />
+                android:layout_marginRight="12dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

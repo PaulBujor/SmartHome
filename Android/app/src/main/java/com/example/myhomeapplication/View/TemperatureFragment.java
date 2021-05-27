@@ -103,7 +103,7 @@ public class TemperatureFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setValueFormatter(new XAxisValueFormatter());
-        xAxis.setLabelCount(5, true);
+        xAxis.setLabelCount(4, true);
         //xAxis.setXOffset(20f);
 
         //Right YAxis - disabled
@@ -187,10 +187,7 @@ public class TemperatureFragment extends Fragment {
 
     private float getMilliseconds(Date d) {
         DateTime df = new DateTime(d);
-
-        float millis = df.getMillisOfDay();
-        Log.d("MILIS", String.valueOf(millis));
-        Log.d("MILIS", String.valueOf(df.getMillisOfDay()));
+        float millis = df.getMillis();
         return millis;
     }
 }
