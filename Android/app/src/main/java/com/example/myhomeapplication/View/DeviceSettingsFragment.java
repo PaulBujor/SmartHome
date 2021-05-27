@@ -29,6 +29,7 @@ import com.example.myhomeapplication.Models.DeviceItem;
 import com.example.myhomeapplication.Models.Thresholds;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.DeviceSettingsViewModel;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     private DeviceAdapter deviceAdapter;
     private EditText tempMin, tempMax, humMin, humMax, cO2min, cO2max;
     private Button addDevice, removeDevice, cancelAddDevice, confirmAddDevice, saveChanges;
-    private Switch activeSwitch;
+    private SwitchMaterial activeSwitch;
     private DeviceSettingsViewModel deviceSettingsViewModel;
     private ConstraintLayout addDeviceConstraintLayout, deviceSettingsConstraintLayout;
     private TextInputEditText deviceNameInput, deviceIDInput;
