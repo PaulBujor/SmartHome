@@ -28,4 +28,11 @@
     <string name="save">Save</string>
     <string name="On">ON</string>
     <string name="Off">OFF</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="or">OR</string>
+    <string name="register">Register</string>
+    <string name="create_account">Create account</string>
 </resources>

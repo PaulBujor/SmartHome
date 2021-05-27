@@ -114,6 +114,7 @@ public class TemperatureFragment extends Fragment {
         //Left YAxis
         YAxis yl = temperatureGraph.getAxisLeft();
         yl.setSpaceTop(30);
+        yl.setDrawGridLines(true);
         //yl.setSpaceBottom(20);
 
         //Marker
