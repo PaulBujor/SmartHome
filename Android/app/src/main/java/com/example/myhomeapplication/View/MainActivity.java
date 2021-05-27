@@ -74,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
                 WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
 
+                // Log out
+                navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setOnMenuItemClickListener(l -> {
+                    UserManager.getInstance().logout();
+                    // Reloading the activity
+                    finish();
+                    startActivity(getIntent());
+                    return true;
+                });
+
                 // Setting toolbar label programmatically
                 navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
                     @Override
