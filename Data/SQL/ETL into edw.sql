@@ -54,8 +54,9 @@ INSERT INTO [edw].[UserGroup]
            ,[U_ID])
      SELECT
            userGroupId,
-		   userId
-		FROM stage.UserGroup
+		   e_u.U_ID
+		FROM stage.UserGroup s_ug
+		inner join edw.DimUser e_u on s_ug.userId = e_u.userId
 GO
 
 USE [Data_db]

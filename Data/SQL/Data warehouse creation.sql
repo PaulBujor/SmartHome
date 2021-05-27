@@ -184,16 +184,25 @@ while @StartDate <= @EndDate
 		SET IDENTITY_INSERT edw.DimDate OFF
 	END
 
+Delete from edw.DimTime
 
 --dim time generate
 declare @StartTime TIME;
 declare @EndTime TIME;
 
-set @StartTime = '14:30';
+set @StartTime = '00:00';
 set @EndTime = '23:55';
 
-while @StartTime < @EndTime
+declare @Pass INT;
+set @Pass = 0;
+
+while @StartTime <= @EndTime AND @Pass = 0
 	BEGIN
+		IF @StartTime = '23:55'
+		BEGIN
+			set @Pass = 1;
+		END
+
 		SET IDENTITY_INSERT edw.DimTime ON
 		INSERT INTO [edw].[DimTime]
 				   ([T_ID]
