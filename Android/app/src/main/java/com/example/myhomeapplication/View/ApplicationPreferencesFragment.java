@@ -8,10 +8,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myhomeapplication.R;
 
@@ -50,7 +52,30 @@ public class ApplicationPreferencesFragment extends Fragment {
         imperialSymbol = view.findViewById(R.id.imperial_symbol);
         imperialText = view.findViewById(R.id.imperial_title);
 
+        if (sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("metric"))
+        {
+            metricSymbol.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
+            metricText.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
+            imperialSymbol.setTextColor(Color.parseColor("#808080"));
+            imperialText.setTextColor(Color.parseColor("#808080"));
+        }
+        else if (sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("imperial")) {
+            imperialSymbol.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
+            imperialText.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
+            metricSymbol.setTextColor(Color.parseColor("#808080"));
+            metricText.setTextColor(Color.parseColor("#808080"));
+        }
+        else {
+            Log.wtf("SHARED_PREFERENCES", "got null");
+        }
+
+
         metric.setOnClickListener(v -> {
+            boolean isAlready = sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("metric") &&
+                    !sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("null");
+            if (!isAlready)
+                Toast.makeText(getContext(), "System of Measurement changed to Metric", Toast.LENGTH_SHORT).show();
+
             sharedPreferences.edit().putString("sh_system", "metric").apply();
             metricSymbol.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
             metricText.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
@@ -59,6 +84,11 @@ public class ApplicationPreferencesFragment extends Fragment {
         });
 
         imperial.setOnClickListener(v -> {
+            boolean isAlready = sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("imperial") &&
+                    !sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("null");
+            if (!isAlready)
+                Toast.makeText(getContext(), "System of Measurement changed to Imperial", Toast.LENGTH_SHORT).show();
+
             sharedPreferences.edit().putString("sh_system", "imperial").apply();
             imperialSymbol.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
             imperialText.setTextColor(ContextCompat.getColor(getContext(), R.color.green_pale));
