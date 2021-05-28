@@ -4,6 +4,8 @@ import remote.api.SettingsController;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertTrue;
+
 public class SettingsTest {
     private SettingsController controller = new SettingsController();
 
@@ -25,6 +27,7 @@ public class SettingsTest {
             String payload = "".concat(minHumidity).concat(maxHumidity).concat(minTemperature).concat(maxTemperature).concat(minCo2).concat(maxCo2).concat(deviceConfiguration);
 
             System.out.println(payload);
+            assertTrue(26 == payload.length());
         } catch (IOException e) {
             e.printStackTrace();
         }
