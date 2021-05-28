@@ -49,78 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         UserManager userManager = UserManager.getInstance();
 
-        userManager.getLiveUser().observeForever(user -> {
-            if (user == null) {
-                setContentView(R.layout.login_main);
-            } else {
-                setContentView(R.layout.activity_main);
+        if (userManager.getLiveUser().getValue() == null) {
+            setContentView(R.layout.login_main);
+        } else {
+            setupMain();
+        }
 
-                NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                navController = navHostFragment.getNavController();
-                drawerLayout = findViewById(R.id.drawerLayout);
-                navigationView = findViewById(R.id.nav_view);
-                Toolbar toolbar = findViewById(R.id.toolbar);
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-                appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).setOpenableLayout(drawerLayout).build();
-
-                NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-                //Allows navigation to destinations when clicking menu items in the navigation drawer
-                NavigationUI.setupWithNavController(navigationView, navController);
-
-                //Periodic WorkManager Request
-                PeriodicWorkRequest latestDataRequest =
-                        new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 5, TimeUnit.MINUTES)
-                                .build();
-
-                WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
-
-                // Log out
-                navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setOnMenuItemClickListener(l -> {
-                    UserManager.getInstance().logout();
-                    // Reloading the activity
-                    finish();
-                    startActivity(getIntent());
-                    return true;
-                });
-
-                // Setting toolbar label programmatically
-                navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-                    @Override
-                    public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                        int desID = destination.getId();
-                        TextView label = findViewById(R.id.toolbarLabel);
-                        switch (desID) {
-                            case R.id.homeFragment:
-                                label.setText("My Home");
-                                break;
-                            case R.id.temperatureFragment:
-                                label.setText("Temperature");
-                                break;
-                            case R.id.humidityFragment:
-                                label.setText("Humidity");
-                                break;
-                            case R.id.CO2Fragment:
-                                label.setText("CO2");
-                                break;
-                            case R.id.motionFragment:
-                                label.setText("Sound");
-                                break;
-                            case R.id.deviceSettingsFragment:
-                                label.setText("Device Settings");
-                                break;
-                            case R.id.applicationPreferencesFragment:
-                                label.setText("App preferences");
-                                break;
-                            default:
-                                Log.wtf("FRAGMENT_ID_NOT_RECOGNIZED", "onDestinationChangedListener");
-                                break;
-                        }
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -132,4 +66,74 @@ public class MainActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    public void setupMain() {
+        setContentView(R.layout.activity_main);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        navController = navHostFragment.getNavController();
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.nav_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).setOpenableLayout(drawerLayout).build();
+
+        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+        //Allows navigation to destinations when clicking menu items in the navigation drawer
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        //Periodic WorkManager Request
+        PeriodicWorkRequest latestDataRequest =
+                new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 5, TimeUnit.MINUTES)
+                        .build();
+
+        WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
+
+        // Log out
+        navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setOnMenuItemClickListener(l -> {
+            UserManager.getInstance().logout();
+            // Reloading the activity
+            finish();
+            startActivity(getIntent());
+            return true;
+        });
+
+        // Setting toolbar label programmatically
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                int desID = destination.getId();
+                TextView label = findViewById(R.id.toolbarLabel);
+                switch (desID) {
+                    case R.id.homeFragment:
+                        label.setText("My Home");
+                        break;
+                    case R.id.temperatureFragment:
+                        label.setText("Temperature");
+                        break;
+                    case R.id.humidityFragment:
+                        label.setText("Humidity");
+                        break;
+                    case R.id.CO2Fragment:
+                        label.setText("CO2");
+                        break;
+                    case R.id.motionFragment:
+                        label.setText("Sound");
+                        break;
+                    case R.id.deviceSettingsFragment:
+                        label.setText("Device Settings");
+                        break;
+                    case R.id.applicationPreferencesFragment:
+                        label.setText("App preferences");
+                        break;
+                    default:
+                        Log.wtf("FRAGMENT_ID_NOT_RECOGNIZED", "onDestinationChangedListener");
+                        break;
+                }
+            }
+        });
+
+    }
+
 }

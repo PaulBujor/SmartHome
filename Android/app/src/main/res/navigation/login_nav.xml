@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_nav"
     app:startDestination="@id/loginFragment">
+
+    <include app:graph="@navigation/myhome_nav" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.myhomeapplication.View.auth.LoginFragment"
@@ -12,6 +14,9 @@
         <action
             android:id="@+id/openRegisterFragmentAction"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/openMainGraph"
+            app:destination="@id/myhome_nav" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

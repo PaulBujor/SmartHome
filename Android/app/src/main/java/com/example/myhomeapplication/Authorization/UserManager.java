@@ -26,7 +26,7 @@ public class UserManager {
     private static Object threadLock = new Object();
 
     public static UserManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             synchronized (threadLock) {
                 if (instance == null) {
                     instance = new UserManager();
@@ -46,7 +46,7 @@ public class UserManager {
         String email = sharedPreferences.getString("sh-email", "");
         String password = sharedPreferences.getString("sh-password", "");
 
-        if(!email.isEmpty() && !password.isEmpty()) {
+        if (!email.isEmpty() && !password.isEmpty()) {
             User user = new User(email, password);
             logIn(user);
         }
@@ -71,7 +71,7 @@ public class UserManager {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.code()==200)
+                if (response.code() == 200)
                     setUser(response.body());
             }
 
@@ -89,7 +89,7 @@ public class UserManager {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code()==200)
+                if (response.code() == 200)
                     setUser(user);
             }
 
