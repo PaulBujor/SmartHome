@@ -1,5 +1,6 @@
 package com.example.myhomeapplication.View;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class TemperatureFragment extends Fragment {
     private RecyclerView recyclerView;
     private LineChart temperatureGraph;
     private int deviceID = 420;
+    private SharedPreferences sharedPreferences;
 
     public TemperatureFragment() {
         // Required empty public constructor
@@ -61,21 +63,48 @@ public class TemperatureFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_temperature, container, false);
 
+        sharedPreferences = MainActivity.sharedPreferences;
+        String system = sharedPreferences.getString("sh_system", "null");
+
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
+            LineData newLineData;
+            RecyclerAdapter newAdapter;
+
             // take first 100
             // List<Measurement> limitedList = measurements.stream().limit(100).collect(Collectors.toList());
 
             // take last 100
             List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
 
-            // update graph
-            LineData newLineData = getLineData(limitedList);
-            temperatureGraph.setData(newLineData); //might need to do .clearData() for lineData from onCreateView
-            temperatureGraph.invalidate(); //refreshes graph
+            switch (system) {
+                case "metric":
+                    // update graph
+                    newLineData = getLineData(limitedList);
+                    temperatureGraph.setData(newLineData); //might need to do .clearData() for lineData from onCreateView
+                    temperatureGraph.invalidate(); //refreshes graph
 
-            //set newly updated adapter
-            RecyclerAdapter newAdapter = new RecyclerAdapter(measurements);
-            recyclerView.setAdapter(newAdapter);
+                    //set newly updated adapter
+                    newAdapter = new RecyclerAdapter(measurements);
+                    recyclerView.setAdapter(newAdapter);
+                    break;
+                case "imperial":
+                    limitedList.forEach(m -> m.setValue((m.getValue() * 1.8) + 32));
+                    List<Measurement> fMeasurements = new ArrayList<>(measurements);
+                    fMeasurements.forEach(m -> m.setValue((m.getValue() * 1.8) + 32));
+
+                    // update graph
+                    newLineData = getLineData(limitedList);
+                    temperatureGraph.setData(newLineData); //might need to do .clearData() for lineData from onCreateView
+                    temperatureGraph.invalidate(); //refreshes graph
+
+                    //set newly updated adapter
+                    newAdapter = new RecyclerAdapter(fMeasurements);
+                    recyclerView.setAdapter(newAdapter);
+
+                    break;
+                default:
+                    Log.wtf("SHARED_PREFERENCES", "null");
+            }
         };
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
