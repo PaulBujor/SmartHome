@@ -36,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private AppBarConfiguration appBarConfiguration;
     private NavigationView navigationView;
-    private TextView temperatureCardValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
+
+        // Setting metric system as default
+        if (sharedPreferences.getString("sh_system", "null").equalsIgnoreCase("null"))
+            sharedPreferences.edit().putString("sh_system", "metric").apply();
 
         super.onCreate(savedInstanceState);
 
@@ -54,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
                 NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
                 navController = navHostFragment.getNavController();
-                temperatureCardValue = findViewById(R.id.temperatureCardValue);
                 drawerLayout = findViewById(R.id.drawerLayout);
                 navigationView = findViewById(R.id.nav_view);
                 Toolbar toolbar = findViewById(R.id.toolbar);
