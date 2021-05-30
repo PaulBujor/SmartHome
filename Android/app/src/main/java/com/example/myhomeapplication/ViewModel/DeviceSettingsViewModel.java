@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.myhomeapplication.Authorization.UserManager;
 import com.example.myhomeapplication.Local_Persistence.Cache;
 import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.DeviceItem;
@@ -20,6 +21,7 @@ public class DeviceSettingsViewModel extends ViewModel {
     private MutableLiveData<Thresholds> thresholdsMutable;
     private MutableLiveData<Long> deviceIDMutable;
     private MutableLiveData<String> responseInformation;
+    private UserManager userManager;
 
     public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
@@ -37,7 +39,10 @@ public class DeviceSettingsViewModel extends ViewModel {
         repository.getResponseInformation().observeForever(message->{
             responseInformation.setValue(message);
         });
-        //TODO temporary solution, should get current user ID from repository
+        /*userManager.getLiveUser().observeForever(user->{
+            repository.getAllDevices(user.getUserID());
+        });*/
+
         repository.getAllDevices(1);
 
         repository.getDevices().observeForever(list->{

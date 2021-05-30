@@ -3,6 +3,7 @@ package com.example.myhomeapplication.Local_Persistence;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myhomeapplication.Authorization.UserManager;
 import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.EUser;
 import com.example.myhomeapplication.Models.Measurement;
@@ -217,8 +218,9 @@ public class Cache {
     public void addDevice( Device tmpDevice) {
     DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
 
-        //TODO getting current USER
-/*    EUser tmpEUser = new EUser(tmpDevice.getDeviceName(),getCurrentUserID(),getCurrentUserEmail(),getCurrentUserPassword(),getCurrentDevices());
+
+    User currentUser = UserManager.getInstance().getUser();
+    EUser tmpEUser = new EUser(tmpDevice.getDeviceName(), currentUser.getUserID(), currentUser.getEmail(), currentUser.getPassword(), currentUser.getDevices());
     Call<ResponseBody> call = deviceAPI.addDevice(tmpEUser.getUserID(),tmpDevice.getDeviceID(),tmpEUser);
     call.enqueue(new Callback<ResponseBody>() {
         @Override
@@ -234,7 +236,7 @@ public class Cache {
             t.printStackTrace();
             responseInformation.setValue("Encountered an error while adding a device.");
         }
-    });*/
+    });
 
     }
 
@@ -261,8 +263,8 @@ public class Cache {
 
     public void deleteDevice(long deviceID) {
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
-        //TODO getting current USER
-    /*    Call<ResponseBody> call = deviceAPI.deleteDevice(getCurrentUserID(),deviceID);
+
+        Call<ResponseBody> call = deviceAPI.deleteDevice(UserManager.getInstance().getUser().getUserID(),deviceID);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -276,7 +278,7 @@ public class Cache {
                 t.printStackTrace();
                 responseInformation.setValue("Encountered an error trying to delete device.");
             }
-        });*/
+        });
     }
 
     public MutableLiveData<String> getResponseInformation() {

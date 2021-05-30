@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferences.edit().putString("sh_system", "metric").apply();
 
         super.onCreate(savedInstanceState);
-
         UserManager userManager = UserManager.getInstance();
 
         if (userManager.getLiveUser().getValue() == null) {

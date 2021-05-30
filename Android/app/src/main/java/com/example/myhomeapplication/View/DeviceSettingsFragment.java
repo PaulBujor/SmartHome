@@ -1,6 +1,7 @@
 package com.example.myhomeapplication.View;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.myhomeapplication.Authorization.UserManager;
 import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Models.DeviceAdapter;
 import com.example.myhomeapplication.Models.DeviceItem;
@@ -49,6 +51,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     private DeviceSettingsViewModel deviceSettingsViewModel;
     private ConstraintLayout addDeviceConstraintLayout, deviceSettingsConstraintLayout;
     private TextInputEditText deviceNameInput, deviceIDInput;
+    private SharedPreferences sharedPreferences;
 
     public DeviceSettingsFragment() {
         // Required empty public constructor
@@ -89,6 +92,8 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                 toast.show();
             }
         });
+
+        sharedPreferences = MainActivity.sharedPreferences;
 
         super.onCreate(savedInstanceState);
 
@@ -165,6 +170,16 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         humMax.addTextChangedListener(thresholdWatcher);
         cO2min.addTextChangedListener(thresholdWatcher);
         cO2max.addTextChangedListener(thresholdWatcher);
+
+        //Shared preferences
+        if(!sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null").equals("null")){
+            String s = sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null");
+            deviceSettingsViewModel.getThresholds(s);
+            Context context = getContext();
+            Toast toast = Toast.makeText(context,"Thresholds displayed for device :"+s,Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
         return view;
     }
 
@@ -221,6 +236,8 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         Log.d("TESTLISTENER", "onItemClicked: " + id);
         deviceSettingsViewModel.getThresholds(id);
         deviceSettingsViewModel.setDeviceIDMutable(Long.parseLong(id));
+
+        sharedPreferences.edit().putString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),id).apply();
     }
 
     private TextWatcher thresholdWatcher = new TextWatcher() {
