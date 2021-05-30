@@ -226,8 +226,10 @@ public class Cache {
         @Override
         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             responseInformation.setValue(response.message());
-            if(response.code() == 200)
-        responseInformation.setValue("Device added successfully.");
+            if(response.code() == 200) {
+                responseInformation.setValue("Device added successfully.");
+                getAllDevices(currentUser.getUserID());
+            }
 
         }
 
@@ -266,12 +268,16 @@ public class Cache {
     public void deleteDevice(long deviceID) {
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
 
-        Call<ResponseBody> call = deviceAPI.deleteDevice(UserManager.getInstance().getUser().getUserID(),deviceID);
+        User user = UserManager.getInstance().getUser();
+        Call<ResponseBody> call = deviceAPI.deleteDevice(user.getUserID(), deviceID,user);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                responseInformation.setValue(response.message());
-                responseInformation.setValue("Device deleted successfully.");
+                if(response.code() == 200) {
+                    responseInformation.setValue("Device deleted successfully.");
+                    getAllDevices(user.getUserID());
+                }
+
             }
 
             @Override

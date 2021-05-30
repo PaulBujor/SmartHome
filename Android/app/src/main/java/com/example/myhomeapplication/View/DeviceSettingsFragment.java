@@ -183,6 +183,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
             case R.id.removeDevice_button:
                 deviceSettingsViewModel.deleteDevice(deviceSettingsViewModel.getDeviceIDMutable().getValue());
+                sharedPreferences.edit().putString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null").apply();
                 return;
             case R.id.confirmAddDevice:
                 if (deviceIDInput.getText().toString().isEmpty()) {
