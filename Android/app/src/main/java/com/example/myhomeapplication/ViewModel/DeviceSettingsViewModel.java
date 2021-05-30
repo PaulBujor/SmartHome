@@ -31,7 +31,6 @@ public class DeviceSettingsViewModel extends ViewModel {
         thresholdsMutable = new MutableLiveData<>();
         deviceIDMutable= new MutableLiveData<>();
         responseInformation = new MutableLiveData<>();
-        //TODO add observer to get all devices
 
         repository.getThresholds().observeForever(thresholds -> {
             thresholdsMutable.setValue(thresholds);
