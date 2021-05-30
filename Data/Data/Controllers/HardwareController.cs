@@ -32,8 +32,8 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				Console.WriteLine(e.StackTrace);
+				System.Diagnostics.Trace.WriteLine(e.Message);
+				System.Diagnostics.Trace.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
 
@@ -60,8 +60,8 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				Console.WriteLine(e.StackTrace);
+				System.Diagnostics.Trace.WriteLine(e.Message);
+				System.Diagnostics.Trace.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
 		}
@@ -77,8 +77,8 @@ namespace Data.Controllers
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				Console.WriteLine(e.StackTrace);
+				System.Diagnostics.Trace.WriteLine(e.Message);
+				System.Diagnostics.Trace.WriteLine(e.StackTrace);
 				return StatusCode(500, e.Message);
 			}
 		}

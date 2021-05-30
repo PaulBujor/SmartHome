@@ -10,5 +10,9 @@
 
    <!-- Custom colors-->
     <color name="green_pale">#4B6C53</color>
+    <color name="headerColor">#145795</color>
+    <color name="temperatureRow">#403fc68b</color>
+    <color name="light_gray">#F7F7F7</color>
+    <color name="orchid">#5E556B</color>
 
 </resources>

@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.myhomeapplication.View.HomeFragment"
-        android:label="MyHome"
         tools:layout="@layout/fragment_home">
 
         <action
@@ -33,31 +32,25 @@
     <fragment
         android:id="@+id/temperatureFragment"
         android:name="com.example.myhomeapplication.View.TemperatureFragment"
-        android:label="Temperature"
         tools:layout="@layout/fragment_temperature" />
     <fragment
         android:id="@+id/humidityFragment"
         android:name="com.example.myhomeapplication.View.HumidityFragment"
-        android:label="fragment_humidity"
         tools:layout="@layout/fragment_humidity" />
     <fragment
         android:id="@+id/CO2Fragment"
         android:name="com.example.myhomeapplication.View.CO2Fragment"
-        android:label="fragment_c_o2"
         tools:layout="@layout/fragment_c_o2" />
     <fragment
         android:id="@+id/motionFragment"
-        android:name="com.example.myhomeapplication.View.MotionFragment"
-        android:label="fragment_motion"
+        android:name="com.example.myhomeapplication.View.SoundFragment"
         tools:layout="@layout/fragment_motion" />
     <fragment
         android:id="@+id/applicationPreferencesFragment"
         android:name="com.example.myhomeapplication.View.ApplicationPreferencesFragment"
-        android:label="fragment_application_preferences"
         tools:layout="@layout/fragment_application_preferences" />
     <fragment
         android:id="@+id/deviceSettingsFragment"
         android:name="com.example.myhomeapplication.View.DeviceSettingsFragment"
-        android:label="fragment_device_settings"
-        tools:layout="@layout/fragment_device_settings" />
+        tools:layout="@layout/fragment_device_settings_v2" />
 </navigation>

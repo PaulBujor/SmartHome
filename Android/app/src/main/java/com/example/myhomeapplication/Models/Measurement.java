@@ -1,15 +1,17 @@
 package com.example.myhomeapplication.Models;
 
-import com.example.myhomeapplication.Remote.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
 
-public class Measurement {
+public class Measurement implements Comparable{
+    @JsonProperty("measurementId")
     private long measurementID;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = JsonFormat.DEFAULT_TIMEZONE)
+    @JsonProperty("timestamp")
     private Date timestamp;
+    @JsonProperty("value")
     private double value;
 
     public Measurement() {
@@ -43,5 +45,11 @@ public class Measurement {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Measurement measurement = (Measurement) o;
+        return timestamp.compareTo(measurement.getTimestamp());
     }
 }

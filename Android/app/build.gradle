@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.myhomeapplication"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -51,6 +51,17 @@ dependencies {
 
     //Jackson
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
+
+    //MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //JodaTime
+    implementation 'net.danlew:android.joda:2.10.9.1'
+
+    //Work Manager
+    def work_version = "2.5.0"
+
+    implementation "androidx.work:work-runtime:$work_version"
 
 
 }

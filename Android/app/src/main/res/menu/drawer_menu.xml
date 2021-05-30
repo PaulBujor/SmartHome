@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/grp0">
         <item
             android:id="@id/homeFragment"
-            android:title="Home"
-            />
+            android:icon="@drawable/ic_outline_home_24"
+            android:title="Home" />
+
+    </group>
+
+    <group
+        android:id="@+id/grp1"
+        android:checkableBehavior="single">
         <item
             android:id="@id/temperatureFragment"
-            android:title="Temperature"
-            android:icon="@drawable/thermometer"/>
+            android:icon="@drawable/ic_thermometer"
+            android:title="Temperature" />
+        <item
+            android:id="@id/CO2Fragment"
+            android:icon="@drawable/ic_cloud"
+            android:title="CO2" />
+        <item
+            android:id="@id/humidityFragment"
+            android:icon="@drawable/ic_humidity"
+            android:title="Humidity" />
+        <item
+            android:id="@id/motionFragment"
+            android:icon="@drawable/ic_volume"
+            android:title="Sound" />
+    </group>
+    <group
+        android:id="@+id/grp2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@id/deviceSettingsFragment"
+            android:icon="@drawable/ic_outline_settings_24"
+            android:title="Device Settings" />
+        <item
+            android:id="@id/applicationPreferencesFragment"
+            android:icon="@drawable/ic_outline_phonelink_setup_24"
+            android:title="Preferences" />
+    </group>
+    <group
+        android:id="@+id/grp3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/logout"
+            android:title="Log out"
+            android:icon="@drawable/ic_outline_logout_24"/>
     </group>
 </menu>
