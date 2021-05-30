@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         UserManager userManager = UserManager.getInstance();
 
-        if (userManager.getLiveUser().getValue() == null) {
-            setContentView(R.layout.login_main);
-        } else {
-            setupMain();
-        }
-
+        userManager.getLiveUser().observe(this, user -> {
+            if (user == null) {
+                setContentView(R.layout.login_main);
+            } else {
+                setupMain();
+            }
+        });
     }
 
     @Override
