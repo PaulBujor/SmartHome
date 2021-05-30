@@ -25,6 +25,7 @@ public class DeviceSettingsViewModel extends ViewModel {
 
     public DeviceSettingsViewModel() {
         repository = Cache.getInstance();
+        userManager = UserManager.getInstance();
         devices = new ArrayList<>();
         devicesMutable = new MutableLiveData<>();
         thresholdsMutable = new MutableLiveData<>();
@@ -39,14 +40,17 @@ public class DeviceSettingsViewModel extends ViewModel {
         repository.getResponseInformation().observeForever(message->{
             responseInformation.setValue(message);
         });
-        /*userManager.getLiveUser().observeForever(user->{
-            repository.getAllDevices(user.getUserID());
-        });*/
+        userManager.getLiveUser().observeForever(user->{
+            if(user!=null) {
+                repository.getAllDevices(user.getUserID());
+            }
+        });
 
-        repository.getAllDevices(1);
+
 
         repository.getDevices().observeForever(list->{
             devicesMutable.setValue(list);
+
         });
 
 

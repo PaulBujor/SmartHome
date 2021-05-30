@@ -172,14 +172,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         cO2max.addTextChangedListener(thresholdWatcher);
 
         //Shared preferences
-        if(!sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null").equals("null")){
-            String s = sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null");
-            deviceSettingsViewModel.getThresholds(s);
-            Context context = getContext();
-            Toast toast = Toast.makeText(context,"Thresholds displayed for device :"+s,Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
+         getPreferences();
         return view;
     }
 
@@ -201,6 +194,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                     Device tmpDevice = new Device(Long.parseLong(deviceIDInput.getText().toString()), deviceNameInput.getText().toString());
                     deviceSettingsViewModel.addDevice(tmpDevice);
 
+                    return;
                 }
             case R.id.ds_save_changes_button:
 
@@ -269,7 +263,21 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         }
     };
 
-
+public void getPreferences(){
+    try{
+    if(!sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null").equals("null")){
+        String s = sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null");
+        deviceSettingsViewModel.getThresholds(s);
+        Context context = getContext();
+        Toast toast = Toast.makeText(context,"Thresholds displayed for device :"+s,Toast.LENGTH_SHORT);
+        toast.show();
+    }}
+    catch (Exception e){
+        Context context = getContext();
+        Toast toast = Toast.makeText(context,"Critical error. Try again.",Toast.LENGTH_SHORT);
+        toast.show();
+    }
+}
 
 }
 

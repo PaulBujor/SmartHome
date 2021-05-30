@@ -225,6 +225,8 @@ public class Cache {
     call.enqueue(new Callback<ResponseBody>() {
         @Override
         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            responseInformation.setValue(response.message());
+            if(response.code() == 200)
         responseInformation.setValue("Device added successfully.");
 
         }
@@ -268,6 +270,7 @@ public class Cache {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                responseInformation.setValue(response.message());
                 responseInformation.setValue("Device deleted successfully.");
             }
 
