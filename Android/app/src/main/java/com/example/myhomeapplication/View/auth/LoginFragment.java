@@ -90,7 +90,7 @@ public class LoginFragment extends Fragment {
         final NavController navController = Navigation.findNavController(view);
         //NavHostFragment.findNavController(this).navigate(R.id.openMainGraph);
         navController.navigate(R.id.openMainGraph);
-        ((MainActivity) getActivity()).setupMain();
+        //((MainActivity) getActivity()).setupMain();
         User user = new User(emailInput.getText().toString(), passwordInput.getText().toString());
         viewModel.login(user);
         /*activity.startActivity(activity.getIntent());*/
