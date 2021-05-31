@@ -36,6 +36,8 @@ public class Cache {
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
     private MutableLiveData<String> responseInformation;
+    private MutableLiveData<Long> deviceID;
+
 
 
     //TODO avoid public constructor
@@ -44,9 +46,11 @@ public class Cache {
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();
         this.latestSoundMeasurement = new MutableLiveData<>();
+        deviceID = new MutableLiveData<>();
         devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
         responseInformation = new MutableLiveData<>();
+
     }
 
     public static synchronized Cache getInstance() {
@@ -104,7 +108,7 @@ public class Cache {
         return allMeasurements;
     }
 
-    public void receiveLatestMeasurement(int deviceID, String measurementType) {
+    public void receiveLatestMeasurement(long deviceID, String measurementType) {
         MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<Measurement> call = measurementAPI.getLatestMeasurement(deviceID, measurementType);
         call.enqueue(new Callback<Measurement>() {
@@ -226,8 +230,10 @@ public class Cache {
         @Override
         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             responseInformation.setValue(response.message());
-            if(response.code() == 200)
-        responseInformation.setValue("Device added successfully.");
+            if(response.code() == 200) {
+                responseInformation.setValue("Device added successfully.");
+                getAllDevices(currentUser.getUserID());
+            }
 
         }
 
@@ -266,12 +272,16 @@ public class Cache {
     public void deleteDevice(long deviceID) {
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
 
-        Call<ResponseBody> call = deviceAPI.deleteDevice(UserManager.getInstance().getUser().getUserID(),deviceID);
+        User user = UserManager.getInstance().getUser();
+        Call<ResponseBody> call = deviceAPI.deleteDevice(user.getUserID(), deviceID,user);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                responseInformation.setValue(response.message());
-                responseInformation.setValue("Device deleted successfully.");
+                if(response.code() == 200) {
+                    responseInformation.setValue("Device deleted successfully.");
+                    getAllDevices(user.getUserID());
+                }
+
             }
 
             @Override
@@ -288,7 +298,15 @@ public class Cache {
         return responseInformation;
     }
 
-    public void setResponseInformation(MutableLiveData<String> responseInformation) {
-        this.responseInformation = responseInformation;
+    public void setResponseInformation(String s) {
+        this.responseInformation.setValue(s);
+    }
+
+    public MutableLiveData<Long> getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(Long deviceID) {
+        this.deviceID.setValue(deviceID);
     }
 }
