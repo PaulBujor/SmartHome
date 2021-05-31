@@ -89,11 +89,12 @@ public class DeviceSettingsViewModel extends ViewModel {
     }
 
     public MutableLiveData<Long> getDeviceIDMutable() {
-        return deviceIDMutable;
+        return Cache.getInstance().getDeviceID();
     }
 
     public void setDeviceIDMutable(long deviceId) {
         this.deviceIDMutable.setValue(deviceId);
+        Cache.getInstance().setDeviceID(deviceId);
     }
 
     public void deleteDevice(long deviceID) {

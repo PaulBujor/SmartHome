@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
@@ -23,8 +24,10 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.example.myhomeapplication.Authorization.UserManager;
+import com.example.myhomeapplication.Local_Persistence.Cache;
 import com.example.myhomeapplication.Local_Persistence.DataRetrieverWorker;
 import com.example.myhomeapplication.R;
+import com.example.myhomeapplication.ViewModel.DeviceSettingsViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.concurrent.TimeUnit;
@@ -36,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private AppBarConfiguration appBarConfiguration;
     private NavigationView navigationView;
+    private DeviceSettingsViewModel deviceSettingsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         sharedPreferences = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
 
         // Setting metric system as default
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 setupMain();
             }
         });
+
+
     }
 
     @Override
@@ -84,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         //Periodic WorkManager Request
-        PeriodicWorkRequest latestDataRequest =
-                new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 5, TimeUnit.MINUTES)
-                        .build();
-
-
-        WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
-
+          setupWorkManager();
+        Cache.getInstance().getDeviceID().observe(this, value->{
+            if(value !=null) {
+                cancelAllWorkManagerTasks();
+                setupWorkManager();
+            }
+        });
 
         // Log out
         navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setOnMenuItemClickListener(l -> {
@@ -136,6 +143,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void setupWorkManager(){
+        new Thread(()->{
+            PeriodicWorkRequest latestDataRequest =
+                    new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 15, TimeUnit.MINUTES)
+                            .build();
+
+
+            WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
+            try {
+                Thread.sleep(300000);
+            }
+            catch (Exception e){}
+            PeriodicWorkRequest secondlatestDataRequest =
+                    new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 15, TimeUnit.MINUTES)
+                            .build();
+
+
+            WorkManager.getInstance(getApplicationContext()).enqueue(secondlatestDataRequest);
+            try {
+                Thread.sleep(300000);
+            }
+            catch (Exception e){}
+            PeriodicWorkRequest thirdlatestDataRequest =
+                    new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 15, TimeUnit.MINUTES)
+                            .build();
+
+
+            WorkManager.getInstance(getApplicationContext()).enqueue(thirdlatestDataRequest);
+
+        }).start();
+
+    }
+    public void cancelAllWorkManagerTasks(){
+        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
     }
 
 }

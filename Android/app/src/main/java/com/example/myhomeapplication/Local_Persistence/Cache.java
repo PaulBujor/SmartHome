@@ -36,6 +36,8 @@ public class Cache {
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
     private MutableLiveData<String> responseInformation;
+    private MutableLiveData<Long> deviceID;
+
 
 
     //TODO avoid public constructor
@@ -44,9 +46,11 @@ public class Cache {
         this.latestHumidityMeasurement = new MutableLiveData<>();
         this.latestCO2Measurement = new MutableLiveData<>();
         this.latestSoundMeasurement = new MutableLiveData<>();
+        deviceID = new MutableLiveData<>();
         devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
         responseInformation = new MutableLiveData<>();
+
     }
 
     public static synchronized Cache getInstance() {
@@ -104,7 +108,7 @@ public class Cache {
         return allMeasurements;
     }
 
-    public void receiveLatestMeasurement(int deviceID, String measurementType) {
+    public void receiveLatestMeasurement(long deviceID, String measurementType) {
         MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<Measurement> call = measurementAPI.getLatestMeasurement(deviceID, measurementType);
         call.enqueue(new Callback<Measurement>() {
@@ -296,5 +300,13 @@ public class Cache {
 
     public void setResponseInformation(String s) {
         this.responseInformation.setValue(s);
+    }
+
+    public MutableLiveData<Long> getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(Long deviceID) {
+        this.deviceID.setValue(deviceID);
     }
 }
