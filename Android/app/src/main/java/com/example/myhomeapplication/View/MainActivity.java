@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 new PeriodicWorkRequest.Builder(DataRetrieverWorker.class, 5, TimeUnit.MINUTES)
                         .build();
 
+
         WorkManager.getInstance(getApplicationContext()).enqueue(latestDataRequest);
+
 
         // Log out
         navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setOnMenuItemClickListener(l -> {

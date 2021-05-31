@@ -294,7 +294,7 @@ public class Cache {
         return responseInformation;
     }
 
-    public void setResponseInformation(MutableLiveData<String> responseInformation) {
-        this.responseInformation = responseInformation;
+    public void setResponseInformation(String s) {
+        this.responseInformation.setValue(s);
     }
 }
