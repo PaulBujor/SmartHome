@@ -193,11 +193,18 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                     Context context = getContext();
                     Toast toast = Toast.makeText(context, "Empty field for device ID is not allowed.", Toast.LENGTH_SHORT);
                     toast.show();
+
                     return;
                 } else {
                     Device tmpDevice = new Device(Long.parseLong(deviceIDInput.getText().toString()), deviceNameInput.getText().toString());
                     deviceSettingsViewModel.addDevice(tmpDevice);
-
+                    addDeviceConstraintLayout.setVisibility(View.GONE);
+                    addDevice.setVisibility(View.VISIBLE);
+                    removeDevice.setVisibility(View.VISIBLE);
+                    ConstraintSet constraintSet = new ConstraintSet();
+                    constraintSet.clone(deviceSettingsConstraintLayout);
+                    constraintSet.connect(R.id.manageSensors_textView, ConstraintSet.TOP, R.id.addDevice_button, ConstraintSet.BOTTOM);
+                    constraintSet.applyTo(deviceSettingsConstraintLayout);
                     return;
                 }
             case R.id.ds_save_changes_button:

@@ -63,7 +63,7 @@ public class MeasurementClient {
         return allMeasurements;
     }
 
-    public void receiveLatestMeasurement(int deviceID, String measurementType, MutableLiveData<Measurement> aux) {
+    public void receiveLatestMeasurement(long deviceID, String measurementType, MutableLiveData<Measurement> aux) {
 
         MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
         Call<Measurement> call = measurementAPI.getLatestMeasurement(deviceID, measurementType);

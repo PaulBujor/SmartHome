@@ -31,9 +31,11 @@ public class DeviceClient {
 
     private static DeviceClient instance;
     private MutableLiveData<String> responseInformation;
+    MutableLiveData<List<Device>> devices;
 
     public DeviceClient() {
         responseInformation = new MutableLiveData<>();
+        devices = new MutableLiveData<>();
     }
 
     public static synchronized DeviceClient getInstance() {
@@ -42,9 +44,9 @@ public class DeviceClient {
         return instance;
     }
 
-    public LiveData<List<Device>> getAllDevices(long userID) {
+    public void getAllDevices(long userID) {
 
-        MutableLiveData<List<Device>> aux = new MutableLiveData<>();
+
 
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         Call<List<Device>> call = deviceAPI.getAllDevices(userID);
@@ -54,7 +56,7 @@ public class DeviceClient {
             @Override
             public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
                 if (response.code() == 200) {
-                    aux.setValue(response.body());
+                    devices.setValue(response.body());
                     Log.i("HTTP_Devices", String.valueOf(response.code()));
                 } else
                     Log.i("HTTPResponseCodeFAILURE", String.valueOf(response.code() + "\n" + response.message()));
@@ -70,7 +72,7 @@ public class DeviceClient {
 
             }
         });
-        return aux;
+
     }
 
     public MutableLiveData<Thresholds>  getThresholdsByDevice(long deviceID) {
@@ -177,5 +179,7 @@ public class DeviceClient {
         return responseInformation;
     }
 
-
+    public MutableLiveData<List<Device>> getDevices() {
+        return devices;
+    }
 }

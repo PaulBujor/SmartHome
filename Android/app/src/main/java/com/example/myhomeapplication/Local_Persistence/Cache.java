@@ -39,7 +39,6 @@ public class Cache {
     private final MutableLiveData<Measurement> latestHumidityMeasurement;
     private final MutableLiveData<Measurement> latestCO2Measurement;
     private final MutableLiveData<Measurement> latestSoundMeasurement;
-    private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
     private MutableLiveData<String> responseInformation;
     private MutableLiveData<Long> deviceID;
@@ -50,9 +49,9 @@ public class Cache {
         latestHumidityMeasurement = new MutableLiveData<>();
         latestCO2Measurement = new MutableLiveData<>();
         latestSoundMeasurement = new MutableLiveData<>();
-        devices = new MutableLiveData<>();
         thresholds = new MutableLiveData<>();
         responseInformation = new MutableLiveData<>();
+        deviceID = new MutableLiveData<>();
         initClients();
         responseInformation = deviceClient.getResponseInformation();
     }
@@ -85,7 +84,7 @@ public class Cache {
     }
 
     public MutableLiveData<List<Device>> getDevices() {
-        return devices;
+        return deviceClient.getDevices();
     }
 
     public MutableLiveData<Thresholds> getThresholds() {
@@ -171,7 +170,7 @@ public class Cache {
         });
     }*/
 
-    public void receiveLatestMeasurement(int deviceID, String measurementType) {
+    public void receiveLatestMeasurement(long deviceID, String measurementType) {
 
         switch (measurementType) {
             case MeasurementTypes.TYPE_TEMPERATURE:
@@ -221,9 +220,8 @@ public class Cache {
             }
         });
     }*/
-
     public void getAllDevices(long userID) {
-        deviceClient.getAllDevices(userID).observeForever(list -> devices.setValue(list));
+        deviceClient.getAllDevices(userID);
     }
 
     //TODO remove
@@ -367,17 +365,13 @@ public class Cache {
         latestCO2Measurement.setValue(m);
     }
 
-    public void setDevices(List<Device> l) {
-        devices.setValue(l);
-    }
-
     public void setThresholds(Thresholds t) {
         thresholds.setValue(t);
     }
 
     public void setResponseInformation(String s) {
         responseInformation.setValue(s);
-
+    }
 
     public MutableLiveData<Long> getDeviceID() {
         return deviceID;
