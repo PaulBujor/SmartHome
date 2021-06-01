@@ -28,22 +28,22 @@ public class DeviceSettingsViewModel extends ViewModel {
         devices = new ArrayList<>();
         devicesMutable = new MutableLiveData<>();
         thresholdsMutable = new MutableLiveData<>();
-        deviceIDMutable= new MutableLiveData<>();
+        deviceIDMutable = new MutableLiveData<>();
 
 
         repository.getThresholds().observeForever(thresholds -> {
             thresholdsMutable.setValue(thresholds);
         });
 
-        userManager.getLiveUser().observeForever(user->{
-            if(user!=null) {
+        userManager.getLiveUser().observeForever(user -> {
+            if (user != null) {
                 repository.getAllDevices(user.getUserID());
+
             }
         });
 
 
-
-        repository.getDevices().observeForever(list->{
+        repository.getDevices().observeForever(list -> {
             devicesMutable.setValue(list);
 
         });
@@ -56,12 +56,9 @@ public class DeviceSettingsViewModel extends ViewModel {
         repository.getThresholdsByDevice(Long.parseLong(id));
     }
 
-    public LiveData<Thresholds> getThresholdsMutable(){
+    public LiveData<Thresholds> getThresholdsMutable() {
         return thresholdsMutable;
     }
-
-
-
 
 
     public MutableLiveData<List<Device>> getDevicesMutable() {
@@ -98,11 +95,11 @@ public class DeviceSettingsViewModel extends ViewModel {
     }
 
     public void deleteDevice(long deviceID) {
-    repository.deleteDevice(deviceID);
+        repository.deleteDevice(deviceID);
     }
 
     public void addDevice(Device tmpDevice) {
-        repository.addDevice (tmpDevice);
+        repository.addDevice(tmpDevice);
     }
 
 

@@ -1,6 +1,5 @@
-package com.example.myhomeapplication.Models;
+package com.example.myhomeapplication.Custom;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myhomeapplication.Models.Measurement;
 import com.example.myhomeapplication.R;
 
 import java.text.SimpleDateFormat;

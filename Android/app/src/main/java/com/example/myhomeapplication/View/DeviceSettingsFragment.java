@@ -22,13 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.myhomeapplication.Authorization.UserManager;
 import com.example.myhomeapplication.Local_Persistence.Cache;
 import com.example.myhomeapplication.Models.Device;
-import com.example.myhomeapplication.Models.DeviceAdapter;
+import com.example.myhomeapplication.Custom.DeviceAdapter;
 import com.example.myhomeapplication.Models.DeviceItem;
 import com.example.myhomeapplication.Models.Thresholds;
 import com.example.myhomeapplication.R;
@@ -37,8 +36,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
 
 import static android.view.View.GONE;
 
@@ -196,11 +193,18 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                     Context context = getContext();
                     Toast toast = Toast.makeText(context, "Empty field for device ID is not allowed.", Toast.LENGTH_SHORT);
                     toast.show();
+
                     return;
                 } else {
                     Device tmpDevice = new Device(Long.parseLong(deviceIDInput.getText().toString()), deviceNameInput.getText().toString());
                     deviceSettingsViewModel.addDevice(tmpDevice);
-
+                    addDeviceConstraintLayout.setVisibility(View.GONE);
+                    addDevice.setVisibility(View.VISIBLE);
+                    removeDevice.setVisibility(View.VISIBLE);
+                    ConstraintSet constraintSet = new ConstraintSet();
+                    constraintSet.clone(deviceSettingsConstraintLayout);
+                    constraintSet.connect(R.id.manageSensors_textView, ConstraintSet.TOP, R.id.addDevice_button, ConstraintSet.BOTTOM);
+                    constraintSet.applyTo(deviceSettingsConstraintLayout);
                     return;
                 }
             case R.id.ds_save_changes_button:

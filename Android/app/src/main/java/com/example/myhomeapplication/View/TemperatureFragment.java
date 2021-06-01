@@ -21,7 +21,7 @@ import com.example.myhomeapplication.Custom.CustomMarkerView;
 import com.example.myhomeapplication.Custom.XAxisValueFormatter;
 import com.example.myhomeapplication.Local_Persistence.MeasurementTypes;
 import com.example.myhomeapplication.Models.Measurement;
-import com.example.myhomeapplication.Models.RecyclerAdapter;
+import com.example.myhomeapplication.Custom.RecyclerAdapter;
 import com.example.myhomeapplication.R;
 import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 import com.github.mikephil.charting.charts.LineChart;
