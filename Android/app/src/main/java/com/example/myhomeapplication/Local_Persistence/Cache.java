@@ -42,6 +42,8 @@ public class Cache {
     private final MutableLiveData<List<Device>> devices;
     private final MutableLiveData<Thresholds> thresholds;
     private MutableLiveData<String> responseInformation;
+    private MutableLiveData<Long> deviceID;
+
 
     private Cache() {
         latestTemperatureMeasurement = new MutableLiveData<>();
@@ -348,6 +350,7 @@ public class Cache {
         return responseInformation;
     }
 
+
     public void setLatestTemperatureMeasurement(Measurement m) {
         latestTemperatureMeasurement.setValue(m);
     }
@@ -374,5 +377,14 @@ public class Cache {
 
     public void setResponseInformation(String s) {
         responseInformation.setValue(s);
+
+
+    public MutableLiveData<Long> getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(Long deviceID) {
+        this.deviceID.setValue(deviceID);
+
     }
 }

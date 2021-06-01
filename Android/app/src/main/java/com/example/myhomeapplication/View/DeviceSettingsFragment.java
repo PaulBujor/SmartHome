@@ -7,6 +7,9 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +25,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myhomeapplication.Authorization.UserManager;
+import com.example.myhomeapplication.Local_Persistence.Cache;
 import com.example.myhomeapplication.Models.Device;
 import com.example.myhomeapplication.Custom.DeviceAdapter;
 import com.example.myhomeapplication.Models.DeviceItem;
@@ -47,6 +51,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
     private ConstraintLayout addDeviceConstraintLayout, deviceSettingsConstraintLayout;
     private TextInputEditText deviceNameInput, deviceIDInput;
     private SharedPreferences sharedPreferences;
+    private String tempString = "";
 
     public DeviceSettingsFragment() {
         // Required empty public constructor
@@ -80,13 +85,16 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
             }
         });
 
-        deviceSettingsViewModel.getResponseInformation().observe(this, message->{
-            if(!message.isEmpty()){
+        Cache.getInstance().getResponseInformation().observe(this,message->{
+            if (!message.isEmpty()  ) {
+
+                Cache.getInstance().setResponseInformation("");
                 Context context = getContext();
-                Toast toast = Toast.makeText(context,message,Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
+
 
         sharedPreferences = MainActivity.sharedPreferences;
 
@@ -167,7 +175,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         cO2max.addTextChangedListener(thresholdWatcher);
 
         //Shared preferences
-         getPreferences();
+        getPreferences();
         return view;
     }
 
@@ -178,7 +186,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
 
             case R.id.removeDevice_button:
                 deviceSettingsViewModel.deleteDevice(deviceSettingsViewModel.getDeviceIDMutable().getValue());
-                sharedPreferences.edit().putString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null").apply();
+                sharedPreferences.edit().putString("Current_Device_" + UserManager.getInstance().getUser().getUserID(), "null").apply();
                 return;
             case R.id.confirmAddDevice:
                 if (deviceIDInput.getText().toString().isEmpty()) {
@@ -197,7 +205,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
                 try {
 
                     Thresholds tmpThreshold = new Thresholds(
-                             activeSwitch.isChecked()
+                            activeSwitch.isChecked()
                             , Integer.parseInt(humMin.getText().toString())
                             , Integer.parseInt(humMax.getText().toString())
                             , Integer.parseInt(tempMin.getText().toString())
@@ -227,7 +235,7 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         deviceSettingsViewModel.getThresholds(id);
         deviceSettingsViewModel.setDeviceIDMutable(Long.parseLong(id));
 
-        sharedPreferences.edit().putString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),id).apply();
+        sharedPreferences.edit().putString("Current_Device_" + UserManager.getInstance().getUser().getUserID(), id).apply();
     }
 
     private TextWatcher thresholdWatcher = new TextWatcher() {
@@ -259,21 +267,20 @@ public class DeviceSettingsFragment extends Fragment implements DeviceAdapter.On
         }
     };
 
-public void getPreferences(){
-    try{
-    if(!sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null").equals("null")){
-        String s = sharedPreferences.getString("Current_Device_"+UserManager.getInstance().getUser().getUserID(),"null");
-        deviceSettingsViewModel.getThresholds(s);
-        Context context = getContext();
-        Toast toast = Toast.makeText(context,"Thresholds displayed for device :"+s,Toast.LENGTH_SHORT);
-        toast.show();
-    }}
-    catch (Exception e){
-        Context context = getContext();
-        Toast toast = Toast.makeText(context,"Critical error. Try again.",Toast.LENGTH_SHORT);
-        toast.show();
+    public void getPreferences() {
+        try {
+            if (!sharedPreferences.getString("Current_Device_" + UserManager.getInstance().getUser().getUserID(), "null").equals("null")) {
+                String s = sharedPreferences.getString("Current_Device_" + UserManager.getInstance().getUser().getUserID(), "null");
+                deviceSettingsViewModel.getThresholds(s);
+                Context context = getContext();
+
+            }
+        } catch (Exception e) {
+            Context context = getContext();
+            Toast toast = Toast.makeText(context, "Critical error. Try again.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
-}
 
 }
 
