@@ -64,7 +64,7 @@ public class SoundFragment extends Fragment {
             // take last 100
             List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
 
-            LineData newLineData = getLineData(measurements);
+            LineData newLineData = getLineData(limitedList);
             motionGraph.setData(newLineData);
             motionGraph.invalidate();
 
@@ -148,10 +148,7 @@ public class SoundFragment extends Fragment {
 
     private float getMilliseconds(Date d) {
         DateTime df = new DateTime(d);
-
-        float millis = df.getMillisOfDay();
-        Log.d("MILIS", String.valueOf(millis));
-        Log.d("MILIS", String.valueOf(df.getMillisOfDay()));
+        float millis = df.getMillis();
         return millis;
     }
 }

@@ -37,6 +37,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CO2Fragment extends Fragment {
     private CO2ViewModel viewModel;
@@ -58,7 +59,10 @@ public class CO2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_c_o2, container, false);
 
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
-            LineData newLineData = getLineData(measurements);
+            // take last 100
+            List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
+
+            LineData newLineData = getLineData(limitedList);
             cO2Graph.setData(newLineData); 
             cO2Graph.invalidate(); 
 
@@ -138,10 +142,7 @@ public class CO2Fragment extends Fragment {
     }
     private float getMilliseconds(Date d) {
         DateTime df = new DateTime(d);
-
-        float millis = df.getMillisOfDay();
-        Log.d("MILIS", String.valueOf(millis));
-        Log.d("MILIS", String.valueOf(df.getMillisOfDay()));
+        float millis = df.getMillis();
         return millis;
     }
 }
