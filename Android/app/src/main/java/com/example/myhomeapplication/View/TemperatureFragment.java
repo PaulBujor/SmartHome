@@ -46,7 +46,7 @@ public class TemperatureFragment extends Fragment {
     private TemperatureViewModel temperatureViewModel;
     private RecyclerView recyclerView;
     private LineChart temperatureGraph;
-    private int deviceID = 420;
+    private long deviceID = 420;
     private SharedPreferences sharedPreferences;
 
     public TemperatureFragment() {
@@ -108,7 +108,12 @@ public class TemperatureFragment extends Fragment {
         };
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
+
+        temperatureViewModel.getDeviceID().observeForever(i -> deviceID = i);
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), allMeasurementsObserver);
+
+
+
 
         temperatureGraph = view.findViewById(R.id.temperatureDetailsGraph);
         LineDataSet lineDataSet = new LineDataSet(null, "Temperature Measurements Set");
@@ -133,7 +138,6 @@ public class TemperatureFragment extends Fragment {
         xAxis.setDrawAxisLine(false);
         xAxis.setValueFormatter(new XAxisValueFormatter());
         xAxis.setLabelCount(4, true);
-        //xAxis.setXOffset(20f);
 
         //Right YAxis - disabled
         YAxis yr = temperatureGraph.getAxisRight();
@@ -153,10 +157,6 @@ public class TemperatureFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewTemperatureDetails);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Probably redundant since an observer is set
-        // temperatureRecyclerAdapter = new TemperatureRecyclerAdapter(currentAllMeasurements.getValue());
-        // recyclerView.setAdapter(temperatureRecyclerAdapter);
 
         //Testing getAllMeasurements
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), measurements -> {
@@ -188,29 +188,6 @@ public class TemperatureFragment extends Fragment {
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
         drawable.setAlpha(128);
         set1.setFillDrawable(drawable);
-
-
-
-
-        // Obsolete
-        /*LineDataSet set1 = new LineDataSet(values, "Temperature Measurements Set");
-        set1.setLineWidth(4f);
-        set1.setCircleRadius(5f);
-        set1.setDrawCircles(true);
-        set1.setCircleHoleRadius(2.5f);
-        set1.setColor(Color.parseColor("#4B6C53"));
-        set1.setCircleColor(Color.WHITE);
-        set1.setCircleHoleColor(Color.parseColor("#4B6C53"));
-        set1.setHighLightColor(Color.parseColor("#577d61"));
-        set1.setHighlightLineWidth(2f);
-        set1.setDrawHorizontalHighlightIndicator(false);
-        set1.setDrawValues(false);
-        set1.setDrawFilled(true);
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
-        drawable.setAlpha(128);
-        set1.setFillDrawable(drawable);*/
-
 
         return new LineData(set1);
     }

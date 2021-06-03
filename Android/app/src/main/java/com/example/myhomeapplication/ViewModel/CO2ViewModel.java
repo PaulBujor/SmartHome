@@ -15,7 +15,7 @@ public class CO2ViewModel extends ViewModel {
         repository = Cache.getInstance();
     }
 
-    public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType)
+    public LiveData<List<Measurement>> getAllMeasurements(long deviceID, String measurementType)
     {
         return repository.getAllMeasurements(deviceID, measurementType);
     }
@@ -23,5 +23,10 @@ public class CO2ViewModel extends ViewModel {
     public LiveData<Measurement> getLatestCO2Measurement()
     {
         return repository.getLatestCO2Measurement();
+    }
+
+    public LiveData<Long> getDeviceID()
+    {
+        return repository.getDeviceID();
     }
 }

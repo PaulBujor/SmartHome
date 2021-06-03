@@ -31,7 +31,7 @@ public class MeasurementClient {
         return instance;
     }
 
-    public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType) {
+    public LiveData<List<Measurement>> getAllMeasurements(long deviceID, String measurementType) {
         MutableLiveData<List<Measurement>> allMeasurements = new MutableLiveData<>();
 
         MeasurementAPI measurementAPI = ServiceGenerator.getMeasurementAPI();
