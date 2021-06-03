@@ -14,7 +14,7 @@ public class SoundViewModel extends ViewModel {
     public SoundViewModel(){
         repository = Cache.getInstance();
     }
-    public LiveData<List<Measurement>>getAllMeasurements(int deviceID, String measurementType){
+    public LiveData<List<Measurement>>getAllMeasurements(long deviceID, String measurementType){
         return repository.getAllMeasurements(deviceID, measurementType);
     }
 

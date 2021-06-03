@@ -16,7 +16,7 @@ public interface MeasurementAPI {
     Call<Measurement> getLatestMeasurement(@Path("id") long deviceID, @Path("type") String measurementType);
 
     @GET("api/devices/{id}/measurements/{type}")
-    Call<List<Measurement>> getMeasurements(@Path("id") int deviceID, @Path("type") String measurementType);
+    Call<List<Measurement>> getMeasurements(@Path("id") long deviceID, @Path("type") String measurementType);
 
     @GET("api/{type}/{id}")
     Call<Measurement> getMeasurementsByID(@Path("id") int measurementID, @Path("type") String measurementType);

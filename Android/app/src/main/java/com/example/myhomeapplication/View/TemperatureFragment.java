@@ -46,7 +46,7 @@ public class TemperatureFragment extends Fragment {
     private TemperatureViewModel temperatureViewModel;
     private RecyclerView recyclerView;
     private LineChart temperatureGraph;
-    private int deviceID = 420;
+    private long deviceID = 420;
     private SharedPreferences sharedPreferences;
 
     public TemperatureFragment() {
@@ -108,7 +108,12 @@ public class TemperatureFragment extends Fragment {
         };
 
         temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
+
+        temperatureViewModel.getDeviceID().observeForever(i -> deviceID = i);
         temperatureViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_TEMPERATURES).observe(getViewLifecycleOwner(), allMeasurementsObserver);
+
+
+
 
         temperatureGraph = view.findViewById(R.id.temperatureDetailsGraph);
         LineDataSet lineDataSet = new LineDataSet(null, "Temperature Measurements Set");

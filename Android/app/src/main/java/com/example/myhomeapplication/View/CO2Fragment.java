@@ -42,7 +42,7 @@ public class CO2Fragment extends Fragment {
     private CO2ViewModel viewModel;
     private RecyclerView recyclerView;
     private LineChart cO2Graph;
-    private int deviceId =420;
+    private long deviceId =420;
     public CO2Fragment() {
         // Required empty public constructor
     }
@@ -66,6 +66,7 @@ public class CO2Fragment extends Fragment {
             recyclerView.setAdapter(newAdapter);
         };
         viewModel = new ViewModelProvider(this).get(CO2ViewModel.class);
+        viewModel.getDeviceID().observeForever(i -> deviceId = i);
         viewModel.getAllMeasurements(deviceId, MeasurementTypes.TYPE_CO2).observe(getViewLifecycleOwner(), allMeasurementsObserver);
         
         cO2Graph = view.findViewById(R.id.cO2DetailsGraph);

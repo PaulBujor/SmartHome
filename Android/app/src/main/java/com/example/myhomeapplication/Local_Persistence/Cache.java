@@ -124,7 +124,7 @@ public class Cache {
         return allMeasurements;
     }*/
 
-    public LiveData<List<Measurement>> getAllMeasurements(int deviceID, String measurementType) {
+    public LiveData<List<Measurement>> getAllMeasurements(long deviceID, String measurementType) {
         return measurementClient.getAllMeasurements(deviceID, measurementType);
     }
 

@@ -43,7 +43,7 @@ public class SoundFragment extends Fragment {
     private SoundViewModel soundViewModel;
     private RecyclerView recyclerView;
     private LineChart motionGraph;
-    private int deviceID = 420;
+    private long deviceID = 420;
 
     public SoundFragment() {
         // Required empty public constructor
@@ -72,6 +72,7 @@ public class SoundFragment extends Fragment {
             recyclerView.setAdapter(newAdapter);
         };
         soundViewModel = new ViewModelProvider(this).get(SoundViewModel.class);
+        soundViewModel.getDeviceID().observeForever(i -> deviceID = i);
         soundViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(), allMeasurementsObserver);
 
         motionGraph = view.findViewById(R.id.motionDetailsGraph);
