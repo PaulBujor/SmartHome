@@ -20,11 +20,6 @@ import com.example.myhomeapplication.ViewModel.HumidityViewModel;
 import com.example.myhomeapplication.ViewModel.SoundViewModel;
 import com.example.myhomeapplication.ViewModel.TemperatureViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
 
     private Button temperatureCardButton, humidityCardButton, c02CardButton, motionCardButton;

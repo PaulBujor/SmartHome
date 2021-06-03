@@ -21,4 +21,9 @@ public class HumidityViewModel extends ViewModel {
     public LiveData<Measurement> getLatestHumidityMeasurement(){
         return repository.getLatestHumidityMeasurement();
     }
+
+    public LiveData<Long> getDeviceID()
+    {
+        return repository.getDeviceID();
+    }
 }

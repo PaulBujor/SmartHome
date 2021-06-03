@@ -21,4 +21,9 @@ public class SoundViewModel extends ViewModel {
     public LiveData<Measurement> getLatestSoundMeasurement(){
         return repository.getLatestSoundMeasurement();
     }
+
+    public LiveData<Long> getDeviceID()
+    {
+        return repository.getDeviceID();
+    }
 }

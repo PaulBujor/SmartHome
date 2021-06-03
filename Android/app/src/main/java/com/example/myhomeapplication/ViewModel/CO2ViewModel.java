@@ -24,4 +24,9 @@ public class CO2ViewModel extends ViewModel {
     {
         return repository.getLatestCO2Measurement();
     }
+
+    public LiveData<Long> getDeviceID()
+    {
+        return repository.getDeviceID();
+    }
 }

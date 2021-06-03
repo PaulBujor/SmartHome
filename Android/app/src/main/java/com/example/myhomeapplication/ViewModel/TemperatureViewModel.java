@@ -26,4 +26,9 @@ public class TemperatureViewModel extends ViewModel {
         return repository.getLatestTemperatureMeasurement();
     }
 
+    public LiveData<Long> getDeviceID()
+    {
+        return repository.getDeviceID();
+    }
+
 }
