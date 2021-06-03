@@ -90,7 +90,7 @@ public class UserManager {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200)
-                    setUser(user);
+                    logIn(user);
             }
 
             @Override
