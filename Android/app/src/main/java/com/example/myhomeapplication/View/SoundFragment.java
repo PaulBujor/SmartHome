@@ -43,7 +43,7 @@ public class SoundFragment extends Fragment {
     private SoundViewModel soundViewModel;
     private RecyclerView recyclerView;
     private LineChart motionGraph;
-    private int deviceID = 420;
+    private long deviceID = 420;
 
     public SoundFragment() {
         // Required empty public constructor
@@ -64,7 +64,7 @@ public class SoundFragment extends Fragment {
             // take last 100
             List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
 
-            LineData newLineData = getLineData(measurements);
+            LineData newLineData = getLineData(limitedList);
             motionGraph.setData(newLineData);
             motionGraph.invalidate();
 
@@ -72,6 +72,7 @@ public class SoundFragment extends Fragment {
             recyclerView.setAdapter(newAdapter);
         };
         soundViewModel = new ViewModelProvider(this).get(SoundViewModel.class);
+        soundViewModel.getDeviceID().observeForever(i -> deviceID = i);
         soundViewModel.getAllMeasurements(deviceID, MeasurementTypes.TYPE_ALL_SOUNDS).observe(getViewLifecycleOwner(), allMeasurementsObserver);
 
         motionGraph = view.findViewById(R.id.motionDetailsGraph);
@@ -147,10 +148,7 @@ public class SoundFragment extends Fragment {
 
     private float getMilliseconds(Date d) {
         DateTime df = new DateTime(d);
-
-        float millis = df.getMillisOfDay();
-        Log.d("MILIS", String.valueOf(millis));
-        Log.d("MILIS", String.valueOf(df.getMillisOfDay()));
+        float millis = df.getMillis();
         return millis;
     }
 }

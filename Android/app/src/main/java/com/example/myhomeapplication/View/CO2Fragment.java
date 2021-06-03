@@ -37,12 +37,13 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CO2Fragment extends Fragment {
     private CO2ViewModel viewModel;
     private RecyclerView recyclerView;
     private LineChart cO2Graph;
-    private int deviceId =420;
+    private long deviceId =420;
     public CO2Fragment() {
         // Required empty public constructor
     }
@@ -58,7 +59,10 @@ public class CO2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_c_o2, container, false);
 
         final Observer<List<Measurement>> allMeasurementsObserver = measurements -> {
-            LineData newLineData = getLineData(measurements);
+            // take last 100
+            List<Measurement> limitedList = measurements.stream().skip(measurements.size() - 100).collect(Collectors.toList());
+
+            LineData newLineData = getLineData(limitedList);
             cO2Graph.setData(newLineData); 
             cO2Graph.invalidate(); 
 
@@ -66,6 +70,7 @@ public class CO2Fragment extends Fragment {
             recyclerView.setAdapter(newAdapter);
         };
         viewModel = new ViewModelProvider(this).get(CO2ViewModel.class);
+        viewModel.getDeviceID().observeForever(i -> deviceId = i);
         viewModel.getAllMeasurements(deviceId, MeasurementTypes.TYPE_CO2).observe(getViewLifecycleOwner(), allMeasurementsObserver);
         
         cO2Graph = view.findViewById(R.id.cO2DetailsGraph);
@@ -137,10 +142,7 @@ public class CO2Fragment extends Fragment {
     }
     private float getMilliseconds(Date d) {
         DateTime df = new DateTime(d);
-
-        float millis = df.getMillisOfDay();
-        Log.d("MILIS", String.valueOf(millis));
-        Log.d("MILIS", String.valueOf(df.getMillisOfDay()));
+        float millis = df.getMillis();
         return millis;
     }
 }

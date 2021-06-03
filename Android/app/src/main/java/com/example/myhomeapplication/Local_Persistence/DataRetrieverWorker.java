@@ -19,7 +19,6 @@ public class DataRetrieverWorker extends Worker {
 
     private Cache repository;
 
-
     public DataRetrieverWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         repository = Cache.getInstance();

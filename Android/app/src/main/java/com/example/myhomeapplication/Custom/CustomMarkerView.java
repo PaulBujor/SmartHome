@@ -14,17 +14,10 @@ import org.joda.time.DateTime;
 public class CustomMarkerView extends MarkerView {
     private TextView markerTextView;
 
-    /**
-     * Constructor. Sets up the MarkerView with a custom layout resource.
-     *
-     * @param context
-     * @param layoutResource the layout resource to use for the MarkerView
-     */
     public CustomMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
         markerTextView = (TextView) findViewById(R.id.markerTextView);
     }
-
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
@@ -36,7 +29,6 @@ public class CustomMarkerView extends MarkerView {
     }
 
     private MPPointF mOffset;
-
     @Override
     public MPPointF getOffset() {
         if(mOffset == null) {

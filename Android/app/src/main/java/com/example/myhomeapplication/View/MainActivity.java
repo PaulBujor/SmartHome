@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
             WorkManager.getInstance(getApplicationContext()).enqueue(thirdlatestDataRequest);
 
         }).start();
-
     }
+
     public void cancelAllWorkManagerTasks(){
         WorkManager.getInstance(getApplicationContext()).cancelAllWork();
     }

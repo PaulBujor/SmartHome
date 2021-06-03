@@ -16,10 +16,8 @@ public class ServiceGenerator {
             .connectTimeout(120, TimeUnit.SECONDS)
             .build();
 
-    public static MeasurementAPI getMeasurementAPI()
-    {
-        if (measurementAPI == null)
-        {
+    public static MeasurementAPI getMeasurementAPI() {
+        if (measurementAPI == null) {
             measurementAPI = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(JacksonConverterFactory.create())
@@ -30,9 +28,9 @@ public class ServiceGenerator {
         return measurementAPI;
     }
 
-    public static DeviceAPI getDeviceAPI(){
-        if(deviceAPI==null){
-            deviceAPI= new Retrofit.Builder()
+    public static DeviceAPI getDeviceAPI() {
+        if (deviceAPI == null) {
+            deviceAPI = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(JacksonConverterFactory.create())
                     .client(client)
@@ -42,10 +40,8 @@ public class ServiceGenerator {
         return deviceAPI;
     }
 
-    public static UserAPI getUserAPI()
-    {
-        if (userAPI == null)
-        {
+    public static UserAPI getUserAPI() {
+        if (userAPI == null) {
             userAPI = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(JacksonConverterFactory.create())
