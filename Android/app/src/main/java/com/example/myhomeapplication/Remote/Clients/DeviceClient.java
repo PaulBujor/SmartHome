@@ -31,7 +31,7 @@ public class DeviceClient {
 
     private static DeviceClient instance;
     private MutableLiveData<String> responseInformation;
-    MutableLiveData<List<Device>> devices;
+    private MutableLiveData<List<Device>> devices;
 
     public DeviceClient() {
         responseInformation = new MutableLiveData<>();
@@ -45,9 +45,6 @@ public class DeviceClient {
     }
 
     public void getAllDevices(long userID) {
-
-
-
         DeviceAPI deviceAPI = ServiceGenerator.getDeviceAPI();
         Call<List<Device>> call = deviceAPI.getAllDevices(userID);
 
