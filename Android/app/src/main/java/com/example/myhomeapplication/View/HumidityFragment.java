@@ -137,7 +137,7 @@ public class HumidityFragment extends Fragment {
         set1.setColor(Color.parseColor("#4B6C53"));
         set1.setHighLightColor(Color.parseColor("#577d61"));
         set1.setHighlightLineWidth(2f);
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        //set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
         drawable.setAlpha(128);
         set1.setFillDrawable(drawable);
