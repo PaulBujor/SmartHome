@@ -72,7 +72,7 @@ INSERT INTO [edw].[DeviceFact]
            ,[temperatureMeasurement]
            ,[humidityMeasurement]
            ,[soundMeasurement])
-     SELECT
+     SELECT DISTINCT
            dt.D_ID
            ,t.S_ID
            ,tm.T_ID
